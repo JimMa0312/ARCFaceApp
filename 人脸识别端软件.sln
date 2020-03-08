@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARCSoftFaceApp", "ARCSoftFaceApp\ARCSoftFaceApp.csproj", "{04BAA752-D6C3-4EB6-829D-BF45B99D58A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibARCFace", "LibARCFace\LibARCFace.csproj", "{FE7E051F-5A63-409E-9DC0-4AEA53F0FF60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{04BAA752-D6C3-4EB6-829D-BF45B99D58A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04BAA752-D6C3-4EB6-829D-BF45B99D58A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04BAA752-D6C3-4EB6-829D-BF45B99D58A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04BAA752-D6C3-4EB6-829D-BF45B99D58A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE7E051F-5A63-409E-9DC0-4AEA53F0FF60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE7E051F-5A63-409E-9DC0-4AEA53F0FF60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE7E051F-5A63-409E-9DC0-4AEA53F0FF60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE7E051F-5A63-409E-9DC0-4AEA53F0FF60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DF54FDBA-52A2-4784-895D-EC97056F927C}
+	EndGlobalSection
+EndGlobal
