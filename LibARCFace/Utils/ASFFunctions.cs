@@ -28,14 +28,132 @@ namespace ArcSoftFace.Utils
         /// <summary>
         /// 初始化引擎
         /// </summary>
-        /// <param name="detectMode"></param>
-        /// <param name="detectFaceOrientPriority"></param>
-        /// <param name="detectFaceScaleVal"></param>
-        /// <param name="detectFaceMaxNum"></param>
-        /// <param name="combinedMask"></param>
-        /// <param name="pEngine"></param>
-        /// <returns></returns>
+        /// <param name="detectMode">AF_DETECT_MODE_VIDEO 视频模式| AF_DETECT_MODE_IMAGE 图片模式</param>
+        /// <param name="detectFaceOrientPriority">检测人脸的角度优先值， 推荐 ASF_OrientPriority.ASF_OP_0_HIGHER_EXT</param>
+        /// <param name="detectFaceScaleVal">用于数值化表示的最小人脸尺寸</param>
+        /// <param name="detectFaceMaxNum">最大需要检测的人脸个数</param>
+        /// <param name="combinedMask">用户选择需要检测的功能组合， 可单选或多选</param>
+        /// <param name="pEngine">初始化返回的引擎Handle</param>
+        /// <returns>调用结果</returns>
         [DllImport(Dll_PATH, CallingConvention = CallingConvention.Cdecl)]
         public static extern int ASFInitEngine(uint detectMode, int detectFaceOrientPriority, int detectFaceScaleVal, int detectFaceMaxNum, int combinedMask, ref IntPtr pEngine);
+        /// <summary>
+        /// 人脸检测
+        /// </summary>
+        /// <param name="pEngine">引擎Handle</param>
+        /// <param name="width">图像宽度</param>
+        /// <param name="height">图像高度</param>
+        /// <param name="format">图像颜色空间</param>
+        /// <param name="imgData">图像数据</param>
+        /// <param name="detectedFaces">人脸检测结果</param>
+        /// <returns>调用结果</returns>
+        [DllImport(Dll_PATH, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ASFDetectFaces(IntPtr pEngine, int width, int height, int format, IntPtr imgData, IntPtr detectedFaces);
+        /// <summary>
+        /// 人脸信息检测（年龄/性别/人脸3D角度）
+        /// </summary>
+        /// <param name="pEngine">引擎handle</param>
+        /// <param name="width">图像宽度</param>
+        /// <param name="height">图像高度</param>
+        /// <param name="format">图像颜色空间</param>
+        /// <param name="imgData">图像数据</param>
+        /// <param name="detectedFaces">人脸信息， 用户根据待检测的共嗯那个裁剪选择需要使用的人脸</param>
+        /// <param name="combinedMask">之支持初始化时候指定需要检测的功能，在Process时进一步在这个已经指定的功能集中继续筛选例如初始化的时候指定检测年龄和性别， 在process的时候可以只检测年龄， 但是不能检测除年龄和性别之外的功能</param>
+        /// <returns></returns>
+        [DllImport(Dll_PATH, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ASFProcess(IntPtr pEngine, int width, int height, int format, IntPtr imgData, IntPtr detectedFaces, int combinedMask);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pEngine">引擎Handle</param>
+        /// <param name="width">图像宽度</param>
+        /// <param name="height">图像高度</param>
+        /// <param name="foramt">图像颜色空间</param>
+        /// <param name="imgData">图像数据</param>
+        /// <param name="faceInfo">单张人脸位置和角度信息</param>
+        /// <param name="faceFeature">人脸特征</param>
+        /// <returns></returns>
+        [DllImport(Dll_PATH, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ASFFaceFeatureExtract(IntPtr pEngine, int width, int height, int foramt, IntPtr imgData, IntPtr faceInfo, IntPtr faceFeature);
+        /// <summary>
+        /// 人脸比对
+        /// </summary>
+        /// <param name="pEngine"></param>
+        /// <param name="faceFeaturel"></param>
+        /// <param name="faceFeature2"></param>
+        /// <param name="similarity"></param>
+        /// <returns></returns>
+        [DllImport(Dll_PATH, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ASFFaceFeatureCompare(IntPtr pEngine, IntPtr faceFeaturel, IntPtr faceFeature2, ref float similarity);
+        /// <summary>
+        /// 获取年龄信息
+        /// </summary>
+        /// <param name="pEngine"></param>
+        /// <param name="ageInfo" type=""></param>
+        /// <returns></returns>
+        [DllImport(Dll_PATH, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ASFGetAge(IntPtr pEngine, IntPtr ageInfo);
+        /// <summary>
+        /// 获取性别信息
+        /// </summary>
+        /// <param name="pEngine"></param>
+        /// <param name="genderInfo"></param>
+        /// <returns></returns>
+        [DllImport(Dll_PATH, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ASFGetGender(IntPtr pEngine, IntPtr genderInfo);
+        /// <summary>
+        /// 获取人脸3D角度信息
+        /// </summary>
+        /// <param name="pEngine"></param>
+        /// <param name="p3DAngleInfo"></param>
+        /// <returns></returns>
+        [DllImport(Dll_PATH, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ASFGetFace3DAngle(IntPtr pEngine, IntPtr p3DAngleInfo);
+        /// <summary>
+        /// 获取RGB模式下活体检测结果
+        /// </summary>
+        /// <param name="hEngine"></param>
+        /// <param name="livenessInfo"></param>
+        /// <returns></returns>
+        [DllImport(Dll_PATH, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ASFGetLivenessScore(IntPtr hEngine, IntPtr livenessInfo);
+        /// <summary>
+        /// 该接口目前仅支持单人脸IR活体检测（不支持年龄、性别、3D角度的检测），默认取第一张人脸
+        /// </summary>
+        /// <param name="pEngine">引擎handle</param>
+        /// <param name="width">图片宽度</param>
+        /// <param name="height">图片高度</param>
+        /// <param name="format">颜色空间格式</param>
+        /// <param name="imgData">图片数据</param>
+        /// <param name="faceInfo">人脸信息，用户根据待检测的功能选择需要使用的人脸。</param>
+        /// <param name="combinedMask">目前只支持传入ASF_IR_LIVENESS属性的传入，且初始化接口需要传入 </param>
+        /// <returns></returns>
+        [DllImport(Dll_PATH, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ASFProcess_IR(IntPtr pEngine, int width, int height, int format, IntPtr imgData, IntPtr faceInfo, int combinedMask);
+
+        /// <summary>
+        /// 获取IR活体结果
+        /// </summary>
+        /// <param name="pEngine">引擎handle</param>
+        /// <param name="irLivenessInfo">检测到IR活体结果</param>
+        /// <returns></returns>
+        [DllImport(Dll_PATH, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ASFGetLivenessScore_IR(IntPtr pEngine, IntPtr irLivenessInfo);
+
+        /// <summary>
+        /// 销毁引擎
+        /// </summary>
+        /// <param name="pEngine">引擎handle</param>
+        /// <returns>调用结果</returns>
+        [DllImport(Dll_PATH, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ASFUninitEngine(IntPtr pEngine);
+
+        /// <summary>
+        /// 获取版本信息
+        /// </summary>
+        /// <param name="pEngine">引擎handle</param>
+        /// <returns>调用结果</returns>
+        [DllImport(Dll_PATH, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr ASFGetVersion(IntPtr pEngine);
     }
 }
