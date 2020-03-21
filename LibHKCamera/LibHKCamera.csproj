@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>本库封装海康威视的网络SDK和播放库SDK。</Description>
+    <Copyright />
+  </PropertyGroup>
+
+</Project>

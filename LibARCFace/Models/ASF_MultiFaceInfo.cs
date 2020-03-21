@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ArcSoftFace
+namespace ArcSoftFace.Models
 {
     /// <summary>
     /// 多人脸检测结构体
@@ -11,7 +11,7 @@ namespace ArcSoftFace
     public struct ASF_MultiFaceInfo
     {
         /// <summary>
-        /// 人脸Rect集合
+        /// 人脸Rect集合 类型=MRECT
         /// </summary>
         public IntPtr faceRects;
 
