@@ -1261,6 +1261,92 @@ namespace LibHKCamera
         public const int MAX_DIS_FRAMES = 50;
         public const int MIN_DIS_FRAMES = 1;
 
+        //流的定位方式
+        public const int BY_FRAMENUM = 1;   //帧数
+        public const int BY_FRAMETIME = 2;  //帧时间
+        //资源缓存
+        public const int SOURCE_BUF_MAX = 1024 * 100000;
+        public const int SOURCE_BUF_MIN = 1024 * 50;
+
+        //流的类型
+        public const int STREAME_REALTIME = 0;  //实时流
+        public const int STREAME_FILE = 1;//从文件读取
+
+        //帧格式
+        public const int T_AUDIO16 = 101;//音频16位采样
+        public const int T_AUDIO8 = 100;    //音频8位采样
+        public const int T_UYVY = 1;//视频UYVY格式
+        public const int T_YV12 = 3;//YV12格式
+        public const int T_REG32 = 7;   //RGB格式
+
+        //性能
+        public const int SUPPORT_DDRAW = 1;//支持DIRECTDRAW；如果不支持，则播放器不能工作。
+        public const int SUPPORT_BLT = 2;//显卡支持BLT操作；如果不支持，则播放器不能工作。
+        public const int SUPPORT_BLTFOURCC = 4;//显卡BLT支持颜色转换；如果不支持，播放器会使用软件方式作RGB转换。
+        public const int SUPPORT_BLTSHRINKX = 8;//显卡BLT支持X轴缩小；如果不支持，系统使用软件方式转换。
+        public const int SUPPORT_BLTSHRINKY = 16;//显卡BLT支持Y轴缩小；如果不支持，系统使用软件方式转换。
+        public const int SUPPORT_BLTSTRETCHX = 32;//显卡BLT支持X轴放大；如果不支持，系统使用软件方式转换。
+        public const int SUPPORT_BLTSTRETCHY = 64;//显卡BLT支持Y轴放大；如果不支持，系统使用软件方式转换。
+        public const int SUPPORT_SSE = 128;//CPU支持SSE指令,Intel Pentium3以上支持SSE指令。
+        public const int SUPPORT_MMX = 256;//CPU支持MMX指令集。
+
+        public const int FOURCC_HKMI = 0x484B4D49; //"HKMI" HIK_MEDIAINFO结构标记
+
+        //系统封装格式
+        public const int SYSTEM_NULL = 0x0;//没有系统层，纯音频流或视频流
+        public const int SYSTEM_HIK = 0x1;//海康文件层
+        public const int SYSTEM_MPEG2_PS = 0x2;//PS封装
+        public const int SYSTEM_MPEG2_TS = 0x3;//TS封装
+        public const int SYSTEM_RTP = 0x4;//rtp封装
+        public const int SYSTEM_AVC264 = 0x401;//AVC 264封装
+
+        //视频编码类型
+        public const int VIDEO_NULL = 0x0;//没有视频
+        public const int VIDEO_H264 = 0x1;//海康H.264
+        public const int VIDEO_MPEG2 = 0x2;//标准MPEG2
+        public const int VIDEO_MPEG4 = 0x3;//标准MPEG4
+        public const int VIDEO_MGPEG = 0x4;
+        public const int VIDEO_AVC264 = 0x0100;
+
+        //音频编码类型
+        public const int AUDIO_NULL = 0x0;//没有音频
+        public const int AUDIO_ADPCM = 0x1000;//ADPCM
+        public const int AUDIO_MPEG = 0x2000;//MPEG系列音频
+        public const int AUDIO_AAC = 0x2001;//AAC编码
+        public const int AUDIO_RAW_DATA8 = 0x7000;//采样率为8k的原始数据
+        public const int AUDIO_RAW_UDATA16 = 0x7001;//采样率为16k的原始数据，即L16
+
+        //G系列音频
+        public const int AUDIO_G711_U = 0x7110;
+        public const int AUDIO_G711_A = 0x7111;
+        public const int AUDIO_G722_1 = 0x7221;
+        public const int AUDIO_G723_1 = 0x7231;
+        public const int AUDIO_G726_U = 0x7260;
+        public const int AUDIO_G726_A = 0x7261;
+        public const int AUDIO_G726_16 = 0x7262;
+        public const int AUDIO_G729 = 0x7290;
+        public const int AIDIO_AMR_NB = 0x3000;
+
+        public const int SYNCDATA_VEH = 1;//同步数据：车载信息
+        public const int SYNCDATA_IVS = 2;//同步数据：智能信息
+
+        //动态流类型
+        public const int MOTION_FLOW_NONE = 0;
+        public const int MOTION_FLOW_CPU = 1;
+        public const int MOTION_FLOW_GPU = 2;
+
+        //音视频加密模式
+        public const int ENCRYPT_AES_3R_VIDEO = 1;
+        public const int ENCRYPT_AES_10R_VIDEO = 2;
+        public const int ENCRYPT_AES_3R_AUDIO = 1;
+        public const int ENCRYPT_AES_10R_AUDIO = 2;
+
+        //旋转角度
+        public const int R_ANGLE_0 = -1;    //不旋转
+        public const int R_ANGLE_L90 = 0;   //左旋90度
+        public const int R_ANGLE_R90 = 1;//右旋90度
+        public const int R_ANGLE_180 = 2;//旋转180度
+
 
         #endregion
     }
