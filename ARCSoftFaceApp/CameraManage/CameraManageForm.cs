@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ARCSoftFaceApp
+namespace ARCSoftFaceApp.CameraManage
 {
-    public partial class Form1 : Form
+    public partial class CameraManageForm : Form
     {
-        public Form1()
+        public CameraManageForm()
         {
             InitializeComponent();
         }

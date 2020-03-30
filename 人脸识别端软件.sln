@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARCSoftFaceApp", "ARCSoftFa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibARCFace", "LibARCFace\LibARCFace.csproj", "{FE7E051F-5A63-409E-9DC0-4AEA53F0FF60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibHKCamera", "LibHKCamera\LibHKCamera.csproj", "{91221784-1950-451F-A38B-51AA2D7B5DF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibHKCamera", "LibHKCamera\LibHKCamera.csproj", "{C565FD22-7FE4-4B97-9225-FC4B5674DFCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{FE7E051F-5A63-409E-9DC0-4AEA53F0FF60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE7E051F-5A63-409E-9DC0-4AEA53F0FF60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE7E051F-5A63-409E-9DC0-4AEA53F0FF60}.Release|Any CPU.Build.0 = Release|Any CPU
-		{91221784-1950-451F-A38B-51AA2D7B5DF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{91221784-1950-451F-A38B-51AA2D7B5DF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{91221784-1950-451F-A38B-51AA2D7B5DF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{91221784-1950-451F-A38B-51AA2D7B5DF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C565FD22-7FE4-4B97-9225-FC4B5674DFCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C565FD22-7FE4-4B97-9225-FC4B5674DFCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C565FD22-7FE4-4B97-9225-FC4B5674DFCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C565FD22-7FE4-4B97-9225-FC4B5674DFCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
