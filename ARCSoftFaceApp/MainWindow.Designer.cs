@@ -36,6 +36,7 @@
             this.测试模式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.登录IP摄像机ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxCamera = new System.Windows.Forms.GroupBox();
             this.listViewVideoChannel = new System.Windows.Forms.ListView();
             this.videoChannel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -44,7 +45,7 @@
             this.groupBoxLogMessage = new System.Windows.Forms.GroupBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.flowLayoutPanelVideoReal = new System.Windows.Forms.FlowLayoutPanel();
-            this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.数据库测试ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBoxCamera.SuspendLayout();
             this.groupBoxLogMessage.SuspendLayout();
@@ -76,7 +77,8 @@
             // 测试模式ToolStripMenuItem
             // 
             this.测试模式ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.登录IP摄像机ToolStripMenuItem});
+            this.登录IP摄像机ToolStripMenuItem,
+            this.数据库测试ToolStripMenuItem});
             this.测试模式ToolStripMenuItem.Name = "测试模式ToolStripMenuItem";
             this.测试模式ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.测试模式ToolStripMenuItem.Text = "测试模式";
@@ -84,8 +86,9 @@
             // 登录IP摄像机ToolStripMenuItem
             // 
             this.登录IP摄像机ToolStripMenuItem.Name = "登录IP摄像机ToolStripMenuItem";
-            this.登录IP摄像机ToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.登录IP摄像机ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.登录IP摄像机ToolStripMenuItem.Text = "登录IP摄像机";
+            this.登录IP摄像机ToolStripMenuItem.Click += new System.EventHandler(this.登录IP摄像机ToolStripMenuItem_Click);
             // 
             // 帮助ToolStripMenuItem
             // 
@@ -94,6 +97,13 @@
             this.帮助ToolStripMenuItem.Name = "帮助ToolStripMenuItem";
             this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.帮助ToolStripMenuItem.Text = "帮助";
+            // 
+            // 关于ToolStripMenuItem
+            // 
+            this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.关于ToolStripMenuItem.Text = "关于";
+            this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
             // 
             // groupBoxCamera
             // 
@@ -169,12 +179,12 @@
             this.flowLayoutPanelVideoReal.Size = new System.Drawing.Size(511, 301);
             this.flowLayoutPanelVideoReal.TabIndex = 3;
             // 
-            // 关于ToolStripMenuItem
+            // 数据库测试ToolStripMenuItem
             // 
-            this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.关于ToolStripMenuItem.Text = "关于";
-            this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
+            this.数据库测试ToolStripMenuItem.Name = "数据库测试ToolStripMenuItem";
+            this.数据库测试ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.数据库测试ToolStripMenuItem.Text = "数据库测试";
+            this.数据库测试ToolStripMenuItem.Click += new System.EventHandler(this.数据库测试ToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -217,5 +227,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelVideoReal;
         private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 数据库测试ToolStripMenuItem;
     }
 }

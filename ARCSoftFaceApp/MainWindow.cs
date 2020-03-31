@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ARCSoftFaceApp.Entity;
+using ARCSoftFaceApp.EntityFrameDataModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -68,6 +70,36 @@ namespace ARCSoftFaceApp
         {
             AboutBox aboutBox = new AboutBox();
             aboutBox.ShowDialog();
+        }
+
+        /// <summary>
+        /// 登录摄像机
+        /// 先弹出一个用于输入连接摄像机
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void 登录IP摄像机ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Camera camera = new Camera();
+            CameraManage.CameraManageForm cameraManageForm = new CameraManage.CameraManageForm(camera);
+            
+            if(DialogResult.OK== cameraManageForm.ShowDialog())
+            {
+                MessageBox.Show("设置成功");
+            }
+        }
+
+        private void 数据库测试ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var db=new attendance_sysEntities())
+            {
+                var query = from user in db.t_user orderby user.user_id select user;
+
+                foreach (var item in query)
+                {
+                    MessageBox.Show($"id:{item.user_id}, name:{item.username}, pwd:{item.password}");
+                }
+            }
         }
     }
 }

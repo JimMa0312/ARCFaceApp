@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e05e4acad9684b12b0eb5f4a5d4a4463" Name="Diagram1" ZoomLevel="182">
+        <EntityTypeShape EntityType="attendance_sysModel.t_attend" Width="1.5" PointX="9.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_attenditem" Width="1.5" PointX="12" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_attendrule" Width="1.5" PointX="7.5" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_camera" Width="1.5" PointX="7.5" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_classes" Width="1.5" PointX="3" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_classroom" Width="1.5" PointX="5.25" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_college" Width="1.5" PointX="0.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_course" Width="1.5" PointX="7.5" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_dept" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_faceinfo" Width="1.5" PointX="7.5" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_student" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_teacher" Width="1.5" PointX="5.25" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_user" Width="1.5" PointX="3" PointY="13" IsExpanded="true" />
+        <AssociationConnector Association="attendance_sysModel.attend_attendrule_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.attend_classroom_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.attend_course_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.attenditem_attend_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.attenditem_student_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.camera_classroom_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.class_college_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.class_teacher_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.course_classes_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.student_class_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.course_classroom_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.dept_college_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.course_teacher_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.teacher_dept_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.faceinfo_student_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.student_user_id_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="attendance_sysModel.teacher_user_id_fk" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
