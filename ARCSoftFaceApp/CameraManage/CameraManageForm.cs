@@ -28,17 +28,24 @@ namespace ARCSoftFaceApp.CameraManage
                 camera = new Camera();
             }
             this.camera = camera;
+            if(camera.Statue==Camera.CameraStatue.SignOut)
+            {
+
+            }
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            this.camera.ip = this.textBoxIp.Text;
-            this.camera.port = Int32.Parse(this.textBoxPort.Text);
+            this.camera.Ip = this.textBoxIp.Text;
+            this.camera.port = UInt16.Parse(this.textBoxPort.Text);
             this.camera.user = this.textBoxUser.Text;
             this.camera.pwd = this.textBoxPwd.Text;
             this.DialogResult = DialogResult.OK;
 
+            camera.checkSignParam();
+
             this.Close();
         }
+
     }
 }

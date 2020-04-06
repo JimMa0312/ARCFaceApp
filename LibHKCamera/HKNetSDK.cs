@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LibHKCamera.HKNetWork
 {
-    public class HKNetS_DK
+    public class HKNetSDKS
     {
         public const string dllPath = @"HCNetSDK.dll";
         /*************************************************

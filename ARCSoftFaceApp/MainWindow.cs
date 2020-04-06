@@ -1,5 +1,8 @@
-﻿using ARCSoftFaceApp.Entity;
+﻿using ARCSoftFaceApp.Controller;
+using ARCSoftFaceApp.Entity;
 using ARCSoftFaceApp.EntityFrameDataModel;
+using ARCSoftFaceApp.Util;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LibHKCamera.HKNetWork;
 
 namespace ARCSoftFaceApp
 {
@@ -18,12 +22,27 @@ namespace ARCSoftFaceApp
         public const int RealPlayWndHeigh = 481;
         private int nowWindowxWidth;
         private int nowWindowyHeigh;
+        private long iSelectedIndex;
 
         private List<PictureBox> realPlayList;
+        private CameraControler cameraControler;
+
+        private bool m_bInitHKSDK;//标记华康SDK是否初始化成功
 
         public MainWindow()
         {
             InitializeComponent();
+            cameraControler = new CameraControler();
+            iSelectedIndex = 0;
+
+            //初始化海康SDK
+            m_bInitHKSDK = HKNetSDKS.NET_DVR_Init();
+
+            if(m_bInitHKSDK==false)
+            {
+                MessageBox.Show("海康SDK::NET_DVR_Init 初始化错误！");
+                return;
+            }
         }
 
         /// <summary>
@@ -56,14 +75,11 @@ namespace ARCSoftFaceApp
             }
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void MainWindow_Shown(object sender, EventArgs e)
         {
             groupRealPlayWnd();
+
+            LoggerService.IniterLogService();
         }
 
         private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -85,7 +101,8 @@ namespace ARCSoftFaceApp
             
             if(DialogResult.OK== cameraManageForm.ShowDialog())
             {
-                MessageBox.Show("设置成功");
+                //设置成功
+                cameraControler.RegistrerCameraDevice(camera, listViewVideoChannel);
             }
         }
 
@@ -99,6 +116,28 @@ namespace ARCSoftFaceApp
                 {
                     MessageBox.Show($"id:{item.user_id}, name:{item.username}, pwd:{item.password}");
                 }
+            }
+        }
+
+        private void 日志输出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoggerService.logger.Info("点击测试成功！");
+        }
+
+        private void listViewVideoChannel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(listViewVideoChannel.SelectedItems.Count>0)
+            {
+                iSelectedIndex = listViewVideoChannel.SelectedItems[0].Index;
+            }
+        }
+
+        private void listViewVideoChannel_MouseClick(object sender, MouseEventArgs e)
+        {
+            //点击的方式为右键的话，弹出设备的选中的面板
+            if(e.Button==MouseButtons.Right)
+            {
+
             }
         }
     }

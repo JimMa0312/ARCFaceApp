@@ -38,6 +38,8 @@
             this.textBoxPwd = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.buttonOK = new System.Windows.Forms.Button();
+            this.buttonLognIn = new System.Windows.Forms.Button();
+            this.buttonLognOut = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -114,11 +116,33 @@
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
+            // buttonLognIn
+            // 
+            this.buttonLognIn.Location = new System.Drawing.Point(441, 157);
+            this.buttonLognIn.Name = "buttonLognIn";
+            this.buttonLognIn.Size = new System.Drawing.Size(113, 23);
+            this.buttonLognIn.TabIndex = 9;
+            this.buttonLognIn.Text = "登录";
+            this.buttonLognIn.UseVisualStyleBackColor = true;
+            // 
+            // buttonLognOut
+            // 
+            this.buttonLognOut.Enabled = false;
+            this.buttonLognOut.Location = new System.Drawing.Point(441, 202);
+            this.buttonLognOut.Name = "buttonLognOut";
+            this.buttonLognOut.Size = new System.Drawing.Size(113, 23);
+            this.buttonLognOut.TabIndex = 10;
+            this.buttonLognOut.Text = "注销";
+            this.buttonLognOut.UseCompatibleTextRendering = true;
+            this.buttonLognOut.UseVisualStyleBackColor = true;
+            // 
             // CameraManageForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(604, 169);
+            this.ClientSize = new System.Drawing.Size(604, 278);
+            this.Controls.Add(this.buttonLognOut);
+            this.Controls.Add(this.buttonLognIn);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.textBoxPwd);
             this.Controls.Add(this.label4);
@@ -147,5 +171,7 @@
         private System.Windows.Forms.TextBox textBoxPwd;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button buttonOK;
+        private System.Windows.Forms.Button buttonLognIn;
+        private System.Windows.Forms.Button buttonLognOut;
     }
 }

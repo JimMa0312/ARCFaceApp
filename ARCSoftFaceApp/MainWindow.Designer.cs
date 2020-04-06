@@ -35,6 +35,8 @@
             this.系统设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.测试模式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.登录IP摄像机ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.数据库测试ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.日志输出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxCamera = new System.Windows.Forms.GroupBox();
@@ -43,9 +45,8 @@
             this.videoName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.videoStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBoxLogMessage = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.richTextBoxLogMessage = new System.Windows.Forms.RichTextBox();
             this.flowLayoutPanelVideoReal = new System.Windows.Forms.FlowLayoutPanel();
-            this.数据库测试ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBoxCamera.SuspendLayout();
             this.groupBoxLogMessage.SuspendLayout();
@@ -78,7 +79,8 @@
             // 
             this.测试模式ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.登录IP摄像机ToolStripMenuItem,
-            this.数据库测试ToolStripMenuItem});
+            this.数据库测试ToolStripMenuItem,
+            this.日志输出ToolStripMenuItem});
             this.测试模式ToolStripMenuItem.Name = "测试模式ToolStripMenuItem";
             this.测试模式ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.测试模式ToolStripMenuItem.Text = "测试模式";
@@ -89,6 +91,20 @@
             this.登录IP摄像机ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.登录IP摄像机ToolStripMenuItem.Text = "登录IP摄像机";
             this.登录IP摄像机ToolStripMenuItem.Click += new System.EventHandler(this.登录IP摄像机ToolStripMenuItem_Click);
+            // 
+            // 数据库测试ToolStripMenuItem
+            // 
+            this.数据库测试ToolStripMenuItem.Name = "数据库测试ToolStripMenuItem";
+            this.数据库测试ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.数据库测试ToolStripMenuItem.Text = "数据库测试";
+            this.数据库测试ToolStripMenuItem.Click += new System.EventHandler(this.数据库测试ToolStripMenuItem_Click);
+            // 
+            // 日志输出ToolStripMenuItem
+            // 
+            this.日志输出ToolStripMenuItem.Name = "日志输出ToolStripMenuItem";
+            this.日志输出ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.日志输出ToolStripMenuItem.Text = "日志输出";
+            this.日志输出ToolStripMenuItem.Click += new System.EventHandler(this.日志输出ToolStripMenuItem_Click);
             // 
             // 帮助ToolStripMenuItem
             // 
@@ -111,7 +127,7 @@
             this.groupBoxCamera.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBoxCamera.Location = new System.Drawing.Point(0, 25);
             this.groupBoxCamera.Name = "groupBoxCamera";
-            this.groupBoxCamera.Size = new System.Drawing.Size(289, 425);
+            this.groupBoxCamera.Size = new System.Drawing.Size(283, 425);
             this.groupBoxCamera.TabIndex = 1;
             this.groupBoxCamera.TabStop = false;
             this.groupBoxCamera.Text = "设备列表";
@@ -123,14 +139,17 @@
             this.videoName,
             this.videoStatus});
             this.listViewVideoChannel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewVideoChannel.FullRowSelect = true;
+            this.listViewVideoChannel.GridLines = true;
             this.listViewVideoChannel.HideSelection = false;
             this.listViewVideoChannel.Location = new System.Drawing.Point(3, 17);
             this.listViewVideoChannel.Name = "listViewVideoChannel";
-            this.listViewVideoChannel.Size = new System.Drawing.Size(283, 405);
+            this.listViewVideoChannel.Size = new System.Drawing.Size(277, 405);
             this.listViewVideoChannel.TabIndex = 0;
             this.listViewVideoChannel.UseCompatibleStateImageBehavior = false;
             this.listViewVideoChannel.View = System.Windows.Forms.View.Details;
-            this.listViewVideoChannel.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.listViewVideoChannel.SelectedIndexChanged += new System.EventHandler(this.listViewVideoChannel_SelectedIndexChanged);
+            this.listViewVideoChannel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listViewVideoChannel_MouseClick);
             // 
             // videoChannel
             // 
@@ -151,40 +170,33 @@
             // 
             // groupBoxLogMessage
             // 
-            this.groupBoxLogMessage.Controls.Add(this.textBox1);
+            this.groupBoxLogMessage.Controls.Add(this.richTextBoxLogMessage);
             this.groupBoxLogMessage.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBoxLogMessage.Location = new System.Drawing.Point(289, 326);
+            this.groupBoxLogMessage.Location = new System.Drawing.Point(283, 326);
             this.groupBoxLogMessage.Name = "groupBoxLogMessage";
-            this.groupBoxLogMessage.Size = new System.Drawing.Size(511, 124);
+            this.groupBoxLogMessage.Size = new System.Drawing.Size(517, 124);
             this.groupBoxLogMessage.TabIndex = 2;
             this.groupBoxLogMessage.TabStop = false;
             this.groupBoxLogMessage.Text = "运行信息";
             // 
-            // textBox1
+            // richTextBoxLogMessage
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(3, 17);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(505, 104);
-            this.textBox1.TabIndex = 0;
+            this.richTextBoxLogMessage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxLogMessage.Location = new System.Drawing.Point(3, 17);
+            this.richTextBoxLogMessage.Name = "richTextBoxLogMessage";
+            this.richTextBoxLogMessage.ReadOnly = true;
+            this.richTextBoxLogMessage.Size = new System.Drawing.Size(511, 104);
+            this.richTextBoxLogMessage.TabIndex = 0;
+            this.richTextBoxLogMessage.Text = "";
             // 
             // flowLayoutPanelVideoReal
             // 
             this.flowLayoutPanelVideoReal.AutoSize = true;
             this.flowLayoutPanelVideoReal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanelVideoReal.Location = new System.Drawing.Point(289, 25);
+            this.flowLayoutPanelVideoReal.Location = new System.Drawing.Point(283, 25);
             this.flowLayoutPanelVideoReal.Name = "flowLayoutPanelVideoReal";
-            this.flowLayoutPanelVideoReal.Size = new System.Drawing.Size(511, 301);
+            this.flowLayoutPanelVideoReal.Size = new System.Drawing.Size(517, 301);
             this.flowLayoutPanelVideoReal.TabIndex = 3;
-            // 
-            // 数据库测试ToolStripMenuItem
-            // 
-            this.数据库测试ToolStripMenuItem.Name = "数据库测试ToolStripMenuItem";
-            this.数据库测试ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.数据库测试ToolStripMenuItem.Text = "数据库测试";
-            this.数据库测试ToolStripMenuItem.Click += new System.EventHandler(this.数据库测试ToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -205,7 +217,6 @@
             this.menuStrip1.PerformLayout();
             this.groupBoxCamera.ResumeLayout(false);
             this.groupBoxLogMessage.ResumeLayout(false);
-            this.groupBoxLogMessage.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -224,9 +235,10 @@
         private System.Windows.Forms.ColumnHeader videoName;
         private System.Windows.Forms.ColumnHeader videoStatus;
         private System.Windows.Forms.GroupBox groupBoxLogMessage;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelVideoReal;
         private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 数据库测试ToolStripMenuItem;
+        public System.Windows.Forms.RichTextBox richTextBoxLogMessage;
+        private System.Windows.Forms.ToolStripMenuItem 日志输出ToolStripMenuItem;
     }
 }
