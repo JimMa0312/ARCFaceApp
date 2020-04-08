@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LibHKCamera.HKNetWork;
+using ARCSoftFaceApp.CameraManage;
 
 namespace ARCSoftFaceApp
 {
@@ -137,7 +138,12 @@ namespace ARCSoftFaceApp
             //点击的方式为右键的话，弹出设备的选中的面板
             if(e.Button==MouseButtons.Right)
             {
+                if(iSelectedIndex>=0)
+                {
+                    CameraManageForm cameraManageForm = new CameraManageForm(cameraControler.cameras[(int)iSelectedIndex].camera);
 
+                    cameraManageForm.Show();
+                }
             }
         }
     }

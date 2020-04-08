@@ -14,7 +14,7 @@ namespace ARCSoftFaceApp.Controller
     /// </summary>
     public class CameraControler
     {
-        List<CameraItem> cameras { get; set; }
+        public List<CameraItem> cameras { get; set; }
 
         public CameraControler()
         {

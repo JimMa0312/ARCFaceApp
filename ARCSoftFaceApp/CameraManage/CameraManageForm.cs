@@ -18,6 +18,9 @@ namespace ARCSoftFaceApp.CameraManage
         public CameraManageForm()
         {
             InitializeComponent();
+
+            buttonLognIn.Enabled = false;
+            buttonLognOut.Enabled = false;
         }
 
         public CameraManageForm(Camera camera):
@@ -27,10 +30,30 @@ namespace ARCSoftFaceApp.CameraManage
             {
                 camera = new Camera();
             }
-            this.camera = camera;
-            if(camera.Statue==Camera.CameraStatue.SignOut)
+            else
             {
-
+                textBoxIp.Text = string.Copy(camera.Ip);
+                textBoxPort.Text = camera.port.ToString();
+                textBoxUser.Text = string.Copy(camera.user);
+                textBoxPwd.Text = string.Copy(camera.pwd);
+            }
+            this.camera = camera;
+            switch (camera.Statue)
+            {
+                case Camera.CameraStatue.SignOut:
+                    buttonLognIn.Enabled = true;
+                    buttonLognOut.Enabled = false;
+                    break;
+                case Camera.CameraStatue.SignIn:
+                    buttonLognIn.Enabled = false;
+                    buttonLognOut.Enabled = true;
+                    break;
+                case Camera.CameraStatue.OnReadPlay:
+                    break;
+                case Camera.CameraStatue.StopReadPlay:
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -47,5 +70,14 @@ namespace ARCSoftFaceApp.CameraManage
             this.Close();
         }
 
+        private void buttonLognIn_Click(object sender, EventArgs e)
+        {
+            camera.SignCamera();
+        }
+
+        private void buttonLognOut_Click(object sender, EventArgs e)
+        {
+            camera.SignOutCamera();
+        }
     }
 }

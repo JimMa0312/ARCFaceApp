@@ -124,6 +124,7 @@
             this.buttonLognIn.TabIndex = 9;
             this.buttonLognIn.Text = "登录";
             this.buttonLognIn.UseVisualStyleBackColor = true;
+            this.buttonLognIn.Click += new System.EventHandler(this.buttonLognIn_Click);
             // 
             // buttonLognOut
             // 
@@ -135,6 +136,7 @@
             this.buttonLognOut.Text = "注销";
             this.buttonLognOut.UseCompatibleTextRendering = true;
             this.buttonLognOut.UseVisualStyleBackColor = true;
+            this.buttonLognOut.Click += new System.EventHandler(this.buttonLognOut_Click);
             // 
             // CameraManageForm
             // 

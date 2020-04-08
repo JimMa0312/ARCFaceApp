@@ -1,12 +1,18 @@
 ﻿using ARCSoftFaceApp.Util;
+using LibHKCamera;
 using LibHKCamera.HKNetWork;
+using LibHKCamera.HKPlayCtrlSDK;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ARCSoftFaceApp.Entity
 {
@@ -24,7 +30,9 @@ namespace ARCSoftFaceApp.Entity
             [Description("已登录")]
             SignIn,
             [Description("正在预览")]
-            OnReadPlay
+            OnReadPlay,
+            [Description("停止预览")]
+            StopReadPlay
         };
         private string ip;
         public string Ip 
@@ -42,6 +50,11 @@ namespace ARCSoftFaceApp.Entity
         public int ChannelNum { get; set; }
         public int m_lUserId{get;set;}
         public int m_lReadHandle { get; set; }
+        private int m_lPort;
+
+        public PictureBox PictrueBoxId { get; set; }
+
+        private ConcurrentQueue<Bitmap> queueVideoFrame;
 
         public IntPtr m_ptrReadHandle { get; set; }
 
@@ -56,16 +69,31 @@ namespace ARCSoftFaceApp.Entity
             }
         }
 
+        private ImageCover imageCover;
+
         public HKNetSDKS.NET_DVR_USER_LOGIN_INFO struLogInfo;
 
         public HKNetSDKS.NET_DVR_DEVICEINFO_V40 DeviceInfo;
 
         public HKNetSDKS.REALDATACALLBACK ReadData = null;
+        public HKPlayCtrlSDK.DECCBFUN m_fDisplayFun = null;
+
+        private Task taskStartRealPlay;
+        private Task taskDetalDisplay;
+        private CancellationTokenSource cancelTokenDetalDisplay;
 
         public Camera()
         {
+            ip = "";
+            user = "admin";
+            pwd = "admin";
+
             m_lReadHandle = -1;
             m_lUserId = -1;
+            m_lPort = -1;
+            PictrueBoxId = null;
+
+            imageCover = new ImageCover();
         }
 
         public Camera(string ip, ushort port, string user, string pwd)
@@ -77,6 +105,62 @@ namespace ARCSoftFaceApp.Entity
             this.pwd = pwd;
 
             Statue = CameraStatue.SignOut;
+        }
+
+
+        public void StartViewPlay()
+        {
+            if(queueVideoFrame==null)
+            {
+                queueVideoFrame = new ConcurrentQueue<Bitmap>();
+            }
+
+            if(cancelTokenDetalDisplay==null)
+            {
+                cancelTokenDetalDisplay = new CancellationTokenSource();
+            }
+
+            if (taskStartRealPlay==null)
+            {
+                taskStartRealPlay = Task.Factory.StartNew(RealPreview);
+            }
+
+            if (taskDetalDisplay == null)
+            {
+                taskDetalDisplay = Task.Factory.StartNew(DetalDisplay);
+            }
+        }
+
+        public void StopViewPlay()
+        {
+            StopRealPreview();
+
+            SignOutCamera();
+        }
+
+        public void DetalDisplay()
+        {
+            while (true)
+            {
+                if(cancelTokenDetalDisplay.Token.IsCancellationRequested)
+                {
+                    break;
+                }
+
+                Bitmap nowFrame;
+
+                //如果有有效的bgr位图像则进行人工智能工作和picturView的显示
+                if(queueVideoFrame.TryDequeue(out nowFrame))
+                {
+                    //显示到屏幕中
+                    if(PictrueBoxId!=null)
+                    {
+                        PictrueBoxId.Image = nowFrame;
+                    }
+                }
+
+                Thread.Sleep(1);
+            }
         }
 
         /// <summary>
@@ -138,6 +222,34 @@ namespace ARCSoftFaceApp.Entity
             return 0;
         }
 
+        public int SignOutCamera()
+        {
+            if(m_lReadHandle>=0)
+            {
+                LoggerService.logger.Info($"摄像IP：{ip} 请先停止预览!");
+                return -2;
+            }
+
+            if(!HKNetSDKS.NET_DVR_Logout(m_lUserId))
+            {
+                LoggerService.logger.Error($"摄像IP：{ip} 注销失败[{HKNetSDKS.NET_DVR_GetLastError()}]!");
+                return -3;
+            }
+
+            LoggerService.logger.Info($"摄像IP：{ip} 注销 成功！");
+
+            m_lUserId = -1;
+
+            if(taskStartRealPlay.IsCompleted)
+            {
+                taskStartRealPlay = null;
+            }
+
+            Statue = CameraStatue.SignOut;
+
+            return 0;
+        }
+
         /// <summary>
         /// 执行进行监控预览
         /// </summary>
@@ -162,7 +274,7 @@ namespace ARCSoftFaceApp.Entity
                 lpPreviewInfo.dwStreamType = 0;//主码流
                 lpPreviewInfo.dwLinkMode = 0;//TCP方式
                 lpPreviewInfo.bBlocked = true;//阻塞式
-                lpPreviewInfo.dwDisplayBufNum = 25;//播放库显示缓存区最大的帧数
+                lpPreviewInfo.dwDisplayBufNum = 15;//播放库显示缓存区最大的帧数
 
                 IntPtr pUser = IntPtr.Zero;
 
@@ -177,16 +289,153 @@ namespace ARCSoftFaceApp.Entity
                 else
                 {
                     LoggerService.logger.Info($"摄像头{ip}，启动预览成功！");
-                    statue = CameraStatue.OnReadPlay;
+                    Statue = CameraStatue.OnReadPlay;
                 }
             }
 
             return 0;
         }
 
+        public int StopRealPreview()
+        {
+            if(m_lReadHandle<0)
+            {
+                LoggerService.logger.Error($"摄像头{ip}，未启动过预览。");
+                return -1;
+            }
+
+            if(!HKNetSDKS.NET_DVR_StopRealPlay(m_lReadHandle))
+            {
+                LoggerService.logger.Error($"摄像头{ip}，播放器无法停止预览。错误代码：{HKNetSDKS.NET_DVR_GetLastError()}");
+            }
+
+            if (m_lPort>=0)
+            {
+                if(!HKPlayCtrlSDK.PlayM4_Stop(m_lPort))
+                {
+                     LoggerService.logger.Error($"摄像头{ip}，播放器无法停止工作。错误代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
+                }
+
+                if(!HKPlayCtrlSDK.PlayM4_CloseStream(m_lPort))
+                {
+                    LoggerService.logger.Error($"摄像头{ip}，播放器无法关闭数据流。错误代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
+                }
+                if(!HKPlayCtrlSDK.PlayM4_FreePort(m_lPort))
+                {
+                    LoggerService.logger.Error($"摄像头{ip}，播放器无法释放播放端口。错误代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
+                }
+
+                m_lPort = -1;
+            }
+
+            cancelTokenDetalDisplay.Cancel();
+
+            if (taskDetalDisplay.IsCompleted)
+            {
+                taskDetalDisplay = null;
+                cancelTokenDetalDisplay = null;
+            }
+
+            LoggerService.logger.Info($"摄像头{ip}，已停止预览。");
+
+            m_lReadHandle = -1;
+            Statue = CameraStatue.StopReadPlay;
+            PictrueBoxId.Invalidate();
+            PictrueBoxId = null;
+
+            return 0;
+        }
+
         public void RealDataCallBack(int lReadHandle, uint dwDataType, IntPtr pBuffer, uint dwBufSize, IntPtr pUser)
         {
+            switch (dwDataType)
+            {
+                case GloableVar.NET_DVR_SYSHEAD:
+                    {
+                        if(dwBufSize>0)
+                        {
+                            if(m_lPort>=0)
+                            {
+                                return;
+                            }
 
+                            //获取播放器句柄
+                            if(!HKPlayCtrlSDK.PlayM4_GetPort(ref m_lPort))
+                            {
+                                LoggerService.logger.Error($"摄像头{ip},获取播放句柄错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
+                                break;
+                            }
+
+                            //设置流播放模式
+                            if(!HKPlayCtrlSDK.PlayM4_SetStreamOpenMode(m_lPort, GloableVar.STREAME_REALTIME))
+                            {
+                                LoggerService.logger.Error($"摄像头{ip},设置播放流错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
+                                
+                            }
+
+                            //打开码流，送入头数据 1080P视频流建议开到6M的缓存
+                            if(!HKPlayCtrlSDK.PlayM4_OpenStream(m_lPort,pBuffer,dwBufSize, 6*1024*1024))
+                            {
+                                LoggerService.logger.Error($"摄像头{ip},打开播放流错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
+                                break;
+                            }
+
+                            //设置显示缓冲区个数
+                            if(!HKPlayCtrlSDK.PlayM4_SetDisplayBuf(m_lPort,25))
+                            {
+                                LoggerService.logger.Error($"摄像头{ip},设置显示缓存区错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
+                                
+                            }
+
+                            //设置显示模式
+                            if(!HKPlayCtrlSDK.PlayM4_SetOverlayMode(m_lPort, 0,0))
+                            {
+                                LoggerService.logger.Error($"摄像头{ip},设置显示属性错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
+                            }
+
+                            //设置解码回调函数
+                            m_fDisplayFun = new HKPlayCtrlSDK.DECCBFUN(DecCallbackFUN);
+                            if(!HKPlayCtrlSDK.PlayM4_SetDecCallBackEx(m_lPort,m_fDisplayFun,IntPtr.Zero, 0))
+                            {
+                                LoggerService.logger.Error($"摄像头{ip},设置解码回调函数错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
+                            }
+
+                            if (!HKPlayCtrlSDK.PlayM4_Play(m_lPort, m_ptrReadHandle))
+                            {
+                                LoggerService.logger.Error($"摄像头{ip},播放软件播放错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case GloableVar.NET_DVR_STREAMDATA: //如果是流数据
+                default:
+                    {
+                        if (dwBufSize > 0 && m_lPort != -1)
+                        {
+                            bool inData = HKPlayCtrlSDK.PlayM4_InputData(m_lPort, pBuffer, dwBufSize);
+                            while(!inData)
+                            {
+                                Thread.Sleep(10);
+                                inData = HKPlayCtrlSDK.PlayM4_InputData(m_lPort, pBuffer, dwBufSize);
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private void DecCallbackFUN(int nPort, IntPtr pBuf, int nSize, ref HKPlayCtrlSDK.FRAME_INFO pFrameInfo, int nReserved1, int nReserved2)
+        {
+            if(pFrameInfo.nType== GloableVar.T_YV12)
+            {
+                Bitmap nowFramBitMap=imageCover.Yv12_2_BGR(ref pBuf, nSize, pFrameInfo.nHeight, pFrameInfo.nWidth);
+
+                if(nowFramBitMap!=null)
+                {
+                    queueVideoFrame.Enqueue(nowFramBitMap);
+                }
+            }
         }
 
         /// <summary>
