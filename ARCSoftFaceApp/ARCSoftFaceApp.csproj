@@ -247,59 +247,59 @@
       <DependentUpon>CameraManageForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controller\CameraControler.cs" />
-    <Compile Include="EntityFrameDataModel\AttendFaceDBModel.Context.cs">
+    <Compile Include="EntityFrameDataModel\AttendanceDataSet.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AttendFaceDBModel.Context.tt</DependentUpon>
+      <DependentUpon>AttendanceDataSet.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFrameDataModel\AttendFaceDBModel.cs">
+    <Compile Include="EntityFrameDataModel\AttendanceDataSet.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AttendFaceDBModel.tt</DependentUpon>
+      <DependentUpon>AttendanceDataSet.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFrameDataModel\AttendFaceDBModel.Designer.cs">
+    <Compile Include="EntityFrameDataModel\AttendanceDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AttendFaceDBModel.edmx</DependentUpon>
+      <DependentUpon>AttendanceDataSet.edmx</DependentUpon>
     </Compile>
     <Compile Include="EntityFrameDataModel\t_attend.cs">
-      <DependentUpon>AttendFaceDBModel.tt</DependentUpon>
+      <DependentUpon>AttendanceDataSet.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFrameDataModel\t_attenditem.cs">
-      <DependentUpon>AttendFaceDBModel.tt</DependentUpon>
+      <DependentUpon>AttendanceDataSet.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFrameDataModel\t_attendrule.cs">
-      <DependentUpon>AttendFaceDBModel.tt</DependentUpon>
+      <DependentUpon>AttendanceDataSet.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFrameDataModel\t_camera.cs">
-      <DependentUpon>AttendFaceDBModel.tt</DependentUpon>
+      <DependentUpon>AttendanceDataSet.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFrameDataModel\t_classes.cs">
-      <DependentUpon>AttendFaceDBModel.tt</DependentUpon>
+      <DependentUpon>AttendanceDataSet.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFrameDataModel\t_classroom.cs">
-      <DependentUpon>AttendFaceDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFrameDataModel\t_college.cs">
-      <DependentUpon>AttendFaceDBModel.tt</DependentUpon>
+      <DependentUpon>AttendanceDataSet.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFrameDataModel\t_course.cs">
-      <DependentUpon>AttendFaceDBModel.tt</DependentUpon>
+      <DependentUpon>AttendanceDataSet.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFrameDataModel\t_dept.cs">
-      <DependentUpon>AttendFaceDBModel.tt</DependentUpon>
+      <DependentUpon>AttendanceDataSet.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFrameDataModel\t_faceinfo.cs">
-      <DependentUpon>AttendFaceDBModel.tt</DependentUpon>
+      <DependentUpon>AttendanceDataSet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFrameDataModel\t_log.cs">
+      <DependentUpon>AttendanceDataSet.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFrameDataModel\t_student.cs">
-      <DependentUpon>AttendFaceDBModel.tt</DependentUpon>
+      <DependentUpon>AttendanceDataSet.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFrameDataModel\t_teacher.cs">
-      <DependentUpon>AttendFaceDBModel.tt</DependentUpon>
+      <DependentUpon>AttendanceDataSet.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFrameDataModel\t_user.cs">
-      <DependentUpon>AttendFaceDBModel.tt</DependentUpon>
+      <DependentUpon>AttendanceDataSet.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\Camera.cs" />
     <Compile Include="MainWindow.cs">
@@ -313,6 +313,16 @@
     <Compile Include="Util\EnumService.cs" />
     <Compile Include="Util\ImageCover.cs" />
     <Compile Include="Util\LoggerService.cs" />
+    <Content Include="EntityFrameDataModel\AttendanceDataSet.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AttendanceDataSet.edmx</DependentUpon>
+      <LastGenOutput>AttendanceDataSet.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EntityFrameDataModel\AttendanceDataSet.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AttendanceDataSet.edmx</DependentUpon>
+      <LastGenOutput>AttendanceDataSet.cs</LastGenOutput>
+    </Content>
     <Content Include="HCCore.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -395,17 +405,17 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EntityDeploy Include="EntityFrameDataModel\AttendFaceDBModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>AttendFaceDBModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="EntityFrameDataModel\AttendFaceDBModel.edmx.diagram">
-      <DependentUpon>AttendFaceDBModel.edmx</DependentUpon>
-    </None>
     <Content Include="License-LGPL.txt" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EntityDeploy Include="EntityFrameDataModel\AttendanceDataSet.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AttendanceDataSet.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="EntityFrameDataModel\AttendanceDataSet.edmx.diagram">
+      <DependentUpon>AttendanceDataSet.edmx</DependentUpon>
+    </None>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -446,16 +456,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="EntityFrameDataModel\AttendFaceDBModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AttendFaceDBModel.edmx</DependentUpon>
-      <LastGenOutput>AttendFaceDBModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="EntityFrameDataModel\AttendFaceDBModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AttendFaceDBModel.edmx</DependentUpon>
-      <LastGenOutput>AttendFaceDBModel.cs</LastGenOutput>
-    </Content>
     <Content Include="resources\img\icons8_instagram_old.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

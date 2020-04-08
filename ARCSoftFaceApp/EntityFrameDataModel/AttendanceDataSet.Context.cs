@@ -31,10 +31,10 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
         public virtual DbSet<t_camera> t_camera { get; set; }
         public virtual DbSet<t_classes> t_classes { get; set; }
         public virtual DbSet<t_classroom> t_classroom { get; set; }
-        public virtual DbSet<t_college> t_college { get; set; }
         public virtual DbSet<t_course> t_course { get; set; }
         public virtual DbSet<t_dept> t_dept { get; set; }
         public virtual DbSet<t_faceinfo> t_faceinfo { get; set; }
+        public virtual DbSet<t_log> t_log { get; set; }
         public virtual DbSet<t_student> t_student { get; set; }
         public virtual DbSet<t_teacher> t_teacher { get; set; }
         public virtual DbSet<t_user> t_user { get; set; }

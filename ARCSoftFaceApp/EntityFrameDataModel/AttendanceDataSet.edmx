@@ -1,0 +1,541 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="attendance_sysModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="t_attend">
+          <Key>
+            <PropertyRef Name="attend_id" />
+          </Key>
+          <Property Name="attend_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rule_id" Type="int" />
+          <Property Name="course_id" Type="bigint" />
+          <Property Name="classroom_id" Type="int" />
+          <Property Name="describes" Type="varchar" MaxLength="255" />
+          <Property Name="attend_status" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="t_attenditem">
+          <Key>
+            <PropertyRef Name="attendItem_id" />
+          </Key>
+          <Property Name="attendItem_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="attend_id" Type="bigint" />
+          <Property Name="student_id" Type="varchar" MaxLength="20" />
+          <Property Name="attend_time" Type="datetime" Precision="0" />
+          <Property Name="attend_result" Type="varchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="t_attendrule">
+          <Key>
+            <PropertyRef Name="rule_id" />
+          </Key>
+          <Property Name="rule_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rule_name" Type="varchar" MaxLength="50" />
+          <Property Name="course_start_time" Type="varchar" MaxLength="20" />
+          <Property Name="course_end_time" Type="varchar" MaxLength="20" />
+          <Property Name="check_start_time" Type="varchar" MaxLength="20" />
+          <Property Name="check_end_time" Type="varchar" MaxLength="20" />
+          <Property Name="normal_late_min" Type="varchar" MaxLength="10" />
+          <Property Name="normal_leave_early_min" Type="varchar" MaxLength="10" />
+          <Property Name="normal_InOut_Num" Type="varchar" MaxLength="10" />
+          <Property Name="normal_StayOut_Time" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="t_camera">
+          <Key>
+            <PropertyRef Name="camera_id" />
+          </Key>
+          <Property Name="camera_id" Type="int" Nullable="false" />
+          <Property Name="camera_code" Type="varchar" MaxLength="50" />
+          <Property Name="classroom_id" Type="int" />
+          <Property Name="camera_ip" Type="varchar" MaxLength="16" />
+          <Property Name="camera_port" Type="int" />
+          <Property Name="camera_user" Type="varchar" MaxLength="200" />
+          <Property Name="camera_pwd" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="t_classes">
+          <Key>
+            <PropertyRef Name="class_id" />
+          </Key>
+          <Property Name="class_id" Type="int" Nullable="false" />
+          <Property Name="college_name" Type="varchar" MaxLength="20" />
+          <Property Name="teacher_id" Type="varchar" MaxLength="10" />
+          <Property Name="class_people_num" Type="int" />
+        </EntityType>
+        <EntityType Name="t_classroom">
+          <Key>
+            <PropertyRef Name="classroom_id" />
+          </Key>
+          <Property Name="classroom_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="classroom_name" Type="varchar" MaxLength="20" />
+          <Property Name="describes" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="t_course">
+          <Key>
+            <PropertyRef Name="course_id" />
+          </Key>
+          <Property Name="course_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="class_id" Type="int" />
+          <Property Name="classroom_id" Type="int" />
+          <Property Name="course_name" Type="varchar" MaxLength="255" />
+          <Property Name="teacher_id" Type="varchar" MaxLength="20" />
+          <Property Name="course_date" Type="date" />
+          <Property Name="course_start_time" Type="varchar" MaxLength="10" />
+          <Property Name="course_end_time" Type="varchar" MaxLength="10" />
+          <Property Name="course_start_week" Type="varchar" MaxLength="10" />
+          <Property Name="course_end_week" Type="varchar" MaxLength="10" />
+          <Property Name="school_year" Type="varchar" MaxLength="30" />
+          <Property Name="semester" Type="varchar" MaxLength="5" />
+          <Property Name="grade" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="t_dept">
+          <Key>
+            <PropertyRef Name="dept_name" />
+          </Key>
+          <Property Name="dept_name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="college_name" Type="varchar" MaxLength="30" />
+          <Property Name="dept_describes" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="t_faceinfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="studnet_id" Type="bigint" />
+          <Property Name="face_id" Type="varchar" MaxLength="31" />
+          <Property Name="group_id" Type="bigint" />
+          <Property Name="face_feature" Type="blob" />
+          <Property Name="image_path" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="t_log">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="USERNAME" Type="varchar" MaxLength="50" />
+          <Property Name="OPERATION" Type="text" />
+          <Property Name="TIME" Type="decimal" Precision="11" Scale="0" />
+          <Property Name="METHOD" Type="text" />
+          <Property Name="PARAMS" Type="text" />
+          <Property Name="IP" Type="varchar" MaxLength="64" />
+          <Property Name="CREATE_TIME" Type="datetime" Precision="0" />
+          <Property Name="location" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="t_student">
+          <Key>
+            <PropertyRef Name="student_id" />
+          </Key>
+          <Property Name="student_id" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="class_id" Type="int" />
+          <Property Name="student_name" Type="varchar" MaxLength="255" />
+          <Property Name="student_gender" Type="char" MaxLength="1" />
+          <Property Name="student_email" Type="varchar" MaxLength="30" />
+          <Property Name="student_qq" Type="varchar" MaxLength="30" />
+          <Property Name="user_id" Type="bigint" />
+        </EntityType>
+        <EntityType Name="t_teacher">
+          <Key>
+            <PropertyRef Name="teacher_id" />
+          </Key>
+          <Property Name="teacher_id" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="dept_name" Type="varchar" MaxLength="30" />
+          <Property Name="teacher_name" Type="varchar" MaxLength="255" />
+          <Property Name="teacher_gender" Type="char" MaxLength="1" />
+          <Property Name="teacher_email" Type="varchar" MaxLength="20" />
+          <Property Name="teacher_qq" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="user_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_user">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="20" />
+          <Property Name="password" Type="varchar" MaxLength="255" />
+          <Property Name="user_type" Type="char" MaxLength="1" />
+          <Property Name="user_create_time" Type="datetime" Precision="0" />
+          <Property Name="last_login_time" Type="datetime" Precision="0" />
+          <Property Name="user_status" Type="char" MaxLength="3" />
+        </EntityType>
+        <EntityContainer Name="attendance_sysModelStoreContainer">
+          <EntitySet Name="t_attend" EntityType="Self.t_attend" Schema="attendance_sys" store:Type="Tables" />
+          <EntitySet Name="t_attenditem" EntityType="Self.t_attenditem" Schema="attendance_sys" store:Type="Tables" />
+          <EntitySet Name="t_attendrule" EntityType="Self.t_attendrule" Schema="attendance_sys" store:Type="Tables" />
+          <EntitySet Name="t_camera" EntityType="Self.t_camera" Schema="attendance_sys" store:Type="Tables" />
+          <EntitySet Name="t_classes" EntityType="Self.t_classes" Schema="attendance_sys" store:Type="Tables" />
+          <EntitySet Name="t_classroom" EntityType="Self.t_classroom" Schema="attendance_sys" store:Type="Tables" />
+          <EntitySet Name="t_course" EntityType="Self.t_course" Schema="attendance_sys" store:Type="Tables" />
+          <EntitySet Name="t_dept" EntityType="Self.t_dept" Schema="attendance_sys" store:Type="Tables" />
+          <EntitySet Name="t_faceinfo" EntityType="Self.t_faceinfo" Schema="attendance_sys" store:Type="Tables" />
+          <EntitySet Name="t_log" EntityType="Self.t_log" Schema="attendance_sys" store:Type="Tables" />
+          <EntitySet Name="t_student" EntityType="Self.t_student" Schema="attendance_sys" store:Type="Tables" />
+          <EntitySet Name="t_teacher" EntityType="Self.t_teacher" Schema="attendance_sys" store:Type="Tables" />
+          <EntitySet Name="t_user" EntityType="Self.t_user" Schema="attendance_sys" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="attendance_sysModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="t_attend">
+          <Key>
+            <PropertyRef Name="attend_id" />
+          </Key>
+          <Property Name="attend_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rule_id" Type="Int32" />
+          <Property Name="course_id" Type="Int64" />
+          <Property Name="classroom_id" Type="Int32" />
+          <Property Name="describes" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="attend_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="t_attenditem">
+          <Key>
+            <PropertyRef Name="attendItem_id" />
+          </Key>
+          <Property Name="attendItem_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="attend_id" Type="Int64" />
+          <Property Name="student_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="attend_time" Type="DateTime" />
+          <Property Name="attend_result" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="t_attendrule">
+          <Key>
+            <PropertyRef Name="rule_id" />
+          </Key>
+          <Property Name="rule_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rule_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="course_start_time" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="course_end_time" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="check_start_time" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="check_end_time" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="normal_late_min" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="normal_leave_early_min" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="normal_InOut_Num" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="normal_StayOut_Time" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="t_camera">
+          <Key>
+            <PropertyRef Name="camera_id" />
+          </Key>
+          <Property Name="camera_id" Type="Int32" Nullable="false" />
+          <Property Name="camera_code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="classroom_id" Type="Int32" />
+          <Property Name="camera_ip" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="camera_port" Type="Int32" />
+          <Property Name="camera_user" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="camera_pwd" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="t_classes">
+          <Key>
+            <PropertyRef Name="class_id" />
+          </Key>
+          <Property Name="class_id" Type="Int32" Nullable="false" />
+          <Property Name="college_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="teacher_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="class_people_num" Type="Int32" />
+        </EntityType>
+        <EntityType Name="t_classroom">
+          <Key>
+            <PropertyRef Name="classroom_id" />
+          </Key>
+          <Property Name="classroom_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="classroom_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="describes" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="t_course">
+          <Key>
+            <PropertyRef Name="course_id" />
+          </Key>
+          <Property Name="course_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="class_id" Type="Int32" />
+          <Property Name="classroom_id" Type="Int32" />
+          <Property Name="course_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="teacher_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="course_date" Type="DateTime" />
+          <Property Name="course_start_time" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="course_end_time" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="course_start_week" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="course_end_week" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="school_year" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="semester" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="grade" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="t_dept">
+          <Key>
+            <PropertyRef Name="dept_name" />
+          </Key>
+          <Property Name="dept_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="college_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="dept_describes" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="t_faceinfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="studnet_id" Type="Int64" />
+          <Property Name="face_id" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
+          <Property Name="group_id" Type="Int64" />
+          <Property Name="face_feature" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="image_path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="t_log">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="USERNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OPERATION" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="TIME" Type="Decimal" />
+          <Property Name="METHOD" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="PARAMS" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="IP" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="CREATE_TIME" Type="DateTime" />
+          <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="t_student">
+          <Key>
+            <PropertyRef Name="student_id" />
+          </Key>
+          <Property Name="student_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="class_id" Type="Int32" />
+          <Property Name="student_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="student_gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="student_email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="student_qq" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="user_id" Type="Int64" />
+        </EntityType>
+        <EntityType Name="t_teacher">
+          <Key>
+            <PropertyRef Name="teacher_id" />
+          </Key>
+          <Property Name="teacher_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dept_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="teacher_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="teacher_gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="teacher_email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="teacher_qq" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="user_id" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_user">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="user_type" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="user_create_time" Type="DateTime" />
+          <Property Name="last_login_time" Type="DateTime" />
+          <Property Name="user_status" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="attendance_sysEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="t_attend" EntityType="Self.t_attend" />
+          <EntitySet Name="t_attenditem" EntityType="Self.t_attenditem" />
+          <EntitySet Name="t_attendrule" EntityType="Self.t_attendrule" />
+          <EntitySet Name="t_camera" EntityType="Self.t_camera" />
+          <EntitySet Name="t_classes" EntityType="Self.t_classes" />
+          <EntitySet Name="t_classroom" EntityType="Self.t_classroom" />
+          <EntitySet Name="t_course" EntityType="Self.t_course" />
+          <EntitySet Name="t_dept" EntityType="Self.t_dept" />
+          <EntitySet Name="t_faceinfo" EntityType="Self.t_faceinfo" />
+          <EntitySet Name="t_log" EntityType="Self.t_log" />
+          <EntitySet Name="t_student" EntityType="Self.t_student" />
+          <EntitySet Name="t_teacher" EntityType="Self.t_teacher" />
+          <EntitySet Name="t_user" EntityType="Self.t_user" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="attendance_sysModelStoreContainer" CdmEntityContainer="attendance_sysEntities">
+          <EntitySetMapping Name="t_attend">
+            <EntityTypeMapping TypeName="attendance_sysModel.t_attend">
+              <MappingFragment StoreEntitySet="t_attend">
+                <ScalarProperty Name="attend_id" ColumnName="attend_id" />
+                <ScalarProperty Name="rule_id" ColumnName="rule_id" />
+                <ScalarProperty Name="course_id" ColumnName="course_id" />
+                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
+                <ScalarProperty Name="describes" ColumnName="describes" />
+                <ScalarProperty Name="attend_status" ColumnName="attend_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_attenditem">
+            <EntityTypeMapping TypeName="attendance_sysModel.t_attenditem">
+              <MappingFragment StoreEntitySet="t_attenditem">
+                <ScalarProperty Name="attendItem_id" ColumnName="attendItem_id" />
+                <ScalarProperty Name="attend_id" ColumnName="attend_id" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="attend_time" ColumnName="attend_time" />
+                <ScalarProperty Name="attend_result" ColumnName="attend_result" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_attendrule">
+            <EntityTypeMapping TypeName="attendance_sysModel.t_attendrule">
+              <MappingFragment StoreEntitySet="t_attendrule">
+                <ScalarProperty Name="rule_id" ColumnName="rule_id" />
+                <ScalarProperty Name="rule_name" ColumnName="rule_name" />
+                <ScalarProperty Name="course_start_time" ColumnName="course_start_time" />
+                <ScalarProperty Name="course_end_time" ColumnName="course_end_time" />
+                <ScalarProperty Name="check_start_time" ColumnName="check_start_time" />
+                <ScalarProperty Name="check_end_time" ColumnName="check_end_time" />
+                <ScalarProperty Name="normal_late_min" ColumnName="normal_late_min" />
+                <ScalarProperty Name="normal_leave_early_min" ColumnName="normal_leave_early_min" />
+                <ScalarProperty Name="normal_InOut_Num" ColumnName="normal_InOut_Num" />
+                <ScalarProperty Name="normal_StayOut_Time" ColumnName="normal_StayOut_Time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_camera">
+            <EntityTypeMapping TypeName="attendance_sysModel.t_camera">
+              <MappingFragment StoreEntitySet="t_camera">
+                <ScalarProperty Name="camera_id" ColumnName="camera_id" />
+                <ScalarProperty Name="camera_code" ColumnName="camera_code" />
+                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
+                <ScalarProperty Name="camera_ip" ColumnName="camera_ip" />
+                <ScalarProperty Name="camera_port" ColumnName="camera_port" />
+                <ScalarProperty Name="camera_user" ColumnName="camera_user" />
+                <ScalarProperty Name="camera_pwd" ColumnName="camera_pwd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_classes">
+            <EntityTypeMapping TypeName="attendance_sysModel.t_classes">
+              <MappingFragment StoreEntitySet="t_classes">
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="college_name" ColumnName="college_name" />
+                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
+                <ScalarProperty Name="class_people_num" ColumnName="class_people_num" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_classroom">
+            <EntityTypeMapping TypeName="attendance_sysModel.t_classroom">
+              <MappingFragment StoreEntitySet="t_classroom">
+                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
+                <ScalarProperty Name="classroom_name" ColumnName="classroom_name" />
+                <ScalarProperty Name="describes" ColumnName="describes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_course">
+            <EntityTypeMapping TypeName="attendance_sysModel.t_course">
+              <MappingFragment StoreEntitySet="t_course">
+                <ScalarProperty Name="course_id" ColumnName="course_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
+                <ScalarProperty Name="course_name" ColumnName="course_name" />
+                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
+                <ScalarProperty Name="course_date" ColumnName="course_date" />
+                <ScalarProperty Name="course_start_time" ColumnName="course_start_time" />
+                <ScalarProperty Name="course_end_time" ColumnName="course_end_time" />
+                <ScalarProperty Name="course_start_week" ColumnName="course_start_week" />
+                <ScalarProperty Name="course_end_week" ColumnName="course_end_week" />
+                <ScalarProperty Name="school_year" ColumnName="school_year" />
+                <ScalarProperty Name="semester" ColumnName="semester" />
+                <ScalarProperty Name="grade" ColumnName="grade" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_dept">
+            <EntityTypeMapping TypeName="attendance_sysModel.t_dept">
+              <MappingFragment StoreEntitySet="t_dept">
+                <ScalarProperty Name="dept_name" ColumnName="dept_name" />
+                <ScalarProperty Name="college_name" ColumnName="college_name" />
+                <ScalarProperty Name="dept_describes" ColumnName="dept_describes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_faceinfo">
+            <EntityTypeMapping TypeName="attendance_sysModel.t_faceinfo">
+              <MappingFragment StoreEntitySet="t_faceinfo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="studnet_id" ColumnName="studnet_id" />
+                <ScalarProperty Name="face_id" ColumnName="face_id" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="face_feature" ColumnName="face_feature" />
+                <ScalarProperty Name="image_path" ColumnName="image_path" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_log">
+            <EntityTypeMapping TypeName="attendance_sysModel.t_log">
+              <MappingFragment StoreEntitySet="t_log">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
+                <ScalarProperty Name="OPERATION" ColumnName="OPERATION" />
+                <ScalarProperty Name="TIME" ColumnName="TIME" />
+                <ScalarProperty Name="METHOD" ColumnName="METHOD" />
+                <ScalarProperty Name="PARAMS" ColumnName="PARAMS" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="CREATE_TIME" ColumnName="CREATE_TIME" />
+                <ScalarProperty Name="location" ColumnName="location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_student">
+            <EntityTypeMapping TypeName="attendance_sysModel.t_student">
+              <MappingFragment StoreEntitySet="t_student">
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="student_name" ColumnName="student_name" />
+                <ScalarProperty Name="student_gender" ColumnName="student_gender" />
+                <ScalarProperty Name="student_email" ColumnName="student_email" />
+                <ScalarProperty Name="student_qq" ColumnName="student_qq" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_teacher">
+            <EntityTypeMapping TypeName="attendance_sysModel.t_teacher">
+              <MappingFragment StoreEntitySet="t_teacher">
+                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
+                <ScalarProperty Name="dept_name" ColumnName="dept_name" />
+                <ScalarProperty Name="teacher_name" ColumnName="teacher_name" />
+                <ScalarProperty Name="teacher_gender" ColumnName="teacher_gender" />
+                <ScalarProperty Name="teacher_email" ColumnName="teacher_email" />
+                <ScalarProperty Name="teacher_qq" ColumnName="teacher_qq" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_user">
+            <EntityTypeMapping TypeName="attendance_sysModel.t_user">
+              <MappingFragment StoreEntitySet="t_user">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="user_type" ColumnName="user_type" />
+                <ScalarProperty Name="user_create_time" ColumnName="user_create_time" />
+                <ScalarProperty Name="last_login_time" ColumnName="last_login_time" />
+                <ScalarProperty Name="user_status" ColumnName="user_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -14,13 +14,6 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
     
     public partial class t_user
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public t_user()
-        {
-            this.t_student = new HashSet<t_student>();
-            this.t_teacher = new HashSet<t_teacher>();
-        }
-    
         public long user_id { get; set; }
         public string username { get; set; }
         public string password { get; set; }
@@ -28,10 +21,5 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
         public Nullable<System.DateTime> user_create_time { get; set; }
         public Nullable<System.DateTime> last_login_time { get; set; }
         public string user_status { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<t_student> t_student { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<t_teacher> t_teacher { get; set; }
     }
 }

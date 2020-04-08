@@ -21,7 +21,5 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
         public Nullable<int> camera_port { get; set; }
         public string camera_user { get; set; }
         public string camera_pwd { get; set; }
-    
-        public virtual t_classroom t_classroom { get; set; }
     }
 }

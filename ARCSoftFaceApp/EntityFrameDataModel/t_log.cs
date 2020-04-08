@@ -12,10 +12,16 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class t_dept
+    public partial class t_log
     {
-        public string dept_name { get; set; }
-        public string college_name { get; set; }
-        public string dept_describes { get; set; }
+        public long ID { get; set; }
+        public string USERNAME { get; set; }
+        public string OPERATION { get; set; }
+        public Nullable<decimal> TIME { get; set; }
+        public string METHOD { get; set; }
+        public string PARAMS { get; set; }
+        public string IP { get; set; }
+        public Nullable<System.DateTime> CREATE_TIME { get; set; }
+        public string location { get; set; }
     }
 }
