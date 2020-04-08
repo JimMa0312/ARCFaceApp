@@ -15,6 +15,8 @@ namespace ARCSoftFaceApp.CameraManage
     {
         private Camera camera;
 
+        public List<PictureBox> PictureBoxes;
+
         public CameraManageForm()
         {
             InitializeComponent();
@@ -23,9 +25,18 @@ namespace ARCSoftFaceApp.CameraManage
             buttonLognOut.Enabled = false;
         }
 
-        public CameraManageForm(Camera camera):
+        public CameraManageForm(Camera camera, List<PictureBox> pictureBoxes):
             this()
         {
+            comboBoxViewIndex.Items.Add("无");
+
+            for (int i = 0; i < pictureBoxes.Count; i++)
+            {
+                comboBoxViewIndex.Items.Add((i + 1).ToString());
+            }
+
+            PictureBoxes = pictureBoxes;
+
             if (camera==null)
             {
                 camera = new Camera();
@@ -36,6 +47,15 @@ namespace ARCSoftFaceApp.CameraManage
                 textBoxPort.Text = camera.port.ToString();
                 textBoxUser.Text = string.Copy(camera.user);
                 textBoxPwd.Text = string.Copy(camera.pwd);
+
+                if (camera.PictrueBoxId==null)
+                {
+                    comboBoxViewIndex.SelectedIndex = 0;
+                }
+                else
+                {
+                    comboBoxViewIndex.SelectedIndex = pictureBoxes.IndexOf(camera.PictrueBoxId) + 1;
+                }
             }
             this.camera = camera;
             switch (camera.Statue)
@@ -65,6 +85,15 @@ namespace ARCSoftFaceApp.CameraManage
             this.camera.pwd = this.textBoxPwd.Text;
             this.DialogResult = DialogResult.OK;
 
+            if(comboBoxViewIndex.SelectedIndex==0)
+            {
+                this.camera.PictrueBoxId = null;
+            }
+            else
+            {
+                this.camera.PictrueBoxId = PictureBoxes[comboBoxViewIndex.SelectedIndex - 1];
+            }
+
             camera.checkSignParam();
 
             this.Close();
@@ -78,6 +107,16 @@ namespace ARCSoftFaceApp.CameraManage
         private void buttonLognOut_Click(object sender, EventArgs e)
         {
             camera.SignOutCamera();
+        }
+
+        private void buttonPlayReal_Click(object sender, EventArgs e)
+        {
+            camera.StartViewPlay();
+        }
+
+        private void buttonStopReal_Click(object sender, EventArgs e)
+        {
+            camera.StopViewPlay();
         }
     }
 }

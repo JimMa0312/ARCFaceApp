@@ -40,6 +40,11 @@
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonLognIn = new System.Windows.Forms.Button();
             this.buttonLognOut = new System.Windows.Forms.Button();
+            this.buttonPlayReal = new System.Windows.Forms.Button();
+            this.buttonStopReal = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.comboBoxViewIndex = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -138,11 +143,62 @@
             this.buttonLognOut.UseVisualStyleBackColor = true;
             this.buttonLognOut.Click += new System.EventHandler(this.buttonLognOut_Click);
             // 
+            // buttonPlayReal
+            // 
+            this.buttonPlayReal.Location = new System.Drawing.Point(306, 157);
+            this.buttonPlayReal.Name = "buttonPlayReal";
+            this.buttonPlayReal.Size = new System.Drawing.Size(102, 23);
+            this.buttonPlayReal.TabIndex = 11;
+            this.buttonPlayReal.Text = "开始预览";
+            this.buttonPlayReal.UseVisualStyleBackColor = true;
+            this.buttonPlayReal.Click += new System.EventHandler(this.buttonPlayReal_Click);
+            // 
+            // buttonStopReal
+            // 
+            this.buttonStopReal.Location = new System.Drawing.Point(306, 202);
+            this.buttonStopReal.Name = "buttonStopReal";
+            this.buttonStopReal.Size = new System.Drawing.Size(102, 23);
+            this.buttonStopReal.TabIndex = 12;
+            this.buttonStopReal.Text = "停止预览";
+            this.buttonStopReal.UseVisualStyleBackColor = true;
+            this.buttonStopReal.Click += new System.EventHandler(this.buttonStopReal_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(0, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(41, 12);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "label5";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(26, 157);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "预览窗口";
+            // 
+            // comboBoxViewIndex
+            // 
+            this.comboBoxViewIndex.FormattingEnabled = true;
+            this.comboBoxViewIndex.Location = new System.Drawing.Point(85, 154);
+            this.comboBoxViewIndex.Name = "comboBoxViewIndex";
+            this.comboBoxViewIndex.Size = new System.Drawing.Size(121, 20);
+            this.comboBoxViewIndex.TabIndex = 15;
+            // 
             // CameraManageForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(604, 278);
+            this.Controls.Add(this.comboBoxViewIndex);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.buttonStopReal);
+            this.Controls.Add(this.buttonPlayReal);
             this.Controls.Add(this.buttonLognOut);
             this.Controls.Add(this.buttonLognIn);
             this.Controls.Add(this.buttonOK);
@@ -175,5 +231,10 @@
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonLognIn;
         private System.Windows.Forms.Button buttonLognOut;
+        private System.Windows.Forms.Button buttonPlayReal;
+        private System.Windows.Forms.Button buttonStopReal;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox comboBoxViewIndex;
     }
 }

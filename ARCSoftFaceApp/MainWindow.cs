@@ -98,7 +98,7 @@ namespace ARCSoftFaceApp
         private void 登录IP摄像机ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Camera camera = new Camera();
-            CameraManage.CameraManageForm cameraManageForm = new CameraManage.CameraManageForm(camera);
+            CameraManage.CameraManageForm cameraManageForm = new CameraManage.CameraManageForm(camera, realPlayList);
             
             if(DialogResult.OK== cameraManageForm.ShowDialog())
             {
@@ -140,7 +140,7 @@ namespace ARCSoftFaceApp
             {
                 if(iSelectedIndex>=0)
                 {
-                    CameraManageForm cameraManageForm = new CameraManageForm(cameraControler.cameras[(int)iSelectedIndex].camera);
+                    CameraManageForm cameraManageForm = new CameraManageForm(cameraControler.cameras[(int)iSelectedIndex].camera, realPlayList);
 
                     cameraManageForm.Show();
                 }
