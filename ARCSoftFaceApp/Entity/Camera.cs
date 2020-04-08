@@ -240,7 +240,7 @@ namespace ARCSoftFaceApp.Entity
 
             m_lUserId = -1;
 
-            if(taskStartRealPlay.IsCompleted)
+            if((taskStartRealPlay != null) && (taskStartRealPlay.IsCompleted))
             {
                 taskStartRealPlay = null;
             }
