@@ -93,6 +93,8 @@ namespace ARCSoftFaceApp.Entity
             m_lPort = -1;
             PictrueBoxId = null;
 
+            ChannelNum = 1;
+
             imageCover = new ImageCover();
         }
 
