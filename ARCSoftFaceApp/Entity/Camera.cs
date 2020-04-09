@@ -84,9 +84,9 @@ namespace ARCSoftFaceApp.Entity
 
         public Camera()
         {
-            ip = "";
+            ip = "192.168.0.104";
             user = "admin";
-            pwd = "admin";
+            pwd = "HikZTTXNQ";
 
             m_lReadHandle = -1;
             m_lUserId = -1;
@@ -383,7 +383,7 @@ namespace ARCSoftFaceApp.Entity
                             }
 
                             //设置显示缓冲区个数
-                            if(!HKPlayCtrlSDK.PlayM4_SetDisplayBuf(m_lPort,25))
+                            if(!HKPlayCtrlSDK.PlayM4_SetDisplayBuf(m_lPort,15))
                             {
                                 LoggerService.logger.Error($"摄像头{ip},设置显示缓存区错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
                                 
