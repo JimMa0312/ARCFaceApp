@@ -407,6 +407,8 @@ namespace ARCSoftFaceApp.Entity
                                 LoggerService.logger.Error($"摄像头{ip},播放软件播放错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
                                 break;
                             }
+
+                            LoggerService.logger.Info($"摄像头{ip}，解码器运行，通道{m_lPort}");
                         }
                     }
                     break;
