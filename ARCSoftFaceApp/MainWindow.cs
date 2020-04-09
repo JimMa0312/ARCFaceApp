@@ -44,6 +44,10 @@ namespace ARCSoftFaceApp
                 MessageBox.Show("海康SDK::NET_DVR_Init 初始化错误！");
                 return;
             }
+            else
+            {
+                HKNetSDKS.NET_DVR_SetLogToFile(3, "C:\\SdkLog\\", true);
+            }
         }
 
         /// <summary>
