@@ -26,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -313,6 +314,9 @@
     <Compile Include="Util\EnumService.cs" />
     <Compile Include="Util\ImageCover.cs" />
     <Compile Include="Util\LoggerService.cs" />
+    <Content Include="AudioRender.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="EntityFrameDataModel\AttendanceDataSet.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>AttendanceDataSet.edmx</DependentUpon>
@@ -383,6 +387,9 @@
     <Content Include="ssleay32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="SuperRender.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="zlib1.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -415,6 +422,9 @@
     </EntityDeploy>
     <None Include="EntityFrameDataModel\AttendanceDataSet.edmx.diagram">
       <DependentUpon>AttendanceDataSet.edmx</DependentUpon>
+    </None>
+    <None Include="LocalXml.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
