@@ -7,7 +7,7 @@ namespace LibHKCamera.HKPlayCtrlSDK
 {
     public class HKPlayCtrlSDK
     {
-        public const string dllPath= @"..\bin\PlayCtrl.dll";
+        public const string dllPath= @"PlayCtrl.dll";
         //Frame position
         public struct SYSTEMTIME
         {
