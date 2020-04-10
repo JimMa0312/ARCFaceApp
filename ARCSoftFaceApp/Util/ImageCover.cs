@@ -39,7 +39,7 @@ namespace ARCSoftFaceApp.Util
 
             GCHandle handle = GCHandle.Alloc(yuvs, GCHandleType.Pinned);
 
-            using (Image<Bgr, Byte> yv12p=new Image<Bgr, byte>(width,(height>>1)*3, width, handle.AddrOfPinnedObject()))
+            using (Image<Gray, byte> yv12p=new Image<Gray, byte>(width,(height>>1)*3, width, handle.AddrOfPinnedObject()))
             {
                 CvInvoke.CvtColor(yv12p, image, Emgu.CV.CvEnum.ColorConversion.Yuv2BgrYv12);
 
