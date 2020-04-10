@@ -317,6 +317,9 @@
     <Content Include="AudioRender.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="EagleEyeRender.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="EntityFrameDataModel\AttendanceDataSet.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>AttendanceDataSet.edmx</DependentUpon>
@@ -326,6 +329,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>AttendanceDataSet.edmx</DependentUpon>
       <LastGenOutput>AttendanceDataSet.cs</LastGenOutput>
+    </Content>
+    <Content Include="GdiPlus.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="HCCore.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -373,6 +379,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="HCNetSDKCom\SystemTransform.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="hlog.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="hpr.dll">
