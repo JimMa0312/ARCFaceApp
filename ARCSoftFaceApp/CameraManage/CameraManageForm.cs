@@ -69,7 +69,7 @@ namespace ARCSoftFaceApp.CameraManage
                 case Camera.CameraStatue.SignIn:
                     buttonLognIn.Enabled = false;
                     buttonLognOut.Enabled = true;
-                    buttonPlayReal.Enabled = false;
+                    buttonPlayReal.Enabled = true;
                     buttonStopReal.Enabled = false;
                     break;
                 case Camera.CameraStatue.OnReadPlay:
