@@ -20,7 +20,7 @@ namespace ARCSoftFaceApp
     public partial class MainWindow : Form
     {
         public const int RealPlayWndWidth= 642;
-        public const int RealPlayWndHeigh = 481;
+        public const int RealPlayWndHeigh = 360;
         private int nowWindowxWidth;
         private int nowWindowyHeigh;
         private long iSelectedIndex;
@@ -33,6 +33,9 @@ namespace ARCSoftFaceApp
         public MainWindow()
         {
             InitializeComponent();
+
+            this.DoubleBuffered = true;
+
             cameraControler = new CameraControler();
             iSelectedIndex = 0;
 

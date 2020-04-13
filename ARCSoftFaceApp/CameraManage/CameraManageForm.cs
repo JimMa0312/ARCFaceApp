@@ -63,14 +63,26 @@ namespace ARCSoftFaceApp.CameraManage
                 case Camera.CameraStatue.SignOut:
                     buttonLognIn.Enabled = true;
                     buttonLognOut.Enabled = false;
+                    buttonPlayReal.Enabled = false;
+                    buttonStopReal.Enabled = false;
                     break;
                 case Camera.CameraStatue.SignIn:
                     buttonLognIn.Enabled = false;
                     buttonLognOut.Enabled = true;
+                    buttonPlayReal.Enabled = false;
+                    buttonStopReal.Enabled = false;
                     break;
                 case Camera.CameraStatue.OnReadPlay:
+                    buttonLognIn.Enabled = false;
+                    buttonLognOut.Enabled = false;
+                    buttonPlayReal.Enabled = false;
+                    buttonStopReal.Enabled = true;
                     break;
                 case Camera.CameraStatue.StopReadPlay:
+                    buttonLognIn.Enabled = false;
+                    buttonLognOut.Enabled = true;
+                    buttonPlayReal.Enabled = true;
+                    buttonStopReal.Enabled = false;
                     break;
                 default:
                     break;
@@ -102,21 +114,25 @@ namespace ARCSoftFaceApp.CameraManage
         private void buttonLognIn_Click(object sender, EventArgs e)
         {
             camera.SignCamera();
+            this.Close();
         }
 
         private void buttonLognOut_Click(object sender, EventArgs e)
         {
             camera.SignOutCamera();
+            this.Close();
         }
 
         private void buttonPlayReal_Click(object sender, EventArgs e)
         {
             camera.StartViewPlay();
+            this.Close();
         }
 
         private void buttonStopReal_Click(object sender, EventArgs e)
         {
             camera.StopViewPlay();
+            this.Close();
         }
     }
 }
