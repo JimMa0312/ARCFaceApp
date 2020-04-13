@@ -74,6 +74,7 @@ namespace ARCSoftFaceApp
                 tmpPictureBox.Height = RealPlayWndHeigh;
                 tmpPictureBox.BackColor = Color.Black;
                 tmpPictureBox.Image=(Properties.Resources.NoSIgnalpng);
+                tmpPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 
                 realPlayList.Add(tmpPictureBox);
                 this.flowLayoutPanelVideoReal.Controls.Add(tmpPictureBox);
