@@ -68,7 +68,8 @@ namespace ARCSoftFaceApp.Controller
 
         public void RefreshViewItem()
         {
-
+            if(listViewItem!=null)
+                listViewItem.SubItems[2].Text = camera.CoverCameraStatue();
         }
     }
 }
