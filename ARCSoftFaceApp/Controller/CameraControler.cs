@@ -40,7 +40,7 @@ namespace ARCSoftFaceApp.Controller
                     viewItem.SubItems.Add(camera.CoverCameraStatue());
                     cameraItem.listViewItem = viewItem;
                     parentView.Items.Add(viewItem);
-
+                    cameraItem.CameraListView = parentView;
                     cameraItem.camera.ParamItemChangedEvent += cameraItem.RefreshViewItem;
                 }
 
@@ -55,27 +55,27 @@ namespace ARCSoftFaceApp.Controller
         public Camera camera { get; set; }
         public ListViewItem listViewItem { get; set; }
 
+        public ListView CameraListView { get; set; }
+
         public CameraItem()
         {
             camera = null;
             listViewItem = null;
+            CameraListView = null;
         }
-        public CameraItem(Camera camera, ListViewItem listViewItem)
+        public CameraItem(Camera camera, ListViewItem listViewItem, ListView CameraListView)
         {
             this.camera = camera;
             this.listViewItem = listViewItem;
+            this.CameraListView = CameraListView;
         }
 
         public void RefreshViewItem()
         {
-
-            Action action = new Action(() =>
-              {
-                  if (listViewItem != null)
-                      listViewItem.SubItems[2].Text = camera.CoverCameraStatue();
-              });
-
-            action.Invoke();
+            CameraListView?.Invoke(new Action(()=>
+            {
+                listViewItem.SubItems[2].Text = camera.CoverCameraStatue();
+            }));
         }
     }
 }
