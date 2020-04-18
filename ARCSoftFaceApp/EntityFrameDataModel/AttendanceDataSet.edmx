@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="attendance_sysModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="attendance_sysModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="t_attend">
           <Key>
             <PropertyRef Name="attend_id" />
@@ -12,7 +12,7 @@
           <Property Name="attend_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="rule_id" Type="int" />
           <Property Name="course_id" Type="bigint" />
-          <Property Name="classroom_id" Type="int" />
+          <Property Name="classroom_id" Type="varchar" MaxLength="20" />
           <Property Name="describes" Type="varchar" MaxLength="255" />
           <Property Name="attend_status" Type="char" MaxLength="1" />
         </EntityType>
@@ -47,7 +47,7 @@
           </Key>
           <Property Name="camera_id" Type="int" Nullable="false" />
           <Property Name="camera_code" Type="varchar" MaxLength="50" />
-          <Property Name="classroom_id" Type="int" />
+          <Property Name="classroom_id" Type="varchar" MaxLength="20" />
           <Property Name="camera_ip" Type="varchar" MaxLength="16" />
           <Property Name="camera_port" Type="int" />
           <Property Name="camera_user" Type="varchar" MaxLength="200" />
@@ -59,15 +59,14 @@
           </Key>
           <Property Name="class_id" Type="int" Nullable="false" />
           <Property Name="college_name" Type="varchar" MaxLength="20" />
-          <Property Name="teacher_id" Type="varchar" MaxLength="10" />
+          <Property Name="teacher_id" Type="varchar" MaxLength="20" />
           <Property Name="class_people_num" Type="int" />
         </EntityType>
         <EntityType Name="t_classroom">
           <Key>
             <PropertyRef Name="classroom_id" />
           </Key>
-          <Property Name="classroom_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="classroom_name" Type="varchar" MaxLength="20" />
+          <Property Name="classroom_id" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="describes" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="t_course">
@@ -76,7 +75,7 @@
           </Key>
           <Property Name="course_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="class_id" Type="int" />
-          <Property Name="classroom_id" Type="int" />
+          <Property Name="classroom_id" Type="varchar" MaxLength="20" />
           <Property Name="course_name" Type="varchar" MaxLength="255" />
           <Property Name="teacher_id" Type="varchar" MaxLength="20" />
           <Property Name="course_date" Type="date" />
@@ -101,7 +100,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" Nullable="false" />
-          <Property Name="studnet_id" Type="bigint" />
+          <Property Name="studnet_id" Type="varchar" MaxLength="20" />
           <Property Name="face_id" Type="varchar" MaxLength="31" />
           <Property Name="group_id" Type="bigint" />
           <Property Name="face_feature" Type="blob" />
@@ -157,6 +156,162 @@
           <Property Name="last_login_time" Type="datetime" Precision="0" />
           <Property Name="user_status" Type="char" MaxLength="3" />
         </EntityType>
+        <Association Name="attend_attendrule_id_fk">
+          <End Role="t_attendrule" Type="Self.t_attendrule" Multiplicity="0..1" />
+          <End Role="t_attend" Type="Self.t_attend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_attendrule">
+              <PropertyRef Name="rule_id" />
+            </Principal>
+            <Dependent Role="t_attend">
+              <PropertyRef Name="rule_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_attend_t_classroom_1">
+          <End Role="t_classroom" Type="Self.t_classroom" Multiplicity="0..1" />
+          <End Role="t_attend" Type="Self.t_attend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_classroom">
+              <PropertyRef Name="classroom_id" />
+            </Principal>
+            <Dependent Role="t_attend">
+              <PropertyRef Name="classroom_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_attend_t_course_1">
+          <End Role="t_course" Type="Self.t_course" Multiplicity="0..1" />
+          <End Role="t_attend" Type="Self.t_attend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_course">
+              <PropertyRef Name="course_id" />
+            </Principal>
+            <Dependent Role="t_attend">
+              <PropertyRef Name="course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_attenditem_t_attend_1">
+          <End Role="t_attend" Type="Self.t_attend" Multiplicity="0..1" />
+          <End Role="t_attenditem" Type="Self.t_attenditem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_attend">
+              <PropertyRef Name="attend_id" />
+            </Principal>
+            <Dependent Role="t_attenditem">
+              <PropertyRef Name="attend_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_attenditem_t_student_1">
+          <End Role="t_student" Type="Self.t_student" Multiplicity="0..1" />
+          <End Role="t_attenditem" Type="Self.t_attenditem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_student">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="t_attenditem">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_camera_t_classroom_1">
+          <End Role="t_classroom" Type="Self.t_classroom" Multiplicity="0..1" />
+          <End Role="t_camera" Type="Self.t_camera" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_classroom">
+              <PropertyRef Name="classroom_id" />
+            </Principal>
+            <Dependent Role="t_camera">
+              <PropertyRef Name="classroom_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_classes_t_teacher_1">
+          <End Role="t_teacher" Type="Self.t_teacher" Multiplicity="0..1" />
+          <End Role="t_classes" Type="Self.t_classes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_teacher">
+              <PropertyRef Name="teacher_id" />
+            </Principal>
+            <Dependent Role="t_classes">
+              <PropertyRef Name="teacher_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_course_t_teacher_1">
+          <End Role="t_teacher" Type="Self.t_teacher" Multiplicity="0..1" />
+          <End Role="t_course" Type="Self.t_course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_teacher">
+              <PropertyRef Name="teacher_id" />
+            </Principal>
+            <Dependent Role="t_course">
+              <PropertyRef Name="teacher_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_faceinfo_t_student_1">
+          <End Role="t_student" Type="Self.t_student" Multiplicity="0..1" />
+          <End Role="t_faceinfo" Type="Self.t_faceinfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_student">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="t_faceinfo">
+              <PropertyRef Name="studnet_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_student_t_classes_1">
+          <End Role="t_classes" Type="Self.t_classes" Multiplicity="0..1" />
+          <End Role="t_student" Type="Self.t_student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_classes">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="t_student">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_student_t_user_1">
+          <End Role="t_user" Type="Self.t_user" Multiplicity="0..1" />
+          <End Role="t_student" Type="Self.t_student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_user">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="t_student">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_teacher_t_dept_1">
+          <End Role="t_dept" Type="Self.t_dept" Multiplicity="0..1" />
+          <End Role="t_teacher" Type="Self.t_teacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_dept">
+              <PropertyRef Name="dept_name" />
+            </Principal>
+            <Dependent Role="t_teacher">
+              <PropertyRef Name="dept_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_teacher_t_user_1">
+          <End Role="t_user" Type="Self.t_user" Multiplicity="1" />
+          <End Role="t_teacher" Type="Self.t_teacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_user">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="t_teacher">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="attendance_sysModelStoreContainer">
           <EntitySet Name="t_attend" EntityType="Self.t_attend" Schema="attendance_sys" store:Type="Tables" />
           <EntitySet Name="t_attenditem" EntityType="Self.t_attenditem" Schema="attendance_sys" store:Type="Tables" />
@@ -171,12 +326,130 @@
           <EntitySet Name="t_student" EntityType="Self.t_student" Schema="attendance_sys" store:Type="Tables" />
           <EntitySet Name="t_teacher" EntityType="Self.t_teacher" Schema="attendance_sys" store:Type="Tables" />
           <EntitySet Name="t_user" EntityType="Self.t_user" Schema="attendance_sys" store:Type="Tables" />
+          <AssociationSet Name="attend_attendrule_id_fk" Association="Self.attend_attendrule_id_fk">
+            <End Role="t_attendrule" EntitySet="t_attendrule" />
+            <End Role="t_attend" EntitySet="t_attend" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_attend_t_classroom_1" Association="Self.fk_t_attend_t_classroom_1">
+            <End Role="t_classroom" EntitySet="t_classroom" />
+            <End Role="t_attend" EntitySet="t_attend" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_attend_t_course_1" Association="Self.fk_t_attend_t_course_1">
+            <End Role="t_course" EntitySet="t_course" />
+            <End Role="t_attend" EntitySet="t_attend" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_attenditem_t_attend_1" Association="Self.fk_t_attenditem_t_attend_1">
+            <End Role="t_attend" EntitySet="t_attend" />
+            <End Role="t_attenditem" EntitySet="t_attenditem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_attenditem_t_student_1" Association="Self.fk_t_attenditem_t_student_1">
+            <End Role="t_student" EntitySet="t_student" />
+            <End Role="t_attenditem" EntitySet="t_attenditem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_camera_t_classroom_1" Association="Self.fk_t_camera_t_classroom_1">
+            <End Role="t_classroom" EntitySet="t_classroom" />
+            <End Role="t_camera" EntitySet="t_camera" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_classes_t_teacher_1" Association="Self.fk_t_classes_t_teacher_1">
+            <End Role="t_teacher" EntitySet="t_teacher" />
+            <End Role="t_classes" EntitySet="t_classes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_course_t_teacher_1" Association="Self.fk_t_course_t_teacher_1">
+            <End Role="t_teacher" EntitySet="t_teacher" />
+            <End Role="t_course" EntitySet="t_course" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_faceinfo_t_student_1" Association="Self.fk_t_faceinfo_t_student_1">
+            <End Role="t_student" EntitySet="t_student" />
+            <End Role="t_faceinfo" EntitySet="t_faceinfo" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_student_t_classes_1" Association="Self.fk_t_student_t_classes_1">
+            <End Role="t_classes" EntitySet="t_classes" />
+            <End Role="t_student" EntitySet="t_student" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_student_t_user_1" Association="Self.fk_t_student_t_user_1">
+            <End Role="t_user" EntitySet="t_user" />
+            <End Role="t_student" EntitySet="t_student" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_teacher_t_dept_1" Association="Self.fk_t_teacher_t_dept_1">
+            <End Role="t_dept" EntitySet="t_dept" />
+            <End Role="t_teacher" EntitySet="t_teacher" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_teacher_t_user_1" Association="Self.fk_t_teacher_t_user_1">
+            <End Role="t_user" EntitySet="t_user" />
+            <End Role="t_teacher" EntitySet="t_teacher" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="attendance_sysModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="attendance_sysEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="t_attend" EntityType="attendance_sysModel.t_attend" />
+          <EntitySet Name="t_attenditem" EntityType="attendance_sysModel.t_attenditem" />
+          <EntitySet Name="t_attendrule" EntityType="attendance_sysModel.t_attendrule" />
+          <EntitySet Name="t_camera" EntityType="attendance_sysModel.t_camera" />
+          <EntitySet Name="t_classes" EntityType="attendance_sysModel.t_classes" />
+          <EntitySet Name="t_classroom" EntityType="attendance_sysModel.t_classroom" />
+          <EntitySet Name="t_course" EntityType="attendance_sysModel.t_course" />
+          <EntitySet Name="t_dept" EntityType="attendance_sysModel.t_dept" />
+          <EntitySet Name="t_faceinfo" EntityType="attendance_sysModel.t_faceinfo" />
+          <EntitySet Name="t_log" EntityType="attendance_sysModel.t_log" />
+          <EntitySet Name="t_student" EntityType="attendance_sysModel.t_student" />
+          <EntitySet Name="t_teacher" EntityType="attendance_sysModel.t_teacher" />
+          <EntitySet Name="t_user" EntityType="attendance_sysModel.t_user" />
+          <AssociationSet Name="attend_attendrule_id_fk" Association="attendance_sysModel.attend_attendrule_id_fk">
+            <End Role="t_attendrule" EntitySet="t_attendrule" />
+            <End Role="t_attend" EntitySet="t_attend" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_attend_t_classroom_1" Association="attendance_sysModel.fk_t_attend_t_classroom_1">
+            <End Role="t_classroom" EntitySet="t_classroom" />
+            <End Role="t_attend" EntitySet="t_attend" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_attend_t_course_1" Association="attendance_sysModel.fk_t_attend_t_course_1">
+            <End Role="t_course" EntitySet="t_course" />
+            <End Role="t_attend" EntitySet="t_attend" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_attenditem_t_attend_1" Association="attendance_sysModel.fk_t_attenditem_t_attend_1">
+            <End Role="t_attend" EntitySet="t_attend" />
+            <End Role="t_attenditem" EntitySet="t_attenditem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_attenditem_t_student_1" Association="attendance_sysModel.fk_t_attenditem_t_student_1">
+            <End Role="t_student" EntitySet="t_student" />
+            <End Role="t_attenditem" EntitySet="t_attenditem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_camera_t_classroom_1" Association="attendance_sysModel.fk_t_camera_t_classroom_1">
+            <End Role="t_classroom" EntitySet="t_classroom" />
+            <End Role="t_camera" EntitySet="t_camera" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_classes_t_teacher_1" Association="attendance_sysModel.fk_t_classes_t_teacher_1">
+            <End Role="t_teacher" EntitySet="t_teacher" />
+            <End Role="t_classes" EntitySet="t_classes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_student_t_classes_1" Association="attendance_sysModel.fk_t_student_t_classes_1">
+            <End Role="t_classes" EntitySet="t_classes" />
+            <End Role="t_student" EntitySet="t_student" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_course_t_teacher_1" Association="attendance_sysModel.fk_t_course_t_teacher_1">
+            <End Role="t_teacher" EntitySet="t_teacher" />
+            <End Role="t_course" EntitySet="t_course" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_teacher_t_dept_1" Association="attendance_sysModel.fk_t_teacher_t_dept_1">
+            <End Role="t_dept" EntitySet="t_dept" />
+            <End Role="t_teacher" EntitySet="t_teacher" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_faceinfo_t_student_1" Association="attendance_sysModel.fk_t_faceinfo_t_student_1">
+            <End Role="t_student" EntitySet="t_student" />
+            <End Role="t_faceinfo" EntitySet="t_faceinfo" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_student_t_user_1" Association="attendance_sysModel.fk_t_student_t_user_1">
+            <End Role="t_user" EntitySet="t_user" />
+            <End Role="t_student" EntitySet="t_student" />
+          </AssociationSet>
+          <AssociationSet Name="fk_t_teacher_t_user_1" Association="attendance_sysModel.fk_t_teacher_t_user_1">
+            <End Role="t_user" EntitySet="t_user" />
+            <End Role="t_teacher" EntitySet="t_teacher" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="t_attend">
           <Key>
             <PropertyRef Name="attend_id" />
@@ -184,9 +457,13 @@
           <Property Name="attend_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="rule_id" Type="Int32" />
           <Property Name="course_id" Type="Int64" />
-          <Property Name="classroom_id" Type="Int32" />
+          <Property Name="classroom_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="describes" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="attend_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_attendrule" Relationship="attendance_sysModel.attend_attendrule_id_fk" FromRole="t_attend" ToRole="t_attendrule" />
+          <NavigationProperty Name="t_classroom" Relationship="attendance_sysModel.fk_t_attend_t_classroom_1" FromRole="t_attend" ToRole="t_classroom" />
+          <NavigationProperty Name="t_course" Relationship="attendance_sysModel.fk_t_attend_t_course_1" FromRole="t_attend" ToRole="t_course" />
+          <NavigationProperty Name="t_attenditem" Relationship="attendance_sysModel.fk_t_attenditem_t_attend_1" FromRole="t_attend" ToRole="t_attenditem" />
         </EntityType>
         <EntityType Name="t_attenditem">
           <Key>
@@ -197,6 +474,8 @@
           <Property Name="student_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="attend_time" Type="DateTime" />
           <Property Name="attend_result" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_attend" Relationship="attendance_sysModel.fk_t_attenditem_t_attend_1" FromRole="t_attenditem" ToRole="t_attend" />
+          <NavigationProperty Name="t_student" Relationship="attendance_sysModel.fk_t_attenditem_t_student_1" FromRole="t_attenditem" ToRole="t_student" />
         </EntityType>
         <EntityType Name="t_attendrule">
           <Key>
@@ -212,6 +491,7 @@
           <Property Name="normal_leave_early_min" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="normal_InOut_Num" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="normal_StayOut_Time" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_attend" Relationship="attendance_sysModel.attend_attendrule_id_fk" FromRole="t_attendrule" ToRole="t_attend" />
         </EntityType>
         <EntityType Name="t_camera">
           <Key>
@@ -219,11 +499,12 @@
           </Key>
           <Property Name="camera_id" Type="Int32" Nullable="false" />
           <Property Name="camera_code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="classroom_id" Type="Int32" />
+          <Property Name="classroom_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="camera_ip" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
           <Property Name="camera_port" Type="Int32" />
           <Property Name="camera_user" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="camera_pwd" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_classroom" Relationship="attendance_sysModel.fk_t_camera_t_classroom_1" FromRole="t_camera" ToRole="t_classroom" />
         </EntityType>
         <EntityType Name="t_classes">
           <Key>
@@ -231,16 +512,19 @@
           </Key>
           <Property Name="class_id" Type="Int32" Nullable="false" />
           <Property Name="college_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="teacher_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="teacher_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="class_people_num" Type="Int32" />
+          <NavigationProperty Name="t_teacher" Relationship="attendance_sysModel.fk_t_classes_t_teacher_1" FromRole="t_classes" ToRole="t_teacher" />
+          <NavigationProperty Name="t_student" Relationship="attendance_sysModel.fk_t_student_t_classes_1" FromRole="t_classes" ToRole="t_student" />
         </EntityType>
         <EntityType Name="t_classroom">
           <Key>
             <PropertyRef Name="classroom_id" />
           </Key>
-          <Property Name="classroom_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="classroom_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="classroom_id" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="describes" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_attend" Relationship="attendance_sysModel.fk_t_attend_t_classroom_1" FromRole="t_classroom" ToRole="t_attend" />
+          <NavigationProperty Name="t_camera" Relationship="attendance_sysModel.fk_t_camera_t_classroom_1" FromRole="t_classroom" ToRole="t_camera" />
         </EntityType>
         <EntityType Name="t_course">
           <Key>
@@ -248,7 +532,7 @@
           </Key>
           <Property Name="course_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="class_id" Type="Int32" />
-          <Property Name="classroom_id" Type="Int32" />
+          <Property Name="classroom_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="course_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="teacher_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="course_date" Type="DateTime" />
@@ -259,25 +543,29 @@
           <Property Name="school_year" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="semester" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="grade" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_attend" Relationship="attendance_sysModel.fk_t_attend_t_course_1" FromRole="t_course" ToRole="t_attend" />
+          <NavigationProperty Name="t_teacher" Relationship="attendance_sysModel.fk_t_course_t_teacher_1" FromRole="t_course" ToRole="t_teacher" />
         </EntityType>
         <EntityType Name="t_dept">
           <Key>
             <PropertyRef Name="dept_name" />
           </Key>
-          <Property Name="dept_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dept_name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="college_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="dept_describes" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_teacher" Relationship="attendance_sysModel.fk_t_teacher_t_dept_1" FromRole="t_dept" ToRole="t_teacher" />
         </EntityType>
         <EntityType Name="t_faceinfo">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" />
-          <Property Name="studnet_id" Type="Int64" />
+          <Property Name="studnet_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="face_id" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
           <Property Name="group_id" Type="Int64" />
           <Property Name="face_feature" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="image_path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_student" Relationship="attendance_sysModel.fk_t_faceinfo_t_student_1" FromRole="t_faceinfo" ToRole="t_student" />
         </EntityType>
         <EntityType Name="t_log">
           <Key>
@@ -297,25 +585,33 @@
           <Key>
             <PropertyRef Name="student_id" />
           </Key>
-          <Property Name="student_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="student_id" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="class_id" Type="Int32" />
           <Property Name="student_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="student_gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="student_email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="student_qq" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="user_id" Type="Int64" />
+          <NavigationProperty Name="t_attenditem" Relationship="attendance_sysModel.fk_t_attenditem_t_student_1" FromRole="t_student" ToRole="t_attenditem" />
+          <NavigationProperty Name="t_classes" Relationship="attendance_sysModel.fk_t_student_t_classes_1" FromRole="t_student" ToRole="t_classes" />
+          <NavigationProperty Name="t_faceinfo" Relationship="attendance_sysModel.fk_t_faceinfo_t_student_1" FromRole="t_student" ToRole="t_faceinfo" />
+          <NavigationProperty Name="t_user" Relationship="attendance_sysModel.fk_t_student_t_user_1" FromRole="t_student" ToRole="t_user" />
         </EntityType>
         <EntityType Name="t_teacher">
           <Key>
             <PropertyRef Name="teacher_id" />
           </Key>
-          <Property Name="teacher_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="teacher_id" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="dept_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="teacher_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="teacher_gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="teacher_email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="teacher_qq" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="teacher_qq" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="user_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="t_classes" Relationship="attendance_sysModel.fk_t_classes_t_teacher_1" FromRole="t_teacher" ToRole="t_classes" />
+          <NavigationProperty Name="t_course" Relationship="attendance_sysModel.fk_t_course_t_teacher_1" FromRole="t_teacher" ToRole="t_course" />
+          <NavigationProperty Name="t_dept" Relationship="attendance_sysModel.fk_t_teacher_t_dept_1" FromRole="t_teacher" ToRole="t_dept" />
+          <NavigationProperty Name="t_user" Relationship="attendance_sysModel.fk_t_teacher_t_user_1" FromRole="t_teacher" ToRole="t_user" />
         </EntityType>
         <EntityType Name="t_user">
           <Key>
@@ -328,23 +624,166 @@
           <Property Name="user_create_time" Type="DateTime" />
           <Property Name="last_login_time" Type="DateTime" />
           <Property Name="user_status" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_student" Relationship="attendance_sysModel.fk_t_student_t_user_1" FromRole="t_user" ToRole="t_student" />
+          <NavigationProperty Name="t_teacher" Relationship="attendance_sysModel.fk_t_teacher_t_user_1" FromRole="t_user" ToRole="t_teacher" />
         </EntityType>
-        <EntityContainer Name="attendance_sysEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="t_attend" EntityType="Self.t_attend" />
-          <EntitySet Name="t_attenditem" EntityType="Self.t_attenditem" />
-          <EntitySet Name="t_attendrule" EntityType="Self.t_attendrule" />
-          <EntitySet Name="t_camera" EntityType="Self.t_camera" />
-          <EntitySet Name="t_classes" EntityType="Self.t_classes" />
-          <EntitySet Name="t_classroom" EntityType="Self.t_classroom" />
-          <EntitySet Name="t_course" EntityType="Self.t_course" />
-          <EntitySet Name="t_dept" EntityType="Self.t_dept" />
-          <EntitySet Name="t_faceinfo" EntityType="Self.t_faceinfo" />
-          <EntitySet Name="t_log" EntityType="Self.t_log" />
-          <EntitySet Name="t_student" EntityType="Self.t_student" />
-          <EntitySet Name="t_teacher" EntityType="Self.t_teacher" />
-          <EntitySet Name="t_user" EntityType="Self.t_user" />
-        </EntityContainer>
-      </Schema>
+        <Association Name="attend_attendrule_id_fk">
+          <End Type="attendance_sysModel.t_attendrule" Role="t_attendrule" Multiplicity="0..1" />
+          <End Type="attendance_sysModel.t_attend" Role="t_attend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_attendrule">
+              <PropertyRef Name="rule_id" />
+            </Principal>
+            <Dependent Role="t_attend">
+              <PropertyRef Name="rule_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_attend_t_classroom_1">
+          <End Type="attendance_sysModel.t_classroom" Role="t_classroom" Multiplicity="0..1" />
+          <End Type="attendance_sysModel.t_attend" Role="t_attend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_classroom">
+              <PropertyRef Name="classroom_id" />
+            </Principal>
+            <Dependent Role="t_attend">
+              <PropertyRef Name="classroom_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_attend_t_course_1">
+          <End Type="attendance_sysModel.t_course" Role="t_course" Multiplicity="0..1" />
+          <End Type="attendance_sysModel.t_attend" Role="t_attend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_course">
+              <PropertyRef Name="course_id" />
+            </Principal>
+            <Dependent Role="t_attend">
+              <PropertyRef Name="course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_attenditem_t_attend_1">
+          <End Type="attendance_sysModel.t_attend" Role="t_attend" Multiplicity="0..1" />
+          <End Type="attendance_sysModel.t_attenditem" Role="t_attenditem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_attend">
+              <PropertyRef Name="attend_id" />
+            </Principal>
+            <Dependent Role="t_attenditem">
+              <PropertyRef Name="attend_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_attenditem_t_student_1">
+          <End Type="attendance_sysModel.t_student" Role="t_student" Multiplicity="0..1" />
+          <End Type="attendance_sysModel.t_attenditem" Role="t_attenditem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_student">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="t_attenditem">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_camera_t_classroom_1">
+          <End Type="attendance_sysModel.t_classroom" Role="t_classroom" Multiplicity="0..1" />
+          <End Type="attendance_sysModel.t_camera" Role="t_camera" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_classroom">
+              <PropertyRef Name="classroom_id" />
+            </Principal>
+            <Dependent Role="t_camera">
+              <PropertyRef Name="classroom_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_classes_t_teacher_1">
+          <End Type="attendance_sysModel.t_teacher" Role="t_teacher" Multiplicity="0..1" />
+          <End Type="attendance_sysModel.t_classes" Role="t_classes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_teacher">
+              <PropertyRef Name="teacher_id" />
+            </Principal>
+            <Dependent Role="t_classes">
+              <PropertyRef Name="teacher_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_student_t_classes_1">
+          <End Type="attendance_sysModel.t_classes" Role="t_classes" Multiplicity="0..1" />
+          <End Type="attendance_sysModel.t_student" Role="t_student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_classes">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="t_student">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_course_t_teacher_1">
+          <End Type="attendance_sysModel.t_teacher" Role="t_teacher" Multiplicity="0..1" />
+          <End Type="attendance_sysModel.t_course" Role="t_course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_teacher">
+              <PropertyRef Name="teacher_id" />
+            </Principal>
+            <Dependent Role="t_course">
+              <PropertyRef Name="teacher_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_teacher_t_dept_1">
+          <End Type="attendance_sysModel.t_dept" Role="t_dept" Multiplicity="0..1" />
+          <End Type="attendance_sysModel.t_teacher" Role="t_teacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_dept">
+              <PropertyRef Name="dept_name" />
+            </Principal>
+            <Dependent Role="t_teacher">
+              <PropertyRef Name="dept_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_faceinfo_t_student_1">
+          <End Type="attendance_sysModel.t_student" Role="t_student" Multiplicity="0..1" />
+          <End Type="attendance_sysModel.t_faceinfo" Role="t_faceinfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_student">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="t_faceinfo">
+              <PropertyRef Name="studnet_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_student_t_user_1">
+          <End Type="attendance_sysModel.t_user" Role="t_user" Multiplicity="0..1" />
+          <End Type="attendance_sysModel.t_student" Role="t_student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_user">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="t_student">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_t_teacher_t_user_1">
+          <End Type="attendance_sysModel.t_user" Role="t_user" Multiplicity="1" />
+          <End Type="attendance_sysModel.t_teacher" Role="t_teacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_user">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="t_teacher">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -353,165 +792,164 @@
           <EntitySetMapping Name="t_attend">
             <EntityTypeMapping TypeName="attendance_sysModel.t_attend">
               <MappingFragment StoreEntitySet="t_attend">
-                <ScalarProperty Name="attend_id" ColumnName="attend_id" />
-                <ScalarProperty Name="rule_id" ColumnName="rule_id" />
-                <ScalarProperty Name="course_id" ColumnName="course_id" />
-                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
-                <ScalarProperty Name="describes" ColumnName="describes" />
                 <ScalarProperty Name="attend_status" ColumnName="attend_status" />
+                <ScalarProperty Name="describes" ColumnName="describes" />
+                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
+                <ScalarProperty Name="course_id" ColumnName="course_id" />
+                <ScalarProperty Name="rule_id" ColumnName="rule_id" />
+                <ScalarProperty Name="attend_id" ColumnName="attend_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="t_attenditem">
             <EntityTypeMapping TypeName="attendance_sysModel.t_attenditem">
               <MappingFragment StoreEntitySet="t_attenditem">
-                <ScalarProperty Name="attendItem_id" ColumnName="attendItem_id" />
-                <ScalarProperty Name="attend_id" ColumnName="attend_id" />
-                <ScalarProperty Name="student_id" ColumnName="student_id" />
-                <ScalarProperty Name="attend_time" ColumnName="attend_time" />
                 <ScalarProperty Name="attend_result" ColumnName="attend_result" />
+                <ScalarProperty Name="attend_time" ColumnName="attend_time" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="attend_id" ColumnName="attend_id" />
+                <ScalarProperty Name="attendItem_id" ColumnName="attendItem_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="t_attendrule">
             <EntityTypeMapping TypeName="attendance_sysModel.t_attendrule">
               <MappingFragment StoreEntitySet="t_attendrule">
-                <ScalarProperty Name="rule_id" ColumnName="rule_id" />
-                <ScalarProperty Name="rule_name" ColumnName="rule_name" />
-                <ScalarProperty Name="course_start_time" ColumnName="course_start_time" />
-                <ScalarProperty Name="course_end_time" ColumnName="course_end_time" />
-                <ScalarProperty Name="check_start_time" ColumnName="check_start_time" />
-                <ScalarProperty Name="check_end_time" ColumnName="check_end_time" />
-                <ScalarProperty Name="normal_late_min" ColumnName="normal_late_min" />
-                <ScalarProperty Name="normal_leave_early_min" ColumnName="normal_leave_early_min" />
-                <ScalarProperty Name="normal_InOut_Num" ColumnName="normal_InOut_Num" />
                 <ScalarProperty Name="normal_StayOut_Time" ColumnName="normal_StayOut_Time" />
+                <ScalarProperty Name="normal_InOut_Num" ColumnName="normal_InOut_Num" />
+                <ScalarProperty Name="normal_leave_early_min" ColumnName="normal_leave_early_min" />
+                <ScalarProperty Name="normal_late_min" ColumnName="normal_late_min" />
+                <ScalarProperty Name="check_end_time" ColumnName="check_end_time" />
+                <ScalarProperty Name="check_start_time" ColumnName="check_start_time" />
+                <ScalarProperty Name="course_end_time" ColumnName="course_end_time" />
+                <ScalarProperty Name="course_start_time" ColumnName="course_start_time" />
+                <ScalarProperty Name="rule_name" ColumnName="rule_name" />
+                <ScalarProperty Name="rule_id" ColumnName="rule_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="t_camera">
             <EntityTypeMapping TypeName="attendance_sysModel.t_camera">
               <MappingFragment StoreEntitySet="t_camera">
-                <ScalarProperty Name="camera_id" ColumnName="camera_id" />
-                <ScalarProperty Name="camera_code" ColumnName="camera_code" />
-                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
-                <ScalarProperty Name="camera_ip" ColumnName="camera_ip" />
-                <ScalarProperty Name="camera_port" ColumnName="camera_port" />
-                <ScalarProperty Name="camera_user" ColumnName="camera_user" />
                 <ScalarProperty Name="camera_pwd" ColumnName="camera_pwd" />
+                <ScalarProperty Name="camera_user" ColumnName="camera_user" />
+                <ScalarProperty Name="camera_port" ColumnName="camera_port" />
+                <ScalarProperty Name="camera_ip" ColumnName="camera_ip" />
+                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
+                <ScalarProperty Name="camera_code" ColumnName="camera_code" />
+                <ScalarProperty Name="camera_id" ColumnName="camera_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="t_classes">
             <EntityTypeMapping TypeName="attendance_sysModel.t_classes">
               <MappingFragment StoreEntitySet="t_classes">
-                <ScalarProperty Name="class_id" ColumnName="class_id" />
-                <ScalarProperty Name="college_name" ColumnName="college_name" />
-                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
                 <ScalarProperty Name="class_people_num" ColumnName="class_people_num" />
+                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
+                <ScalarProperty Name="college_name" ColumnName="college_name" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="t_classroom">
             <EntityTypeMapping TypeName="attendance_sysModel.t_classroom">
               <MappingFragment StoreEntitySet="t_classroom">
-                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
-                <ScalarProperty Name="classroom_name" ColumnName="classroom_name" />
                 <ScalarProperty Name="describes" ColumnName="describes" />
+                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="t_course">
             <EntityTypeMapping TypeName="attendance_sysModel.t_course">
               <MappingFragment StoreEntitySet="t_course">
-                <ScalarProperty Name="course_id" ColumnName="course_id" />
-                <ScalarProperty Name="class_id" ColumnName="class_id" />
-                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
-                <ScalarProperty Name="course_name" ColumnName="course_name" />
-                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
-                <ScalarProperty Name="course_date" ColumnName="course_date" />
-                <ScalarProperty Name="course_start_time" ColumnName="course_start_time" />
-                <ScalarProperty Name="course_end_time" ColumnName="course_end_time" />
-                <ScalarProperty Name="course_start_week" ColumnName="course_start_week" />
-                <ScalarProperty Name="course_end_week" ColumnName="course_end_week" />
-                <ScalarProperty Name="school_year" ColumnName="school_year" />
-                <ScalarProperty Name="semester" ColumnName="semester" />
                 <ScalarProperty Name="grade" ColumnName="grade" />
+                <ScalarProperty Name="semester" ColumnName="semester" />
+                <ScalarProperty Name="school_year" ColumnName="school_year" />
+                <ScalarProperty Name="course_end_week" ColumnName="course_end_week" />
+                <ScalarProperty Name="course_start_week" ColumnName="course_start_week" />
+                <ScalarProperty Name="course_end_time" ColumnName="course_end_time" />
+                <ScalarProperty Name="course_start_time" ColumnName="course_start_time" />
+                <ScalarProperty Name="course_date" ColumnName="course_date" />
+                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
+                <ScalarProperty Name="course_name" ColumnName="course_name" />
+                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="course_id" ColumnName="course_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="t_dept">
             <EntityTypeMapping TypeName="attendance_sysModel.t_dept">
               <MappingFragment StoreEntitySet="t_dept">
-                <ScalarProperty Name="dept_name" ColumnName="dept_name" />
-                <ScalarProperty Name="college_name" ColumnName="college_name" />
                 <ScalarProperty Name="dept_describes" ColumnName="dept_describes" />
+                <ScalarProperty Name="college_name" ColumnName="college_name" />
+                <ScalarProperty Name="dept_name" ColumnName="dept_name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="t_faceinfo">
             <EntityTypeMapping TypeName="attendance_sysModel.t_faceinfo">
               <MappingFragment StoreEntitySet="t_faceinfo">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="studnet_id" ColumnName="studnet_id" />
-                <ScalarProperty Name="face_id" ColumnName="face_id" />
-                <ScalarProperty Name="group_id" ColumnName="group_id" />
-                <ScalarProperty Name="face_feature" ColumnName="face_feature" />
                 <ScalarProperty Name="image_path" ColumnName="image_path" />
+                <ScalarProperty Name="face_feature" ColumnName="face_feature" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="face_id" ColumnName="face_id" />
+                <ScalarProperty Name="studnet_id" ColumnName="studnet_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="t_log">
             <EntityTypeMapping TypeName="attendance_sysModel.t_log">
               <MappingFragment StoreEntitySet="t_log">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
-                <ScalarProperty Name="OPERATION" ColumnName="OPERATION" />
-                <ScalarProperty Name="TIME" ColumnName="TIME" />
-                <ScalarProperty Name="METHOD" ColumnName="METHOD" />
-                <ScalarProperty Name="PARAMS" ColumnName="PARAMS" />
-                <ScalarProperty Name="IP" ColumnName="IP" />
-                <ScalarProperty Name="CREATE_TIME" ColumnName="CREATE_TIME" />
                 <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="CREATE_TIME" ColumnName="CREATE_TIME" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="PARAMS" ColumnName="PARAMS" />
+                <ScalarProperty Name="METHOD" ColumnName="METHOD" />
+                <ScalarProperty Name="TIME" ColumnName="TIME" />
+                <ScalarProperty Name="OPERATION" ColumnName="OPERATION" />
+                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="t_student">
             <EntityTypeMapping TypeName="attendance_sysModel.t_student">
               <MappingFragment StoreEntitySet="t_student">
-                <ScalarProperty Name="student_id" ColumnName="student_id" />
-                <ScalarProperty Name="class_id" ColumnName="class_id" />
-                <ScalarProperty Name="student_name" ColumnName="student_name" />
-                <ScalarProperty Name="student_gender" ColumnName="student_gender" />
-                <ScalarProperty Name="student_email" ColumnName="student_email" />
-                <ScalarProperty Name="student_qq" ColumnName="student_qq" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="student_qq" ColumnName="student_qq" />
+                <ScalarProperty Name="student_email" ColumnName="student_email" />
+                <ScalarProperty Name="student_gender" ColumnName="student_gender" />
+                <ScalarProperty Name="student_name" ColumnName="student_name" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="t_teacher">
             <EntityTypeMapping TypeName="attendance_sysModel.t_teacher">
               <MappingFragment StoreEntitySet="t_teacher">
-                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
-                <ScalarProperty Name="dept_name" ColumnName="dept_name" />
-                <ScalarProperty Name="teacher_name" ColumnName="teacher_name" />
-                <ScalarProperty Name="teacher_gender" ColumnName="teacher_gender" />
-                <ScalarProperty Name="teacher_email" ColumnName="teacher_email" />
-                <ScalarProperty Name="teacher_qq" ColumnName="teacher_qq" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="teacher_qq" ColumnName="teacher_qq" />
+                <ScalarProperty Name="teacher_email" ColumnName="teacher_email" />
+                <ScalarProperty Name="teacher_gender" ColumnName="teacher_gender" />
+                <ScalarProperty Name="teacher_name" ColumnName="teacher_name" />
+                <ScalarProperty Name="dept_name" ColumnName="dept_name" />
+                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="t_user">
             <EntityTypeMapping TypeName="attendance_sysModel.t_user">
               <MappingFragment StoreEntitySet="t_user">
-                <ScalarProperty Name="user_id" ColumnName="user_id" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="user_type" ColumnName="user_type" />
-                <ScalarProperty Name="user_create_time" ColumnName="user_create_time" />
-                <ScalarProperty Name="last_login_time" ColumnName="last_login_time" />
                 <ScalarProperty Name="user_status" ColumnName="user_status" />
+                <ScalarProperty Name="last_login_time" ColumnName="last_login_time" />
+                <ScalarProperty Name="user_create_time" ColumnName="user_create_time" />
+                <ScalarProperty Name="user_type" ColumnName="user_type" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

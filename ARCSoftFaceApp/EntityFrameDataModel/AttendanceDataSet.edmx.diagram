@@ -5,19 +5,32 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="430f736be9234f459d1b20453402a622" Name="Diagram1">
-        <EntityTypeShape EntityType="attendance_sysModel.t_attend" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_attenditem" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_attendrule" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_camera" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_classes" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_classroom" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_course" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_dept" Width="1.5" PointX="4.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_faceinfo" Width="1.5" PointX="6.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_log" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_student" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_teacher" Width="1.5" PointX="8.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_user" Width="1.5" PointX="6.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_attend" Width="1.5" PointX="10.5" PointY="8.625" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_attenditem" Width="1.5" PointX="5.25" PointY="3.5" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_attendrule" Width="1.5" PointX="8.25" PointY="1.25" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_camera" Width="1.5" PointX="10.5" PointY="12.75" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_classes" Width="1.5" PointX="8.25" PointY="5.25" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_classroom" Width="1.5" PointX="8.25" PointY="13.125" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_course" Width="1.5" PointX="8.25" PointY="8.125" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_dept" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_faceinfo" Width="1.5" PointX="5.25" PointY="11.5" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_log" Width="1.5" PointX="0.75" PointY="1.5" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_student" Width="1.5" PointX="3" PointY="7.125" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_teacher" Width="1.5" PointX="6" PointY="7.125" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_user" Width="1.5" PointX="0.75" PointY="7.25" />
+        <AssociationConnector Association="attendance_sysModel.attend_attendrule_id_fk" />
+        <AssociationConnector Association="attendance_sysModel.fk_t_attend_t_classroom_1" />
+        <AssociationConnector Association="attendance_sysModel.fk_t_attend_t_course_1" />
+        <AssociationConnector Association="attendance_sysModel.fk_t_attenditem_t_attend_1" />
+        <AssociationConnector Association="attendance_sysModel.fk_t_attenditem_t_student_1" />
+        <AssociationConnector Association="attendance_sysModel.fk_t_camera_t_classroom_1" />
+        <AssociationConnector Association="attendance_sysModel.fk_t_classes_t_teacher_1" />
+        <AssociationConnector Association="attendance_sysModel.fk_t_student_t_classes_1" />
+        <AssociationConnector Association="attendance_sysModel.fk_t_course_t_teacher_1" />
+        <AssociationConnector Association="attendance_sysModel.fk_t_teacher_t_dept_1" />
+        <AssociationConnector Association="attendance_sysModel.fk_t_faceinfo_t_student_1" />
+        <AssociationConnector Association="attendance_sysModel.fk_t_student_t_user_1" />
+        <AssociationConnector Association="attendance_sysModel.fk_t_teacher_t_user_1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -14,11 +14,23 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
     
     public partial class t_attend
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public t_attend()
+        {
+            this.t_attenditem = new HashSet<t_attenditem>();
+        }
+    
         public long attend_id { get; set; }
         public Nullable<int> rule_id { get; set; }
         public Nullable<long> course_id { get; set; }
-        public Nullable<int> classroom_id { get; set; }
+        public string classroom_id { get; set; }
         public string describes { get; set; }
         public string attend_status { get; set; }
+    
+        public virtual t_attendrule t_attendrule { get; set; }
+        public virtual t_classroom t_classroom { get; set; }
+        public virtual t_course t_course { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<t_attenditem> t_attenditem { get; set; }
     }
 }

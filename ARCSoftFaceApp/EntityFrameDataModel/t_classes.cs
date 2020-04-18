@@ -14,9 +14,19 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
     
     public partial class t_classes
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public t_classes()
+        {
+            this.t_student = new HashSet<t_student>();
+        }
+    
         public int class_id { get; set; }
         public string college_name { get; set; }
         public string teacher_id { get; set; }
         public Nullable<int> class_people_num { get; set; }
+    
+        public virtual t_teacher t_teacher { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<t_student> t_student { get; set; }
     }
 }

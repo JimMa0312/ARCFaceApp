@@ -14,8 +14,17 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
     
     public partial class t_dept
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public t_dept()
+        {
+            this.t_teacher = new HashSet<t_teacher>();
+        }
+    
         public string dept_name { get; set; }
         public string college_name { get; set; }
         public string dept_describes { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<t_teacher> t_teacher { get; set; }
     }
 }

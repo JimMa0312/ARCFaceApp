@@ -14,6 +14,12 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
     
     public partial class t_attendrule
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public t_attendrule()
+        {
+            this.t_attend = new HashSet<t_attend>();
+        }
+    
         public int rule_id { get; set; }
         public string rule_name { get; set; }
         public string course_start_time { get; set; }
@@ -24,5 +30,8 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
         public string normal_leave_early_min { get; set; }
         public string normal_InOut_Num { get; set; }
         public string normal_StayOut_Time { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<t_attend> t_attend { get; set; }
     }
 }
