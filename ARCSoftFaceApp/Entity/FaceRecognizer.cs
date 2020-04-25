@@ -57,14 +57,14 @@ namespace ARCSoftFaceApp.Entity
             LoggerService.logger.Info($"初始化视频用人脸识别引擎结果：{retCode}");
         }
 
-        public List<IntPtr> ScanFaceFeature(List<ASF_SingleFaceInfo> singleFaceInfos)
+        public List<IntPtr> ScanFaceFeature(List<FaceInfo> singleFaceInfos)
         {
             throw new NotImplementedException();
         }
 
-        public List<ASF_SingleFaceInfo> ScanFaces(Bitmap bitmap)
+        public List<FaceInfo> ScanFaces(Bitmap bitmap)
         {
-            List < ASF_SingleFaceInfo > sigleFaces = null;
+            List <FaceInfo> singleFaces = new List<FaceInfo>();
 
             if(bitmap==null)
             {
@@ -74,7 +74,37 @@ namespace ARCSoftFaceApp.Entity
             //从视频帧中获取 多个人脸的矩形框位置
             ASF_MultiFaceInfo multiFaceInfo = FaceUtil.DetectFace(pVideoEngine, bitmap);
 
-            return sigleFaces;
+            int[] faceIds=null;
+            if (multiFaceInfo.faceNum>0)
+            {
+                faceIds = MemoryUtil.PtrToStructure<int[]>(multiFaceInfo.faceID);
+            }
+
+            //将MultiFaceInfo结构体中的数据提取成单人脸数据并放入结构体中
+            for (int i = 0; i < multiFaceInfo.faceNum; i++)
+            {
+                FaceInfo faceInfo = new FaceInfo();
+
+                faceInfo.faceId = faceIds[i];
+
+                faceInfo.singleFaceInfo.faceRect = MemoryUtil.PtrToStructure<MRECT>(multiFaceInfo.faceRects + MemoryUtil.SizeOf<MRECT>() * i);
+                faceInfo.singleFaceInfo.faceOrient = MemoryUtil.PtrToStructure<int>(multiFaceInfo.faceOrients + MemoryUtil.SizeOf<int>() * i);
+
+                singleFaces.Add(faceInfo);
+            }
+            return singleFaces;
+        }
+    }
+
+    public class FaceInfo
+    {
+        public int faceId;
+        public ASF_SingleFaceInfo singleFaceInfo;
+
+        public FaceInfo()
+        {
+            faceId = 0;
+            singleFaceInfo = new ASF_SingleFaceInfo();
         }
     }
 
@@ -92,8 +122,8 @@ namespace ARCSoftFaceApp.Entity
         /// <summary>
         /// 扫描人脸
         /// </summary>
-        List<ASF_SingleFaceInfo> ScanFaces(Bitmap bitmap);
+        List<FaceInfo> ScanFaces(Bitmap bitmap);
 
-        List<IntPtr> ScanFaceFeature(List<ASF_SingleFaceInfo> singleFaceInfos);
+        List<IntPtr> ScanFaceFeature(List<FaceInfo> singleFaceInfos);
     }
 }
