@@ -210,10 +210,17 @@ namespace ARCSoftFaceApp
                             {
                                 LoggerService.logger.Error("提取人脸特征失败！");
                             }
-                        }    
+                            faceInfos[0].Dispose();
+                            faceInfos[0] = null;
+                            faceInfos.Clear();
+                            faceInfos = null;
+                        }
+
+                        image.Dispose();
+                        bitmap.Dispose();
                     }
-                    
                 }
+                openFileDialog.Dispose();
             }
         }
 

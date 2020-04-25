@@ -187,7 +187,7 @@ namespace ARCSoftFaceApp.Entity
         }
     }
 
-    public class FaceInfo
+    public class FaceInfo:IDisposable
     {
         public int faceId;
         public ASF_SingleFaceInfo singleFaceInfo;
@@ -203,6 +203,18 @@ namespace ARCSoftFaceApp.Entity
             singleFaceInfo = new ASF_SingleFaceInfo();
             faceFeature = IntPtr.Zero;
             isFacePass = false;
+        }
+
+        /// <summary>
+        /// 用来手动（显示）释放资源
+        /// </summary>
+        public void Dispose()
+        {
+            
+            if (faceFeature!=IntPtr.Zero)
+            {
+                MemoryUtil.Free(faceFeature);
+            }
         }
     }
 

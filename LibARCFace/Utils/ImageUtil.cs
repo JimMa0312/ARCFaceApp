@@ -291,6 +291,10 @@ namespace ArcSoftFace.Utils
             }
             finally
             {
+                if(image != null)
+                {
+                    image.Dispose();
+                }
                 if (g != null)
                 {
                     g.Dispose();
