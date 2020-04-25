@@ -82,6 +82,8 @@ namespace ARCSoftFaceApp.Entity
         private Task taskDetalDisplay;
         private CancellationTokenSource cancelTokenDetalDisplay;
 
+        private FaceVideoRecognizer faceVideoRecognizer;
+
         public Camera()
         {
             ip = "192.168.0.104";
@@ -96,6 +98,7 @@ namespace ARCSoftFaceApp.Entity
             ChannelNum = 1;
 
             imageCover = new ImageCover();
+            faceVideoRecognizer = new FaceVideoRecognizer();
         }
 
         public Camera(string ip, ushort port, string user, string pwd)
@@ -140,6 +143,8 @@ namespace ARCSoftFaceApp.Entity
             SignOutCamera();
         }
 
+        private bool isRGBLock = false;
+
         public void DetalDisplay()
         {
             while (true)
@@ -154,8 +159,18 @@ namespace ARCSoftFaceApp.Entity
                 //如果有有效的bgr位图像则进行人工智能工作和picturView的显示
                 if(queueVideoFrame.TryDequeue(out nowFrame))
                 {
+                    List<FaceInfo> faceInfos = faceVideoRecognizer.ScanFaces(nowFrame);
+
+                    if (isRGBLock==false)
+                    {
+                        ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
+                        {
+                            faceVideoRecognizer.ScanFaceFeature(nowFrame,ref faceInfos);
+                        }));
+                    }
+
                     //显示到屏幕中
-                    if(PictrueBoxId!=null)
+                    if (PictrueBoxId!=null)
                     {
                         PictrueBoxId.Image = nowFrame;
                     }

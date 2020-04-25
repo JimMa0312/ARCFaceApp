@@ -47,6 +47,7 @@
             this.groupBoxLogMessage = new System.Windows.Forms.GroupBox();
             this.richTextBoxLogMessage = new System.Windows.Forms.RichTextBox();
             this.flowLayoutPanelVideoReal = new System.Windows.Forms.FlowLayoutPanel();
+            this.从本地文件采集人脸特征ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBoxCamera.SuspendLayout();
             this.groupBoxLogMessage.SuspendLayout();
@@ -80,7 +81,8 @@
             this.测试模式ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.登录IP摄像机ToolStripMenuItem,
             this.数据库测试ToolStripMenuItem,
-            this.日志输出ToolStripMenuItem});
+            this.日志输出ToolStripMenuItem,
+            this.从本地文件采集人脸特征ToolStripMenuItem});
             this.测试模式ToolStripMenuItem.Name = "测试模式ToolStripMenuItem";
             this.测试模式ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.测试模式ToolStripMenuItem.Text = "测试模式";
@@ -88,21 +90,21 @@
             // 登录IP摄像机ToolStripMenuItem
             // 
             this.登录IP摄像机ToolStripMenuItem.Name = "登录IP摄像机ToolStripMenuItem";
-            this.登录IP摄像机ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.登录IP摄像机ToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.登录IP摄像机ToolStripMenuItem.Text = "登录IP摄像机";
             this.登录IP摄像机ToolStripMenuItem.Click += new System.EventHandler(this.登录IP摄像机ToolStripMenuItem_Click);
             // 
             // 数据库测试ToolStripMenuItem
             // 
             this.数据库测试ToolStripMenuItem.Name = "数据库测试ToolStripMenuItem";
-            this.数据库测试ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.数据库测试ToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.数据库测试ToolStripMenuItem.Text = "数据库测试";
             this.数据库测试ToolStripMenuItem.Click += new System.EventHandler(this.数据库测试ToolStripMenuItem_Click);
             // 
             // 日志输出ToolStripMenuItem
             // 
             this.日志输出ToolStripMenuItem.Name = "日志输出ToolStripMenuItem";
-            this.日志输出ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.日志输出ToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.日志输出ToolStripMenuItem.Text = "日志输出";
             this.日志输出ToolStripMenuItem.Click += new System.EventHandler(this.日志输出ToolStripMenuItem_Click);
             // 
@@ -198,6 +200,13 @@
             this.flowLayoutPanelVideoReal.Size = new System.Drawing.Size(517, 301);
             this.flowLayoutPanelVideoReal.TabIndex = 3;
             // 
+            // 从本地文件采集人脸特征ToolStripMenuItem
+            // 
+            this.从本地文件采集人脸特征ToolStripMenuItem.Name = "从本地文件采集人脸特征ToolStripMenuItem";
+            this.从本地文件采集人脸特征ToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.从本地文件采集人脸特征ToolStripMenuItem.Text = "从本地文件采集人脸特征";
+            this.从本地文件采集人脸特征ToolStripMenuItem.Click += new System.EventHandler(this.从本地文件采集人脸特征ToolStripMenuItem_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -240,5 +249,6 @@
         private System.Windows.Forms.ToolStripMenuItem 数据库测试ToolStripMenuItem;
         public System.Windows.Forms.RichTextBox richTextBoxLogMessage;
         private System.Windows.Forms.ToolStripMenuItem 日志输出ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 从本地文件采集人脸特征ToolStripMenuItem;
     }
 }
