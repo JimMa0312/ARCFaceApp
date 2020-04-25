@@ -303,6 +303,7 @@
       <DependentUpon>AttendanceDataSet.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\Camera.cs" />
+    <Compile Include="Entity\FaceRecognizer.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -311,6 +312,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\ARCFaceEngineUtils.cs" />
     <Compile Include="Util\EnumService.cs" />
     <Compile Include="Util\ImageCover.cs" />
     <Compile Include="Util\LoggerService.cs" />
@@ -387,6 +389,12 @@
     <Content Include="hpr.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="libarcsoft_face.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libarcsoft_face_engine.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="libeay32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -431,6 +439,9 @@
     </EntityDeploy>
     <None Include="EntityFrameDataModel\AttendanceDataSet.edmx.diagram">
       <DependentUpon>AttendanceDataSet.edmx</DependentUpon>
+    </None>
+    <None Include="libarcsoft_face_engine.lib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="LocalXml.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

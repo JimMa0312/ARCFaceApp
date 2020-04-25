@@ -9,7 +9,7 @@ namespace ArcSoftFace.Models
     /// <summary>
     /// 人脸检测优先角度结构体， 推荐使用ASF_OP_0_HIGHER_EXT
     /// </summary>
-    public struct ASF_OrientPripority
+    public struct ASF_OrientPriority
     {
         public const int ASF_OP_0_ONLY = 0x1;
         public const int ASF_OP_90_ONLY = 0x2;

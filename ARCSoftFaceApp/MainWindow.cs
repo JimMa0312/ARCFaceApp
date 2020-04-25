@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using LibHKCamera.HKNetWork;
 using ARCSoftFaceApp.CameraManage;
+using ARCSoftFaceApp.Util.ARCFace;
 
 namespace ARCSoftFaceApp
 {
@@ -38,19 +39,6 @@ namespace ARCSoftFaceApp
 
             cameraControler = new CameraControler();
             iSelectedIndex = 0;
-
-            //初始化海康SDK
-            m_bInitHKSDK = HKNetSDKS.NET_DVR_Init();
-
-            if(m_bInitHKSDK==false)
-            {
-                MessageBox.Show("海康SDK::NET_DVR_Init 初始化错误！");
-                return;
-            }
-            else
-            {
-                HKNetSDKS.NET_DVR_SetLogToFile(3, "C:\\SdkLog\\", true);
-            }
         }
 
         /// <summary>
@@ -89,6 +77,21 @@ namespace ARCSoftFaceApp
             groupRealPlayWnd();
 
             LoggerService.IniterLogService();
+
+            //初始化海康SDK
+            m_bInitHKSDK = HKNetSDKS.NET_DVR_Init();
+
+            if (m_bInitHKSDK == false)
+            {
+                MessageBox.Show("海康SDK::NET_DVR_Init 初始化错误！");
+                return;
+            }
+            else
+            {
+                HKNetSDKS.NET_DVR_SetLogToFile(3, "C:\\SdkLog\\", true);
+            }
+
+            ARCFaceEngineUtils.InitARCFaceEngine();
         }
 
         private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
