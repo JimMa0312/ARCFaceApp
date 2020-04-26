@@ -60,6 +60,7 @@ namespace ARCSoftFaceApp.Entity
         public int ScanFaceFeature(Bitmap bitmap, ref List<FaceInfo> singleFaceInfos)
         {
             int num = 0;
+
             foreach (var singleFaceInfo in singleFaceInfos)
             {
                 //如果没有人脸比对成功过

@@ -164,12 +164,12 @@ namespace ARCSoftFaceApp.Entity
                     if (isRGBLock==false)
                     {
                         isRGBLock = true;
-                        ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
-                        {
-                            faceVideoRecognizer.ScanFaceFeature(nowFrame,ref faceInfos);
+                        //ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
+                        //{
+                        //    faceVideoRecognizer.ScanFaceFeature(nowFrame,ref faceInfos);
 
 
-                        }));
+                        //}));
 
                         for (int i = 0; i < faceInfos.Count; i++)
                         {
@@ -187,7 +187,6 @@ namespace ARCSoftFaceApp.Entity
                     {
                         PictrueBoxId.Image = nowFrame;
                     }
-                    GC.Collect();
                 }
 
                 Thread.Sleep(1);
