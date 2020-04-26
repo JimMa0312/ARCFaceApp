@@ -109,6 +109,7 @@ namespace ARCSoftFaceApp.Entity
 
                 singleFaces.Add(faceInfo);
             }
+
             return singleFaces;
         }
     }

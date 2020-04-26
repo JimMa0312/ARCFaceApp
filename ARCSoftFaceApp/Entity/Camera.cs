@@ -166,7 +166,7 @@ namespace ARCSoftFaceApp.Entity
                     {
                         isRGBLock = true;
 
-                        faceVideoRecognizer.ScanFaceFeature(nowFrame, ref faceInfos);
+                        //faceVideoRecognizer.ScanFaceFeature(nowFrame, ref faceInfos);
 
 
                         //using (Graphics graphics = Graphics.FromImage(nowFrame))
@@ -194,14 +194,12 @@ namespace ARCSoftFaceApp.Entity
                     //显示到屏幕中
                     if (PictrueBoxId!=null)
                     {
-                        //Image tempImage = PictrueBoxId.Image;
-                        //tempImage.Dispose();
+                        PictrueBoxId.Image.Dispose();
                         PictrueBoxId.Image = nowFrame;
                     }
                 }
 
                 GC.Collect();
-
                 Thread.Sleep(1);
             }
         }

@@ -40,6 +40,8 @@ namespace ArcSoftFace.Utils
 
             //将从C++程序集得到的多人脸结构内存转义成C#的多人脸结构体中
             multiFaceInfo = MemoryUtil.PtrToStructure<ASF_MultiFaceInfo>(pMultiFaceInfo);
+            MemoryUtil.Free(pMultiFaceInfo);
+            pMultiFaceInfo = IntPtr.Zero;
             return multiFaceInfo;
         }
 
