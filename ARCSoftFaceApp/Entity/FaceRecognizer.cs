@@ -61,6 +61,11 @@ namespace ARCSoftFaceApp.Entity
         {
             int num = 0;
 
+            if(singleFaceInfos==null)
+            {
+                return 0;
+            }
+
             foreach (var singleFaceInfo in singleFaceInfos)
             {
                 //如果没有人脸比对成功过
@@ -86,18 +91,18 @@ namespace ARCSoftFaceApp.Entity
             //从视频帧中获取 多个人脸的矩形框位置
             ASF_MultiFaceInfo multiFaceInfo = FaceUtil.DetectFace(pVideoEngine, bitmap);
 
-            int[] faceIds=null;
-            if (multiFaceInfo.faceNum>0)
-            {
-                faceIds = MemoryUtil.PtrToStructure<int[]>(multiFaceInfo.faceID);
-            }
+            //int[] faceIds=null;
+            //if (multiFaceInfo.faceNum>0)
+            //{
+            //    faceIds = MemoryUtil.PtrToStructure<int[]>(multiFaceInfo.faceID);
+            //}
 
             //将MultiFaceInfo结构体中的数据提取成单人脸数据并放入结构体中
             for (int i = 0; i < multiFaceInfo.faceNum; i++)
             {
                 FaceInfo faceInfo = new FaceInfo();
 
-                faceInfo.faceId = faceIds[i];
+                //faceInfo.faceId = faceIds[i];
 
                 faceInfo.singleFaceInfo.faceRect = MemoryUtil.PtrToStructure<MRECT>(multiFaceInfo.faceRects + MemoryUtil.SizeOf<MRECT>() * i);
                 faceInfo.singleFaceInfo.faceOrient = MemoryUtil.PtrToStructure<int>(multiFaceInfo.faceOrients + MemoryUtil.SizeOf<int>() * i);

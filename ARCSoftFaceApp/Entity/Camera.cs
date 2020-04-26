@@ -99,6 +99,7 @@ namespace ARCSoftFaceApp.Entity
 
             imageCover = new ImageCover();
             faceVideoRecognizer = new FaceVideoRecognizer();
+            faceVideoRecognizer.initFaceEngine();
         }
 
         public Camera(string ip, ushort port, string user, string pwd)
@@ -161,33 +162,29 @@ namespace ARCSoftFaceApp.Entity
                 {
                     List<FaceInfo> faceInfos = faceVideoRecognizer.ScanFaces(nowFrame);
 
-                    if (isRGBLock==false)
+                    if (isRGBLock == false)
                     {
                         isRGBLock = true;
-                        ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
-                        {
-                            List<FaceInfo> tempfaceInfos = faceInfos;
-                            faceVideoRecognizer.ScanFaceFeature(nowFrame, ref tempfaceInfos);
+
+                        faceVideoRecognizer.ScanFaceFeature(nowFrame, ref faceInfos);
 
 
-                        }));
-
-                        using(Graphics graphics = Graphics.FromImage(nowFrame))
-                        {
+                        //using (Graphics graphics = Graphics.FromImage(nowFrame))
+                        //{
                             for (int i = 0; i < faceInfos.Count; i++)
                             {
-                                float x = faceInfos[i].singleFaceInfo.faceRect.left;
-                                float width = faceInfos[i].singleFaceInfo.faceRect.right- x;
-                                float y = faceInfos[i].singleFaceInfo.faceRect.top;
-                                float height = faceInfos[i].singleFaceInfo.faceRect.bottom - y;
+                                //float x = faceInfos[i].singleFaceInfo.faceRect.left;
+                                //float width = faceInfos[i].singleFaceInfo.faceRect.right - x;
+                                //float y = faceInfos[i].singleFaceInfo.faceRect.top;
+                                //float height = faceInfos[i].singleFaceInfo.faceRect.bottom - y;
 
-                                graphics.DrawRectangle(Pens.Red, x, y, width, height);
+                                //graphics.DrawRectangle(Pens.Red, x, y, width, height);
 
                                 faceInfos[i].Dispose();
                                 faceInfos[i] = null;
 
                             }
-                        }
+                        //}
 
                         faceInfos.Clear();
                         faceInfos = null;
@@ -197,9 +194,13 @@ namespace ARCSoftFaceApp.Entity
                     //显示到屏幕中
                     if (PictrueBoxId!=null)
                     {
+                        //Image tempImage = PictrueBoxId.Image;
+                        //tempImage.Dispose();
                         PictrueBoxId.Image = nowFrame;
                     }
                 }
+
+                GC.Collect();
 
                 Thread.Sleep(1);
             }
