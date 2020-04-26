@@ -163,10 +163,23 @@ namespace ARCSoftFaceApp.Entity
 
                     if (isRGBLock==false)
                     {
+                        isRGBLock = true;
                         ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
                         {
                             faceVideoRecognizer.ScanFaceFeature(nowFrame,ref faceInfos);
+
+
                         }));
+
+                        for (int i = 0; i < faceInfos.Count; i++)
+                        {
+                            faceInfos[i].Dispose();
+                            faceInfos[i] = null;
+
+                        }
+                        faceInfos.Clear();
+                        faceInfos = null;
+                        isRGBLock = false;
                     }
 
                     //显示到屏幕中
@@ -174,6 +187,7 @@ namespace ARCSoftFaceApp.Entity
                     {
                         PictrueBoxId.Image = nowFrame;
                     }
+                    GC.Collect();
                 }
 
                 Thread.Sleep(1);
