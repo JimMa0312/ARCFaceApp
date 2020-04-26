@@ -214,6 +214,7 @@ namespace ARCSoftFaceApp.Entity
             if (faceFeature!=IntPtr.Zero)
             {
                 MemoryUtil.Free(faceFeature);
+                faceFeature = IntPtr.Zero;
             }
         }
     }

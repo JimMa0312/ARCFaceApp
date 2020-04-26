@@ -34,6 +34,7 @@ namespace ArcSoftFace.Utils
             if(retCode!=0)
             {
                 MemoryUtil.Free(pMultiFaceInfo);
+                pMultiFaceInfo = IntPtr.Zero;
                 return multiFaceInfo;
             }
 
@@ -69,6 +70,7 @@ namespace ArcSoftFace.Utils
                     multiFaceInfo = DetectFace(pEngine, imageInfo);
                     //释放掉图片信息，减少内存占用
                     MemoryUtil.Free(imageInfo.imgData);
+                    imageInfo.imgData = IntPtr.Zero;
                     return multiFaceInfo;
                 }
                 else
@@ -117,6 +119,8 @@ namespace ArcSoftFace.Utils
             {
                 MemoryUtil.Free(pSingleFaceInfo);
                 MemoryUtil.Free(pFaceFeature);
+                pSingleFaceInfo = IntPtr.Zero;
+                pFaceFeature = IntPtr.Zero;
 
                 ASF_FaceFeature emptyFeature = new ASF_FaceFeature();
                 IntPtr pEmptyFeature = MemoryUtil.Malloc(MemoryUtil.SizeOf<ASF_FaceFeature>());
@@ -140,6 +144,8 @@ namespace ArcSoftFace.Utils
 
             MemoryUtil.Free(pSingleFaceInfo);
             MemoryUtil.Free(pFaceFeature);
+            pSingleFaceInfo = IntPtr.Zero;
+            pFaceFeature = IntPtr.Zero;
             #endregion
 
             return pLocalFeature;
@@ -180,6 +186,7 @@ namespace ArcSoftFace.Utils
             singleFaceInfo = new ASF_SingleFaceInfo();
             IntPtr pFaceModel = ExtractFeatrue(pEngine, imageInfo, multiFaceInfo, out singleFaceInfo);
             MemoryUtil.Free(imageInfo.imgData);
+            imageInfo.imgData = IntPtr.Zero;
             return pFaceModel;
         }
 
@@ -219,6 +226,10 @@ namespace ArcSoftFace.Utils
                 MemoryUtil.Free(pFaceFeature);
                 MemoryUtil.Free(imageInfo.imgData);
 
+                pSingleFaceInfo = IntPtr.Zero;
+                pFaceFeature = IntPtr.Zero;
+                imageInfo.imgData = IntPtr.Zero;
+
                 return ReturnEmptyFeature();
             }
 
@@ -238,6 +249,10 @@ namespace ArcSoftFace.Utils
             MemoryUtil.Free(pSingleFaceInfo);
             MemoryUtil.Free(pFaceFeature);
             MemoryUtil.Free(imageInfo.imgData);
+
+            pSingleFaceInfo = IntPtr.Zero;
+            pFaceFeature = IntPtr.Zero;
+            imageInfo.imgData = IntPtr.Zero;
 
             return pLocalFeature;
         }

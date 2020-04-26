@@ -221,6 +221,7 @@ namespace ARCSoftFaceApp
                     }
                 }
                 openFileDialog.Dispose();
+                GC.Collect();
             }
         }
 

@@ -68,6 +68,7 @@ namespace ArcSoftFace.Utils
                 imageInfo.imgData = MemoryUtil.Malloc(my_Image.Bytes.Length);
                 MemoryUtil.Copy(my_Image.Bytes, 0, imageInfo.imgData, my_Image.Bytes.Length);
 
+
                 return imageInfo;
             }
             catch (Exception ex)
@@ -79,10 +80,12 @@ namespace ArcSoftFace.Utils
                 if (my_Image != null)
                 {
                     my_Image.Dispose();
+                    my_Image = null;
                 }
                 if (bitmap != null)
                 {
                     bitmap.Dispose();
+                    bitmap = null;
                 }
             }
             return null;
