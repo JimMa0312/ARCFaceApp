@@ -166,25 +166,25 @@ namespace ARCSoftFaceApp.Entity
                     {
                         isRGBLock = true;
 
-                        //faceVideoRecognizer.ScanFaceFeature(nowFrame, ref faceInfos);
+                        faceVideoRecognizer.ScanFaceFeature(nowFrame, ref faceInfos);
 
 
-                        //using (Graphics graphics = Graphics.FromImage(nowFrame))
-                        //{
+                        using (Graphics graphics = Graphics.FromImage(nowFrame))
+                        {
                             for (int i = 0; i < faceInfos.Count; i++)
                             {
-                                //float x = faceInfos[i].singleFaceInfo.faceRect.left;
-                                //float width = faceInfos[i].singleFaceInfo.faceRect.right - x;
-                                //float y = faceInfos[i].singleFaceInfo.faceRect.top;
-                                //float height = faceInfos[i].singleFaceInfo.faceRect.bottom - y;
+                                float x = faceInfos[i].singleFaceInfo.faceRect.left;
+                                float width = faceInfos[i].singleFaceInfo.faceRect.right - x;
+                                float y = faceInfos[i].singleFaceInfo.faceRect.top;
+                                float height = faceInfos[i].singleFaceInfo.faceRect.bottom - y;
 
-                                //graphics.DrawRectangle(Pens.Red, x, y, width, height);
+                                graphics.DrawRectangle(Pens.Red, x, y, width, height);
 
                                 faceInfos[i].Dispose();
                                 faceInfos[i] = null;
 
                             }
-                        //}
+                        }
 
                         faceInfos.Clear();
                         faceInfos = null;
