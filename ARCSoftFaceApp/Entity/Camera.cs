@@ -86,7 +86,7 @@ namespace ARCSoftFaceApp.Entity
 
         public Camera()
         {
-            ip = "192.168.0.104";
+            ip = "192.168.0.103";
             user = "admin";
             pwd = "HikZTTXNQ";
 
@@ -180,10 +180,13 @@ namespace ARCSoftFaceApp.Entity
 
                                 graphics.DrawRectangle(Pens.Red, x, y, width, height);
 
-                                faceInfos[i].Dispose();
-                                faceInfos[i] = null;
-
                             }
+                        }
+
+                        for(int i=0;i<faceInfos.Count;i++)
+                        {
+                            faceInfos[i].Dispose();
+                            faceInfos[i] = null;
                         }
 
                         faceInfos.Clear();

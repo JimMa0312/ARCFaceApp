@@ -72,7 +72,7 @@ namespace ARCSoftFaceApp.Entity
                 if (singleFaceInfo.isFacePass==false)
                 {
                     singleFaceInfo.faceFeature = FaceUtil.ExtractFeature(pVideoRGBImageEngine, bitmap, singleFaceInfo.singleFaceInfo);
-
+                    singleFaceInfo.isFacePass = true;
                     num++;
                 }
             }
