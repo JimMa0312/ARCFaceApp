@@ -51,7 +51,7 @@ namespace ARCSoftFaceApp.Entity
             detectFaceMaxNum = 1;
 
             //引擎初始化时需要初始化的检测功能组合
-            int combinedMask = FaceEngineMask.ASF_FACE_DETECT | FaceEngineMask.ASF_FACERECOGNITION | FaceEngineMask.ASF_AGE | FaceEngineMask.ASF_GENDER | FaceEngineMask.ASF_FACE3DANGLE;
+            int combinedMask = FaceEngineMask.ASF_FACE_DETECT | FaceEngineMask.ASF_FACERECOGNITION;
             retCode = ASFFunctions.ASFInitEngine(detectMode, imageDetectFaceOrientPriority, detectFaceScaleVal, detectFaceMaxNum, combinedMask, ref pVideoRGBImageEngine);
 
             LoggerService.logger.Info($"初始化视频用人脸识别引擎结果：{retCode}");
