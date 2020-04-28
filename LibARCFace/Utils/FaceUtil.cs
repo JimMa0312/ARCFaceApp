@@ -235,28 +235,14 @@ namespace ArcSoftFace.Utils
                 return ReturnEmptyFeature();
             }
 
-            //人脸特征feature过滤
-            ASF_FaceFeature faceFeature = MemoryUtil.PtrToStructure<ASF_FaceFeature>(pFaceFeature);
-            byte[] feature = new byte[faceFeature.featureSize];
-            MemoryUtil.Copy(faceFeature.feature, feature, 0, faceFeature.featureSize);
-
-            ASF_FaceFeature localFeature = new ASF_FaceFeature();
-            localFeature.feature = MemoryUtil.Malloc(feature.Length);
-            MemoryUtil.Copy(feature, 0, localFeature.feature, feature.Length);
-            localFeature.featureSize = feature.Length;
-            IntPtr pLocalFeature = MemoryUtil.Malloc(MemoryUtil.SizeOf<ASF_FaceFeature>());
-            MemoryUtil.StructureToPtr(localFeature, pLocalFeature);
-
             //释放指针
             MemoryUtil.Free(pSingleFaceInfo);
-            MemoryUtil.Free(pFaceFeature);
             MemoryUtil.Free(imageInfo.imgData);
 
             pSingleFaceInfo = IntPtr.Zero;
-            pFaceFeature = IntPtr.Zero;
             imageInfo.imgData = IntPtr.Zero;
 
-            return pLocalFeature;
+            return pFaceFeature;
         }
 
         private static IntPtr ReturnEmptyFeature()
