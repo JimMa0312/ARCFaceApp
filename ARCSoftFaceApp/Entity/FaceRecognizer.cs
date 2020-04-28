@@ -198,7 +198,7 @@ namespace ARCSoftFaceApp.Entity
     {
         public int faceId;
         public ASF_SingleFaceInfo singleFaceInfo;
-        public IntPtr faceFeature;
+        public ASF_FaceFeature faceFeature;
         /// <summary>
         /// 是否已经进行了人脸识别
         /// </summary>
@@ -208,7 +208,6 @@ namespace ARCSoftFaceApp.Entity
         {
             faceId = 0;
             singleFaceInfo = new ASF_SingleFaceInfo();
-            faceFeature = IntPtr.Zero;
             isFacePass = false;
         }
 
@@ -217,12 +216,9 @@ namespace ARCSoftFaceApp.Entity
         /// </summary>
         public void Dispose()
         {
-            
-            if (faceFeature!=IntPtr.Zero)
-            {
-                MemoryUtil.Free(faceFeature);
-                faceFeature = IntPtr.Zero;
-            }
+
+                MemoryUtil.Free(faceFeature.feature);
+            faceFeature.featureSize = 0;
         }
     }
 

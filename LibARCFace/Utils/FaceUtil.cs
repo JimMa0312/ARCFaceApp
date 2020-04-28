@@ -199,7 +199,7 @@ namespace ArcSoftFace.Utils
         /// <param name="image"></param>
         /// <param name="singleFaceInfo"></param>
         /// <returns></returns>
-        public static IntPtr ExtractFeature(IntPtr pEngine, Image image, ASF_SingleFaceInfo singleFaceInfo)
+        public static ASF_FaceFeature ExtractFeature(IntPtr pEngine, Image image, ASF_SingleFaceInfo singleFaceInfo)
         {
             ImageInfo imageInfo = ImageUtil.ReadBMP(image);
             if (imageInfo == null)
@@ -235,24 +235,32 @@ namespace ArcSoftFace.Utils
                 return ReturnEmptyFeature();
             }
 
+            //人脸特征feature过滤
+            ASF_FaceFeature faceFeature = MemoryUtil.PtrToStructure<ASF_FaceFeature>(pFaceFeature);
+            byte[] feature = new byte[faceFeature.featureSize];
+            MemoryUtil.Copy(faceFeature.feature, feature, 0, faceFeature.featureSize);
+
+            ASF_FaceFeature localFeature = new ASF_FaceFeature();
+            localFeature.feature = MemoryUtil.Malloc(feature.Length);
+            MemoryUtil.Copy(feature, 0, localFeature.feature, feature.Length);
+            localFeature.featureSize = feature.Length;
+
             //释放指针
             MemoryUtil.Free(pSingleFaceInfo);
+            MemoryUtil.Free(pFaceFeature);
             MemoryUtil.Free(imageInfo.imgData);
 
             pSingleFaceInfo = IntPtr.Zero;
             imageInfo.imgData = IntPtr.Zero;
 
-            return pFaceFeature;
+            return localFeature;
         }
 
-        private static IntPtr ReturnEmptyFeature()
+        private static ASF_FaceFeature ReturnEmptyFeature()
         {
             ASF_FaceFeature emptyFeature = new ASF_FaceFeature();
 
-            IntPtr pEmptyFeature = MemoryUtil.Malloc(MemoryUtil.SizeOf<ASF_FaceFeature>());
-            MemoryUtil.StructureToPtr(emptyFeature, pEmptyFeature);
-
-            return pEmptyFeature;
+            return emptyFeature;
         }
 
         private static IntPtr ReturnEmptyStruct(out ASF_SingleFaceInfo singleFaceInfo)
