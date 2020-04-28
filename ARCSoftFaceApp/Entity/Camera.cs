@@ -384,9 +384,11 @@ namespace ARCSoftFaceApp.Entity
 
             m_lReadHandle = -1;
             Statue = CameraStatue.StopReadPlay;
-            PictrueBoxId.Invalidate();
-            PictrueBoxId = null;
-
+            if (PictrueBoxId != null)
+            {
+                PictrueBoxId.Invalidate();
+                PictrueBoxId = null;
+            }
             return 0;
         }
 
