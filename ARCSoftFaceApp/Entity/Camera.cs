@@ -89,6 +89,7 @@ namespace ARCSoftFaceApp.Entity
             ip = "192.168.0.103";
             user = "admin";
             pwd = "HikZTTXNQ";
+            port = 8000;
 
             m_lReadHandle = -1;
             m_lUserId = -1;
@@ -179,7 +180,6 @@ namespace ARCSoftFaceApp.Entity
                                 float height = faceInfos[i].singleFaceInfo.faceRect.bottom - y;
 
                                 graphics.DrawRectangle(Pens.Red, x, y, width, height);
-
                             }
                         }
 
