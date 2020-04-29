@@ -217,7 +217,8 @@ namespace ARCSoftFaceApp.Entity
         public void Dispose()
         {
 
-                MemoryUtil.Free(faceFeature.feature);
+            MemoryUtil.Free(faceFeature.feature);
+            faceFeature.feature = IntPtr.Zero;
             faceFeature.featureSize = 0;
         }
     }
