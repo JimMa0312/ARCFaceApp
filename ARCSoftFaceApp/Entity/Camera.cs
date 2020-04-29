@@ -145,8 +145,8 @@ namespace ARCSoftFaceApp.Entity
                         for(int i=0;i<faceInfos.Count;i++)
                         {
                             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate {
-
-                                faceVideoRecognizer.ScanFaceFeature(bitmap, faceInfos[i]);
+                                if(faceInfos!=null && faceInfos.Count>i)
+                                    faceVideoRecognizer.ScanFaceFeature(bitmap, faceInfos[i]);
                             }));
                         }
 
@@ -170,7 +170,6 @@ namespace ARCSoftFaceApp.Entity
                         }
 
                         faceInfos.Clear();
-                        faceInfos = null;
                         isRGBLock = false;
                     }
 
@@ -456,10 +455,7 @@ namespace ARCSoftFaceApp.Entity
 
                 if(nowFramBitMap!=null)
                 {
-                    Task.Factory.StartNew(()=>
-                    {
                         DetalDisplay(nowFramBitMap);
-                    });
                 }
             }
         }
