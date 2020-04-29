@@ -54,8 +54,6 @@ namespace ARCSoftFaceApp.Entity
 
         public PictureBox PictrueBoxId { get; set; }
 
-        private ConcurrentQueue<Bitmap> queueVideoFrame;
-
         public IntPtr m_ptrReadHandle { get; set; }
 
         private CameraStatue statue;
@@ -79,8 +77,6 @@ namespace ARCSoftFaceApp.Entity
         public HKPlayCtrlSDK.DECCBFUN m_fDisplayFun = null;
 
         private Task taskStartRealPlay;
-        private Task taskDetalDisplay;
-        private CancellationTokenSource cancelTokenDetalDisplay;
 
         private FaceVideoRecognizer faceVideoRecognizer;
 
@@ -117,25 +113,12 @@ namespace ARCSoftFaceApp.Entity
 
         public void StartViewPlay()
         {
-            if(queueVideoFrame==null)
-            {
-                queueVideoFrame = new ConcurrentQueue<Bitmap>();
-            }
-
-            if(cancelTokenDetalDisplay==null)
-            {
-                cancelTokenDetalDisplay = new CancellationTokenSource();
-            }
 
             if (taskStartRealPlay==null)
             {
                 taskStartRealPlay = Task.Factory.StartNew(RealPreview);
             }
 
-            if (taskDetalDisplay == null)
-            {
-                taskDetalDisplay = Task.Factory.StartNew(DetalDisplay);
-            }
         }
 
         public void StopViewPlay()
@@ -147,21 +130,13 @@ namespace ARCSoftFaceApp.Entity
 
         private bool isRGBLock = false;
 
-        public void DetalDisplay()
+        public void DetalDisplay(Bitmap bitmap)
         {
-            while (true)
-            {
-                if(cancelTokenDetalDisplay.Token.IsCancellationRequested)
-                {
-                    break;
-                }
-
-                Bitmap nowFrame;
 
                 //如果有有效的bgr位图像则进行人工智能工作和picturView的显示
-                if(queueVideoFrame.TryDequeue(out nowFrame))
+                if(bitmap!=null)
                 {
-                    List<FaceInfo> faceInfos = faceVideoRecognizer.ScanFaces(nowFrame);
+                    List<FaceInfo> faceInfos = faceVideoRecognizer.ScanFaces(bitmap);
 
                     if (isRGBLock == false)
                     {
@@ -171,11 +146,11 @@ namespace ARCSoftFaceApp.Entity
                         {
                             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate {
 
-                                faceVideoRecognizer.ScanFaceFeature(nowFrame, faceInfos[i]);
+                                faceVideoRecognizer.ScanFaceFeature(bitmap, faceInfos[i]);
                             }));
                         }
 
-                        using (Graphics graphics = Graphics.FromImage(nowFrame))
+                        using (Graphics graphics = Graphics.FromImage(bitmap))
                         {
                             for (int i = 0; i < faceInfos.Count; i++)
                             {
@@ -206,14 +181,12 @@ namespace ARCSoftFaceApp.Entity
                         PictrueBoxId.Invoke(new Action(() =>
                         {
                             PictrueBoxId.Image.Dispose();
-                            PictrueBoxId.Image = nowFrame;
+                            PictrueBoxId.Image = bitmap;
                         }));
                     }
                 }
 
                 GC.Collect();
-                Thread.Sleep(1);
-            }
         }
 
         /// <summary>
@@ -381,13 +354,6 @@ namespace ARCSoftFaceApp.Entity
                 m_lPort = -1;
             }
 
-            cancelTokenDetalDisplay.Cancel();
-
-            if (taskDetalDisplay.IsCompleted)
-            {
-                taskDetalDisplay = null;
-                cancelTokenDetalDisplay = null;
-            }
 
             LoggerService.logger.Info($"摄像头{ip}，已停止预览。");
 
@@ -490,7 +456,10 @@ namespace ARCSoftFaceApp.Entity
 
                 if(nowFramBitMap!=null)
                 {
-                    queueVideoFrame.Enqueue(nowFramBitMap);
+                    Task.Factory.StartNew(()=>
+                    {
+                        DetalDisplay(nowFramBitMap);
+                    });
                 }
             }
         }
