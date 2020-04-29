@@ -57,26 +57,17 @@ namespace ARCSoftFaceApp.Entity
             LoggerService.logger.Info($"初始化视频用人脸识别引擎结果：{retCode}");
         }
 
-        public int ScanFaceFeature(Bitmap bitmap, List<FaceInfo> singleFaceInfos)
+        public int ScanFaceFeature(Bitmap bitmap, FaceInfo singleFaceInfo)
         {
-            int num = 0;
+            singleFaceInfo.faceFeature = FaceUtil.ExtractFeature(pVideoRGBImageEngine, bitmap, singleFaceInfo.singleFaceInfo);
 
-            if(singleFaceInfos==null)
+
+            if (singleFaceInfo.faceFeature.featureSize > 0)
             {
                 return 0;
             }
 
-                for(int i=0;i<singleFaceInfos.Count;i++)
-            {
-                //如果没有人脸比对成功过
-                if (singleFaceInfos[i].isFacePass==false)
-                {
-                        singleFaceInfos[i].faceFeature = FaceUtil.ExtractFeature(pVideoRGBImageEngine, bitmap, singleFaceInfos[i].singleFaceInfo);
-                        singleFaceInfos[i].isFacePass = true;
-                    num++;
-                }
-            }
-            return num;
+            return -1;
         }
 
         public List<FaceInfo> ScanFaces(Bitmap bitmap)
@@ -142,16 +133,17 @@ namespace ARCSoftFaceApp.Entity
             LoggerService.logger.Info($"初始化图片采集用人脸识别引擎结果：{result}");
         }
 
-        public int ScanFaceFeature(Bitmap bitmap, List<FaceInfo> singleFaceInfos)
+        public int ScanFaceFeature(Bitmap bitmap, FaceInfo singleFaceInfo)
         {
-            int num = 0;
-            foreach (var singleFaceInfo in singleFaceInfos)
-            {
-                    singleFaceInfo.faceFeature = FaceUtil.ExtractFeature(pImageEngine, bitmap, singleFaceInfo.singleFaceInfo);
+            singleFaceInfo.faceFeature = FaceUtil.ExtractFeature(pImageEngine, bitmap, singleFaceInfo.singleFaceInfo);
 
-                    num++;
+
+            if(singleFaceInfo.faceFeature.featureSize>0)
+            {
+                return 0;
             }
-            return num;
+
+            return -1;
         }
 
         public List<FaceInfo> ScanFaces(Bitmap bitmap)
@@ -243,6 +235,6 @@ namespace ARCSoftFaceApp.Entity
         /// </summary>
         /// <param name="singleFaceInfos"></param>
         /// <returns></returns>
-        int ScanFaceFeature(Bitmap bitmap, List<FaceInfo> singleFaceInfos);
+        int ScanFaceFeature(Bitmap bitmap, FaceInfo singleFaceInfo);
     }
 }

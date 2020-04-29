@@ -199,9 +199,9 @@ namespace ARCSoftFaceApp
 
                         if(faceInfos.Count==1)
                         {
-                            int num=faceImageRecognizer.ScanFaceFeature(bitmap,faceInfos);
+                            int num=faceImageRecognizer.ScanFaceFeature(bitmap,faceInfos[0]);
 
-                            if (num>0)
+                            if (num==0)
                             {
                                 ASF_SingleFaceInfo singleFaceInfo = faceInfos[0].singleFaceInfo;
                                 LoggerService.logger.Info(string.Format("已提取人脸特征值，[left:{0},right:{1},top:{2},bottom:{3},orient:{4}]", singleFaceInfo.faceRect.left, singleFaceInfo.faceRect.right, singleFaceInfo.faceRect.top, singleFaceInfo.faceRect.bottom, singleFaceInfo.faceOrient));

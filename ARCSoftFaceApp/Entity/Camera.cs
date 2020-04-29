@@ -167,21 +167,13 @@ namespace ARCSoftFaceApp.Entity
                     {
                         isRGBLock = true;
 
-                        ThreadPool.QueueUserWorkItem(new WaitCallback(delegate {
+                        for(int i=0;i<faceInfos.Count;i++)
+                        {
+                            ThreadPool.QueueUserWorkItem(new WaitCallback(delegate {
 
-                            faceVideoRecognizer.ScanFaceFeature(nowFrame,faceInfos);
-                            object listlock = new object();
-                            lock (listlock)
-                            {
-                                if (faceInfos != null)
-                                {
-                                    for (int i = 0; i < faceInfos.Count; i++)
-                                    {
-                                        faceInfos[i].Dispose();
-                                    }
-                                }
-                            }
-                        }));
+                                faceVideoRecognizer.ScanFaceFeature(nowFrame, faceInfos[i]);
+                            }));
+                        }
 
                         using (Graphics graphics = Graphics.FromImage(nowFrame))
                         {
