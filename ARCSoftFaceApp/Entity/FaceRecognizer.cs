@@ -57,7 +57,7 @@ namespace ARCSoftFaceApp.Entity
             LoggerService.logger.Info($"初始化视频用人脸识别引擎结果：{retCode}");
         }
 
-        public int ScanFaceFeature(Bitmap bitmap, ref List<FaceInfo> singleFaceInfos)
+        public int ScanFaceFeature(Bitmap bitmap, List<FaceInfo> singleFaceInfos)
         {
             int num = 0;
 
@@ -66,13 +66,13 @@ namespace ARCSoftFaceApp.Entity
                 return 0;
             }
 
-            foreach (var singleFaceInfo in singleFaceInfos)
+                for(int i=0;i<singleFaceInfos.Count;i++)
             {
                 //如果没有人脸比对成功过
-                if (singleFaceInfo.isFacePass==false)
+                if (singleFaceInfos[i].isFacePass==false)
                 {
-                    singleFaceInfo.faceFeature = FaceUtil.ExtractFeature(pVideoRGBImageEngine, bitmap, singleFaceInfo.singleFaceInfo);
-                    singleFaceInfo.isFacePass = true;
+                        singleFaceInfos[i].faceFeature = FaceUtil.ExtractFeature(pVideoRGBImageEngine, bitmap, singleFaceInfos[i].singleFaceInfo);
+                        singleFaceInfos[i].isFacePass = true;
                     num++;
                 }
             }
@@ -142,7 +142,7 @@ namespace ARCSoftFaceApp.Entity
             LoggerService.logger.Info($"初始化图片采集用人脸识别引擎结果：{result}");
         }
 
-        public int ScanFaceFeature(Bitmap bitmap, ref List<FaceInfo> singleFaceInfos)
+        public int ScanFaceFeature(Bitmap bitmap, List<FaceInfo> singleFaceInfos)
         {
             int num = 0;
             foreach (var singleFaceInfo in singleFaceInfos)
@@ -243,6 +243,6 @@ namespace ARCSoftFaceApp.Entity
         /// </summary>
         /// <param name="singleFaceInfos"></param>
         /// <returns></returns>
-        int ScanFaceFeature(Bitmap bitmap, ref List<FaceInfo> singleFaceInfos);
+        int ScanFaceFeature(Bitmap bitmap, List<FaceInfo> singleFaceInfos);
     }
 }

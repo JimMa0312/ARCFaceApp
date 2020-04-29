@@ -169,11 +169,17 @@ namespace ARCSoftFaceApp.Entity
 
                         ThreadPool.QueueUserWorkItem(new WaitCallback(delegate {
 
-                            faceVideoRecognizer.ScanFaceFeature(nowFrame, ref faceInfos);
-
-                            for (int i = 0; i < faceInfos.Count; i++)
+                            faceVideoRecognizer.ScanFaceFeature(nowFrame,faceInfos);
+                            object listlock = new object();
+                            lock (listlock)
                             {
-                                faceInfos[i].Dispose();
+                                if (faceInfos != null)
+                                {
+                                    for (int i = 0; i < faceInfos.Count; i++)
+                                    {
+                                        faceInfos[i].Dispose();
+                                    }
+                                }
                             }
                         }));
 
@@ -204,8 +210,12 @@ namespace ARCSoftFaceApp.Entity
                     //显示到屏幕中
                     if (PictrueBoxId!=null)
                     {
-                        PictrueBoxId.Image.Dispose();
-                        PictrueBoxId.Image = nowFrame;
+
+                        PictrueBoxId.Invoke(new Action(() =>
+                        {
+                            PictrueBoxId.Image.Dispose();
+                            PictrueBoxId.Image = nowFrame;
+                        }));
                     }
                 }
 

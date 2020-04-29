@@ -199,7 +199,7 @@ namespace ARCSoftFaceApp
 
                         if(faceInfos.Count==1)
                         {
-                            int num=faceImageRecognizer.ScanFaceFeature(bitmap,ref faceInfos);
+                            int num=faceImageRecognizer.ScanFaceFeature(bitmap,faceInfos);
 
                             if (num>0)
                             {
