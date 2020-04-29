@@ -179,8 +179,10 @@ namespace ARCSoftFaceApp.Entity
                 if (bitmap != null)
                 {
                     bitmap.Dispose();
+                    Console.WriteLine("释放成功");
                 }
             }
+
 
             return singleFaces;
         }
