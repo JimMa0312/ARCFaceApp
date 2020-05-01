@@ -21,16 +21,15 @@ namespace ARCSoftFaceApp.Util
             image = null;
             yuvs = null;
         }
-
-        public Bitmap Yv12_2_BGR(ref IntPtr pBuf, int nSize, int height, int width)
+        public Image<Bgr,byte> Yv12_2_BGR(ref IntPtr pBuf, int nSize, int height, int width)
         {
             Bitmap tempBitMap = null;
 
-            if(yuvs==null)
+            if (yuvs == null)
             {
                 yuvs = new byte[nSize];
             }
-            if(image==null)
+            if (image == null)
             {
                 image = new Image<Bgr, byte>(width, height);
             }
@@ -39,17 +38,24 @@ namespace ARCSoftFaceApp.Util
 
             GCHandle handle = GCHandle.Alloc(yuvs, GCHandleType.Pinned);
 
-            using (Image<Gray, byte> yv12p=new Image<Gray, byte>(width,(height>>1)*3, width, handle.AddrOfPinnedObject()))
+            using (Image<Gray, byte> yv12p = new Image<Gray, byte>(width, (height >> 1) * 3, width, handle.AddrOfPinnedObject()))
             {
                 CvInvoke.CvtColor(yv12p, image, Emgu.CV.CvEnum.ColorConversion.Yuv420P2Bgr);
 
                 tempBitMap = image.ToBitmap();
             }
 
-            if(handle.IsAllocated)
+            if (handle.IsAllocated)
             {
                 handle.Free();
             }
+
+            return image;
+        }
+
+        public Bitmap Yv12_2_BGR_BitMap(ref IntPtr pBuf, int nSize, int height, int width)
+        {
+            Bitmap tempBitMap = Yv12_2_BGR(ref pBuf, nSize, height, width).ToBitmap();
 
             return tempBitMap;
         }

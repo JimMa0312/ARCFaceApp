@@ -18,6 +18,8 @@ using ARCSoftFaceApp.Util.ARCFace;
 using ArcSoftFace.Utils;
 using System.IO;
 using ArcSoftFace.Models;
+using Emgu.CV.UI;
+using Emgu.CV;
 
 namespace ARCSoftFaceApp
 {
@@ -30,7 +32,7 @@ namespace ARCSoftFaceApp
         private int nowWindowyHeigh;
         private long iSelectedIndex;
 
-        private List<PictureBox> realPlayList;
+        private List<ImageBox> realPlayList;
         private CameraControler cameraControler;
         private FaceImageRecognizer faceImageRecognizer;
 
@@ -60,18 +62,18 @@ namespace ARCSoftFaceApp
             int playColum = nowWindowxWidth / RealPlayWndWidth;
             int playWndCount = playRow * playColum;
 
-            realPlayList = new List<PictureBox>();
+            realPlayList = new List<ImageBox>();
 
             for (int i = 0; i < playWndCount; i++)
             {
-                PictureBox tmpPictureBox = new PictureBox();
+                ImageBox tmpPictureBox = new ImageBox();
                 tmpPictureBox.Name = $"PictureBoxRealPlayWnd{i}";
                 tmpPictureBox.Width = RealPlayWndWidth;
                 tmpPictureBox.Height = RealPlayWndHeigh;
                 tmpPictureBox.BackColor = Color.Black;
-                tmpPictureBox.Image=(Properties.Resources.NoSIgnalpng);
-                tmpPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-
+                tmpPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                tmpPictureBox.FunctionalMode = ImageBox.FunctionalModeOption.Minimum;
+                tmpPictureBox.Image = new Image<Emgu.CV.Structure.Rgb, byte>(Properties.Resources.NoSIgnalpng);
                 realPlayList.Add(tmpPictureBox);
                 this.flowLayoutPanelVideoReal.Controls.Add(tmpPictureBox);
             }

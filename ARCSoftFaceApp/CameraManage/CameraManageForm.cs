@@ -1,4 +1,5 @@
 ﻿using ARCSoftFaceApp.Entity;
+using Emgu.CV.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +16,7 @@ namespace ARCSoftFaceApp.CameraManage
     {
         private Camera camera;
 
-        public List<PictureBox> PictureBoxes;
+        public List<ImageBox> PictureBoxes;
 
         public CameraManageForm()
         {
@@ -25,7 +26,7 @@ namespace ARCSoftFaceApp.CameraManage
             buttonLognOut.Enabled = false;
         }
 
-        public CameraManageForm(Camera camera, List<PictureBox> pictureBoxes):
+        public CameraManageForm(Camera camera, List<ImageBox> pictureBoxes):
             this()
         {
             comboBoxViewIndex.Items.Add("无");
