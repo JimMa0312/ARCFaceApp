@@ -23,7 +23,6 @@ namespace ARCSoftFaceApp.Util
         }
         public Image<Bgr,byte> Yv12_2_BGR(ref IntPtr pBuf, int nSize, int height, int width)
         {
-            Bitmap tempBitMap = null;
 
             if (yuvs == null)
             {
@@ -41,8 +40,6 @@ namespace ARCSoftFaceApp.Util
             using (Image<Gray, byte> yv12p = new Image<Gray, byte>(width, (height >> 1) * 3, width, handle.AddrOfPinnedObject()))
             {
                 CvInvoke.CvtColor(yv12p, image, Emgu.CV.CvEnum.ColorConversion.Yuv420P2Bgr);
-
-                tempBitMap = image.ToBitmap();
             }
 
             if (handle.IsAllocated)

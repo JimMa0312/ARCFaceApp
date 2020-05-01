@@ -165,6 +165,8 @@ namespace ARCSoftFaceApp.Entity
 
                                 graphics.DrawRectangle(Pens.Red, x, y, width, height);
                             }
+
+                        nowFrame.Bitmap = nowFrameBitmap;
                         }
 
                         for(int i=0;i<faceInfos.Count;i++)
@@ -177,16 +179,14 @@ namespace ARCSoftFaceApp.Entity
                         isRGBLock = false;
                     }
 
-                nowFrameBitmap.Dispose();
-
                     //显示到屏幕中
                     if (PictrueBoxId!=null)
                     {
 
                         PictrueBoxId.Invoke(new Action(() =>
                         {
-                            PictrueBoxId.Image.Dispose();
-                            PictrueBoxId.Image = nowFrame;
+                            if(PictrueBoxId!=null)
+                                PictrueBoxId.Image = nowFrame;
                         }));
                     }
                 }
