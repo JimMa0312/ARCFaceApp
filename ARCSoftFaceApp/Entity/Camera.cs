@@ -1,4 +1,7 @@
 ﻿using ARCSoftFaceApp.Util;
+using Emgu.CV;
+using Emgu.CV.Structure;
+using Emgu.CV.UI;
 using LibHKCamera;
 using LibHKCamera.HKNetWork;
 using LibHKCamera.HKPlayCtrlSDK;
@@ -52,7 +55,7 @@ namespace ARCSoftFaceApp.Entity
         public int m_lReadHandle { get; set; }
         private int m_lPort;
 
-        public PictureBox PictrueBoxId { get; set; }
+        public ImageBox PictrueBoxId { get; set; }
 
         public IntPtr m_ptrReadHandle { get; set; }
 
@@ -130,13 +133,14 @@ namespace ARCSoftFaceApp.Entity
 
         private bool isRGBLock = false;
 
-        public void DetalDisplay(Bitmap bitmap)
+        public void DetalDisplay(Image<Bgr,byte> nowFrame)
         {
 
                 //如果有有效的bgr位图像则进行人工智能工作和picturView的显示
-                if(bitmap!=null)
+                if(nowFrame!=null)
                 {
-                    List<FaceInfo> faceInfos = faceVideoRecognizer.ScanFaces(bitmap);
+                Bitmap nowFrameBitmap = nowFrame.ToBitmap();
+                    List<FaceInfo> faceInfos = faceVideoRecognizer.ScanFaces(nowFrameBitmap);
 
                     if (isRGBLock == false)
                     {
@@ -146,11 +150,11 @@ namespace ARCSoftFaceApp.Entity
                         {
                             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate {
                                 if(faceInfos!=null && faceInfos.Count>i)
-                                    faceVideoRecognizer.ScanFaceFeature(bitmap, faceInfos[i]);
+                                    faceVideoRecognizer.ScanFaceFeature(nowFrameBitmap, faceInfos[i]);
                             }));
                         }
 
-                        using (Graphics graphics = Graphics.FromImage(bitmap))
+                        using (Graphics graphics = Graphics.FromImage(nowFrameBitmap))
                         {
                             for (int i = 0; i < faceInfos.Count; i++)
                             {
@@ -173,6 +177,8 @@ namespace ARCSoftFaceApp.Entity
                         isRGBLock = false;
                     }
 
+                nowFrameBitmap.Dispose();
+
                     //显示到屏幕中
                     if (PictrueBoxId!=null)
                     {
@@ -180,7 +186,7 @@ namespace ARCSoftFaceApp.Entity
                         PictrueBoxId.Invoke(new Action(() =>
                         {
                             PictrueBoxId.Image.Dispose();
-                            PictrueBoxId.Image = bitmap;
+                            PictrueBoxId.Image = nowFrame;
                         }));
                     }
                 }
@@ -451,7 +457,7 @@ namespace ARCSoftFaceApp.Entity
         {
             if(pFrameInfo.nType== GloableVar.T_YV12)
             {
-                Bitmap nowFramBitMap=imageCover.Yv12_2_BGR(ref pBuf, nSize, pFrameInfo.nHeight, pFrameInfo.nWidth);
+                Image<Bgr,byte> nowFramBitMap=imageCover.Yv12_2_BGR(ref pBuf, nSize, pFrameInfo.nHeight, pFrameInfo.nWidth);
 
                 if(nowFramBitMap!=null)
                 {
