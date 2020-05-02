@@ -162,7 +162,7 @@ namespace ARCSoftFaceApp.Entity
                             Rectangle rect = new Rectangle(x, y, width, height);
 
                             CvInvoke.Rectangle(nowFrame, rect, new MCvScalar(0, 0, 255), 3);
-                            CvInvoke.PutText(nowFrame, $"FaceId: {faceInfos[i].faceId}", new Point(x, y - 15), Emgu.CV.CvEnum.FontFace.HersheySimplex,15, new MCvScalar(0, 0, 255), 3);
+                            CvInvoke.PutText(nowFrame, $"FaceId: {faceInfos[i].faceId}", new Point(x, y - 15), Emgu.CV.CvEnum.FontFace.HersheySimplex,1, new MCvScalar(0, 0, 255), 3);
                         }
 
                         for (int i = 0; i < faceInfos.Count; i++)
@@ -187,8 +187,6 @@ namespace ARCSoftFaceApp.Entity
                     }));
                 }
             }
-
-            GC.Collect();
         }
 
         /// <summary>
