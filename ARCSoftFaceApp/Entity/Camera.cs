@@ -6,16 +6,12 @@ using LibHKCamera;
 using LibHKCamera.HKNetWork;
 using LibHKCamera.HKPlayCtrlSDK;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace ARCSoftFaceApp.Entity
 {
@@ -38,11 +34,11 @@ namespace ARCSoftFaceApp.Entity
             StopReadPlay
         };
         private string ip;
-        public string Ip 
+        public string Ip
         {
             get { return ip; }
-            set 
-            { 
+            set
+            {
                 ip = value;
                 ParamItemChangedEvent?.Invoke();
             }
@@ -51,7 +47,7 @@ namespace ARCSoftFaceApp.Entity
         public string user { get; set; }
         public string pwd { get; set; }
         public int ChannelNum { get; set; }
-        public int m_lUserId{get;set;}
+        public int m_lUserId { get; set; }
         public int m_lReadHandle { get; set; }
         private int m_lPort;
 
@@ -60,11 +56,11 @@ namespace ARCSoftFaceApp.Entity
         public IntPtr m_ptrReadHandle { get; set; }
 
         private CameraStatue statue;
-        public CameraStatue Statue 
-        { 
-            get { return statue; } 
-            set 
-            { 
+        public CameraStatue Statue
+        {
+            get { return statue; }
+            set
+            {
                 statue = value;
                 ParamItemChangedEvent?.Invoke();
             }
@@ -103,7 +99,7 @@ namespace ARCSoftFaceApp.Entity
         }
 
         public Camera(string ip, ushort port, string user, string pwd)
-            :this()
+            : this()
         {
             this.Ip = ip;
             this.port = port;
@@ -117,7 +113,7 @@ namespace ARCSoftFaceApp.Entity
         public void StartViewPlay()
         {
 
-            if (taskStartRealPlay==null)
+            if (taskStartRealPlay == null)
             {
                 taskStartRealPlay = Task.Factory.StartNew(RealPreview);
             }
@@ -133,43 +129,43 @@ namespace ARCSoftFaceApp.Entity
 
         private bool isRGBLock = false;
 
-        public void DetalDisplay(Image<Bgr,byte> nowFrame)
+        public void DetalDisplay(Image<Bgr, byte> nowFrame)
         {
 
-                //如果有有效的bgr位图像则进行人工智能工作和picturView的显示
-                if(nowFrame!=null)
+            //如果有有效的bgr位图像则进行人工智能工作和picturView的显示
+            if (nowFrame != null)
+            {
+                using (Bitmap nowFrameBitmap = nowFrame.ToBitmap())
                 {
-                Bitmap nowFrameBitmap = nowFrame.ToBitmap();
                     List<FaceInfo> faceInfos = faceVideoRecognizer.ScanFaces(nowFrameBitmap);
 
                     if (isRGBLock == false)
                     {
                         isRGBLock = true;
 
-                        for(int i=0;i<faceInfos.Count;i++)
+                        for (int i = 0; i < faceInfos.Count; i++)
                         {
-                            ThreadPool.QueueUserWorkItem(new WaitCallback(delegate {
-                                if(faceInfos!=null && faceInfos.Count>i)
+                            ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
+                            {
+                                if (faceInfos != null && faceInfos.Count > i)
                                     faceVideoRecognizer.ScanFaceFeature(nowFrameBitmap, faceInfos[i]);
                             }));
                         }
-
-                        using (Graphics graphics = Graphics.FromImage(nowFrameBitmap))
+                        for (int i = 0; i < faceInfos.Count; i++)
                         {
-                            for (int i = 0; i < faceInfos.Count; i++)
-                            {
-                                float x = faceInfos[i].singleFaceInfo.faceRect.left;
-                                float width = faceInfos[i].singleFaceInfo.faceRect.right - x;
-                                float y = faceInfos[i].singleFaceInfo.faceRect.top;
-                                float height = faceInfos[i].singleFaceInfo.faceRect.bottom - y;
+                            int x = faceInfos[i].singleFaceInfo.faceRect.left;
+                            int width = faceInfos[i].singleFaceInfo.faceRect.right - x;
+                            int y = faceInfos[i].singleFaceInfo.faceRect.top;
+                            int height = faceInfos[i].singleFaceInfo.faceRect.bottom - y;
 
-                                graphics.DrawRectangle(Pens.Red, x, y, width, height);
-                            }
+                            
+                            Rectangle rect = new Rectangle(x, y, width, height);
 
-                        nowFrame.Bitmap = nowFrameBitmap;
+                            CvInvoke.Rectangle(nowFrame, rect, new MCvScalar(0, 0, 255), 3);
+                            CvInvoke.PutText(nowFrame, $"FaceId: {faceInfos[i].faceId}", new Point(x, y - 15), Emgu.CV.CvEnum.FontFace.HersheySimplex,15, new MCvScalar(0, 0, 255), 3);
                         }
 
-                        for(int i=0;i<faceInfos.Count;i++)
+                        for (int i = 0; i < faceInfos.Count; i++)
                         {
                             faceInfos[i].Dispose();
                             faceInfos[i] = null;
@@ -178,20 +174,21 @@ namespace ARCSoftFaceApp.Entity
                         faceInfos.Clear();
                         isRGBLock = false;
                     }
-
-                    //显示到屏幕中
-                    if (PictrueBoxId!=null)
-                    {
-
-                        PictrueBoxId.Invoke(new Action(() =>
-                        {
-                            if(PictrueBoxId!=null)
-                                PictrueBoxId.Image = nowFrame;
-                        }));
-                    }
                 }
 
-                GC.Collect();
+                //显示到屏幕中
+                if (PictrueBoxId != null)
+                {
+
+                    PictrueBoxId.Invoke(new Action(() =>
+                    {
+                        if (PictrueBoxId != null)
+                            PictrueBoxId.Image = nowFrame;
+                    }));
+                }
+            }
+
+            GC.Collect();
         }
 
         /// <summary>
@@ -199,14 +196,14 @@ namespace ARCSoftFaceApp.Entity
         /// </summary>
         public int SignCamera()
         {
-            if(!this.checkSignParam())
+            if (!this.checkSignParam())
             {
                 //检测出用于登录的参数有问题
                 return -1;
             }
 
             //该摄像机未登录
-            if(Statue==CameraStatue.SignOut)
+            if (Statue == CameraStatue.SignOut)
             {
                 //初始化登录信息结构体
                 struLogInfo = new HKNetSDKS.NET_DVR_USER_LOGIN_INFO();
@@ -235,7 +232,7 @@ namespace ARCSoftFaceApp.Entity
                 m_lUserId = HKNetSDKS.NET_DVR_Login_V40(ref struLogInfo, ref DeviceInfo);
 
                 //登录设备，并获取设备信息，当登录失败，该
-                if (m_lUserId<0)
+                if (m_lUserId < 0)
                 {
 
                     //获取错误代码，并返回改错误代码
@@ -255,13 +252,13 @@ namespace ARCSoftFaceApp.Entity
 
         public int SignOutCamera()
         {
-            if(m_lReadHandle>=0)
+            if (m_lReadHandle >= 0)
             {
                 LoggerService.logger.Info($"摄像IP：{ip} 请先停止预览!");
                 return -2;
             }
 
-            if(!HKNetSDKS.NET_DVR_Logout(m_lUserId))
+            if (!HKNetSDKS.NET_DVR_Logout(m_lUserId))
             {
                 LoggerService.logger.Error($"摄像IP：{ip} 注销失败[{HKNetSDKS.NET_DVR_GetLastError()}]!");
                 return -3;
@@ -271,7 +268,7 @@ namespace ARCSoftFaceApp.Entity
 
             m_lUserId = -1;
 
-            if((taskStartRealPlay != null) && (taskStartRealPlay.IsCompleted))
+            if ((taskStartRealPlay != null) && (taskStartRealPlay.IsCompleted))
             {
                 taskStartRealPlay = null;
             }
@@ -288,7 +285,7 @@ namespace ARCSoftFaceApp.Entity
         public int RealPreview()
         {
             //如果设备未登录
-            if(m_lUserId<0)
+            if (m_lUserId < 0)
             {
                 LoggerService.logger.Info("请先登录该网络视频设备后再预览!");
                 return -1;
@@ -296,7 +293,7 @@ namespace ARCSoftFaceApp.Entity
 
             //如果没有创建过预览句柄
             //则进行预览设置
-            if(m_lReadHandle<0)
+            if (m_lReadHandle < 0)
             {
                 HKNetSDKS.NET_DVR_PREVIEWINFO lpPreviewInfo = new HKNetSDKS.NET_DVR_PREVIEWINFO();
 
@@ -312,7 +309,7 @@ namespace ARCSoftFaceApp.Entity
                 ReadData = new HKNetSDKS.REALDATACALLBACK(RealDataCallBack);
                 m_lReadHandle = HKNetSDKS.NET_DVR_RealPlay_V40(m_lUserId, ref lpPreviewInfo, ReadData, pUser);
 
-                if(m_lReadHandle<0)
+                if (m_lReadHandle < 0)
                 {
                     LoggerService.logger.Error($"摄像头{ip}，启动预览失败，错误代码：{HKNetSDKS.NET_DVR_GetLastError()}");
                     return -2;
@@ -329,29 +326,29 @@ namespace ARCSoftFaceApp.Entity
 
         public int StopRealPreview()
         {
-            if(m_lReadHandle<0)
+            if (m_lReadHandle < 0)
             {
                 LoggerService.logger.Error($"摄像头{ip}，未启动过预览。");
                 return -1;
             }
 
-            if(!HKNetSDKS.NET_DVR_StopRealPlay(m_lReadHandle))
+            if (!HKNetSDKS.NET_DVR_StopRealPlay(m_lReadHandle))
             {
                 LoggerService.logger.Error($"摄像头{ip}，播放器无法停止预览。错误代码：{HKNetSDKS.NET_DVR_GetLastError()}");
             }
 
-            if (m_lPort>=0)
+            if (m_lPort >= 0)
             {
-                if(!HKPlayCtrlSDK.PlayM4_Stop(m_lPort))
+                if (!HKPlayCtrlSDK.PlayM4_Stop(m_lPort))
                 {
-                     LoggerService.logger.Error($"摄像头{ip}，播放器无法停止工作。错误代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
+                    LoggerService.logger.Error($"摄像头{ip}，播放器无法停止工作。错误代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
                 }
 
-                if(!HKPlayCtrlSDK.PlayM4_CloseStream(m_lPort))
+                if (!HKPlayCtrlSDK.PlayM4_CloseStream(m_lPort))
                 {
                     LoggerService.logger.Error($"摄像头{ip}，播放器无法关闭数据流。错误代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
                 }
-                if(!HKPlayCtrlSDK.PlayM4_FreePort(m_lPort))
+                if (!HKPlayCtrlSDK.PlayM4_FreePort(m_lPort))
                 {
                     LoggerService.logger.Error($"摄像头{ip}，播放器无法释放播放端口。错误代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
                 }
@@ -378,50 +375,50 @@ namespace ARCSoftFaceApp.Entity
             {
                 case GloableVar.NET_DVR_SYSHEAD:
                     {
-                        if(dwBufSize>0)
+                        if (dwBufSize > 0)
                         {
-                            if(m_lPort>=0)
+                            if (m_lPort >= 0)
                             {
                                 return;
                             }
 
                             //获取播放器句柄
-                            if(!HKPlayCtrlSDK.PlayM4_GetPort(ref m_lPort))
+                            if (!HKPlayCtrlSDK.PlayM4_GetPort(ref m_lPort))
                             {
                                 LoggerService.logger.Error($"摄像头{ip},获取播放句柄错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
                                 break;
                             }
 
                             //设置流播放模式
-                            if(!HKPlayCtrlSDK.PlayM4_SetStreamOpenMode(m_lPort, GloableVar.STREAME_REALTIME))
+                            if (!HKPlayCtrlSDK.PlayM4_SetStreamOpenMode(m_lPort, GloableVar.STREAME_REALTIME))
                             {
                                 LoggerService.logger.Error($"摄像头{ip},设置播放流错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
-                                
+
                             }
 
                             //打开码流，送入头数据 1080P视频流建议开到6M的缓存
-                            if(!HKPlayCtrlSDK.PlayM4_OpenStream(m_lPort,pBuffer,dwBufSize, 6*1024*1024))
+                            if (!HKPlayCtrlSDK.PlayM4_OpenStream(m_lPort, pBuffer, dwBufSize, 6 * 1024 * 1024))
                             {
                                 LoggerService.logger.Error($"摄像头{ip},打开播放流错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
                                 break;
                             }
 
                             //设置显示缓冲区个数
-                            if(!HKPlayCtrlSDK.PlayM4_SetDisplayBuf(m_lPort,15))
+                            if (!HKPlayCtrlSDK.PlayM4_SetDisplayBuf(m_lPort, 15))
                             {
                                 LoggerService.logger.Error($"摄像头{ip},设置显示缓存区错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
-                                
+
                             }
 
                             //设置显示模式
-                            if(!HKPlayCtrlSDK.PlayM4_SetOverlayMode(m_lPort, 0,0))
+                            if (!HKPlayCtrlSDK.PlayM4_SetOverlayMode(m_lPort, 0, 0))
                             {
                                 LoggerService.logger.Error($"摄像头{ip},设置显示属性错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
                             }
 
                             //设置解码回调函数
                             m_fDisplayFun = new HKPlayCtrlSDK.DECCBFUN(DecCallbackFUN);
-                            if(!HKPlayCtrlSDK.PlayM4_SetDecCallBackEx(m_lPort,m_fDisplayFun,IntPtr.Zero, 0))
+                            if (!HKPlayCtrlSDK.PlayM4_SetDecCallBackEx(m_lPort, m_fDisplayFun, IntPtr.Zero, 0))
                             {
                                 LoggerService.logger.Error($"摄像头{ip},设置解码回调函数错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
                             }
@@ -442,7 +439,7 @@ namespace ARCSoftFaceApp.Entity
                         if (dwBufSize > 0 && m_lPort != -1)
                         {
                             bool inData = HKPlayCtrlSDK.PlayM4_InputData(m_lPort, pBuffer, dwBufSize);
-                            while(!inData)
+                            while (!inData)
                             {
                                 Thread.Sleep(10);
                                 inData = HKPlayCtrlSDK.PlayM4_InputData(m_lPort, pBuffer, dwBufSize);
@@ -455,13 +452,13 @@ namespace ARCSoftFaceApp.Entity
 
         private void DecCallbackFUN(int nPort, IntPtr pBuf, int nSize, ref HKPlayCtrlSDK.FRAME_INFO pFrameInfo, int nReserved1, int nReserved2)
         {
-            if(pFrameInfo.nType== GloableVar.T_YV12)
+            if (pFrameInfo.nType == GloableVar.T_YV12)
             {
-                Image<Bgr,byte> nowFramBitMap=imageCover.Yv12_2_BGR(ref pBuf, nSize, pFrameInfo.nHeight, pFrameInfo.nWidth);
+                Image<Bgr, byte> nowFramBitMap = imageCover.Yv12_2_BGR(ref pBuf, nSize, pFrameInfo.nHeight, pFrameInfo.nWidth);
 
-                if(nowFramBitMap!=null)
+                if (nowFramBitMap != null)
                 {
-                        DetalDisplay(nowFramBitMap);
+                    DetalDisplay(nowFramBitMap);
                 }
             }
         }
@@ -474,17 +471,17 @@ namespace ARCSoftFaceApp.Entity
         {
             string ipAddressPattrn = @"^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$";
 
-            if(!Regex.IsMatch(Ip,ipAddressPattrn))
+            if (!Regex.IsMatch(Ip, ipAddressPattrn))
             {
                 return false;
             }
 
-            if(port<0 || port > 65535)
+            if (port < 0 || port > 65535)
             {
                 return false;
             }
 
-            if(user==null || pwd == null || user.Length==0 || pwd.Length==0)
+            if (user == null || pwd == null || user.Length == 0 || pwd.Length == 0)
             {
                 return false;
             }
