@@ -18,7 +18,7 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
         public t_student()
         {
             this.t_attenditem = new HashSet<t_attenditem>();
-            this.t_faceinfo = new HashSet<t_faceinfo>();
+            this.t_face = new HashSet<t_face>();
         }
     
         public string student_id { get; set; }
@@ -33,7 +33,7 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
         public virtual ICollection<t_attenditem> t_attenditem { get; set; }
         public virtual t_classes t_classes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<t_faceinfo> t_faceinfo { get; set; }
+        public virtual ICollection<t_face> t_face { get; set; }
         public virtual t_user t_user { get; set; }
     }
 }

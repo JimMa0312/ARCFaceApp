@@ -17,8 +17,11 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
         public long attendItem_id { get; set; }
         public Nullable<long> attend_id { get; set; }
         public string student_id { get; set; }
+        public string student_name { get; set; }
         public Nullable<System.DateTime> attend_time { get; set; }
         public string attend_result { get; set; }
+        public string attend_name { get; set; }
+        public string check_type { get; set; }
     
         public virtual t_attend t_attend { get; set; }
         public virtual t_student t_student { get; set; }

@@ -102,12 +102,29 @@ namespace ARCSoftFaceApp.Entity
     /// <summary>
     /// 针对图片进行的人脸识别处理模块
     /// </summary>
-    public class FaceImageRecognizer : IFaceRecognizer
+    public class FaceImageRecognizer : IFaceRecognizer,IDisposable
     {
         /// <summary>
         /// 引擎Handle
         /// </summary>
         private IntPtr pImageEngine = IntPtr.Zero;
+
+        public void Dispose()
+        {
+            if(pImageEngine != IntPtr.Zero)
+            {
+                int result = ASFFunctions.ASFUninitEngine(pImageEngine);
+
+                if(result==0)
+                {
+                    pImageEngine = IntPtr.Zero;
+                }
+                else
+                {
+                    LoggerService.logger.Info($"图片采集引擎销毁失败，错误代码: {result}");
+                }
+            }
+        }
 
         public void initFaceEngine()
         {

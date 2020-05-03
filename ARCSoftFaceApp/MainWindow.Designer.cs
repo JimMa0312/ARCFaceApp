@@ -35,8 +35,6 @@
             this.系统设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.测试模式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.登录IP摄像机ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.数据库测试ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.日志输出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxCamera = new System.Windows.Forms.GroupBox();
@@ -47,7 +45,8 @@
             this.groupBoxLogMessage = new System.Windows.Forms.GroupBox();
             this.richTextBoxLogMessage = new System.Windows.Forms.RichTextBox();
             this.flowLayoutPanelVideoReal = new System.Windows.Forms.FlowLayoutPanel();
-            this.从本地文件采集人脸特征ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.系统维护toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.更新人脸特征ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBoxCamera.SuspendLayout();
             this.groupBoxLogMessage.SuspendLayout();
@@ -62,6 +61,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.系统设置ToolStripMenuItem,
+            this.系统维护toolStripMenuItem,
             this.测试模式ToolStripMenuItem,
             this.帮助ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -79,10 +79,7 @@
             // 测试模式ToolStripMenuItem
             // 
             this.测试模式ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.登录IP摄像机ToolStripMenuItem,
-            this.数据库测试ToolStripMenuItem,
-            this.日志输出ToolStripMenuItem,
-            this.从本地文件采集人脸特征ToolStripMenuItem});
+            this.登录IP摄像机ToolStripMenuItem});
             this.测试模式ToolStripMenuItem.Name = "测试模式ToolStripMenuItem";
             this.测试模式ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.测试模式ToolStripMenuItem.Text = "测试模式";
@@ -90,23 +87,9 @@
             // 登录IP摄像机ToolStripMenuItem
             // 
             this.登录IP摄像机ToolStripMenuItem.Name = "登录IP摄像机ToolStripMenuItem";
-            this.登录IP摄像机ToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.登录IP摄像机ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.登录IP摄像机ToolStripMenuItem.Text = "登录IP摄像机";
             this.登录IP摄像机ToolStripMenuItem.Click += new System.EventHandler(this.登录IP摄像机ToolStripMenuItem_Click);
-            // 
-            // 数据库测试ToolStripMenuItem
-            // 
-            this.数据库测试ToolStripMenuItem.Name = "数据库测试ToolStripMenuItem";
-            this.数据库测试ToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.数据库测试ToolStripMenuItem.Text = "数据库测试";
-            this.数据库测试ToolStripMenuItem.Click += new System.EventHandler(this.数据库测试ToolStripMenuItem_Click);
-            // 
-            // 日志输出ToolStripMenuItem
-            // 
-            this.日志输出ToolStripMenuItem.Name = "日志输出ToolStripMenuItem";
-            this.日志输出ToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.日志输出ToolStripMenuItem.Text = "日志输出";
-            this.日志输出ToolStripMenuItem.Click += new System.EventHandler(this.日志输出ToolStripMenuItem_Click);
             // 
             // 帮助ToolStripMenuItem
             // 
@@ -200,12 +183,20 @@
             this.flowLayoutPanelVideoReal.Size = new System.Drawing.Size(517, 301);
             this.flowLayoutPanelVideoReal.TabIndex = 3;
             // 
-            // 从本地文件采集人脸特征ToolStripMenuItem
+            // 系统维护toolStripMenuItem
             // 
-            this.从本地文件采集人脸特征ToolStripMenuItem.Name = "从本地文件采集人脸特征ToolStripMenuItem";
-            this.从本地文件采集人脸特征ToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.从本地文件采集人脸特征ToolStripMenuItem.Text = "从本地文件采集人脸特征";
-            this.从本地文件采集人脸特征ToolStripMenuItem.Click += new System.EventHandler(this.从本地文件采集人脸特征ToolStripMenuItem_Click);
+            this.系统维护toolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.更新人脸特征ToolStripMenuItem});
+            this.系统维护toolStripMenuItem.Name = "系统维护toolStripMenuItem";
+            this.系统维护toolStripMenuItem.Size = new System.Drawing.Size(68, 21);
+            this.系统维护toolStripMenuItem.Text = "系统维护";
+            // 
+            // 更新人脸特征ToolStripMenuItem
+            // 
+            this.更新人脸特征ToolStripMenuItem.Name = "更新人脸特征ToolStripMenuItem";
+            this.更新人脸特征ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.更新人脸特征ToolStripMenuItem.Text = "更新人脸特征";
+            this.更新人脸特征ToolStripMenuItem.Click += new System.EventHandler(this.更新人脸特征ToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -246,9 +237,8 @@
         private System.Windows.Forms.GroupBox groupBoxLogMessage;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelVideoReal;
         private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 数据库测试ToolStripMenuItem;
         public System.Windows.Forms.RichTextBox richTextBoxLogMessage;
-        private System.Windows.Forms.ToolStripMenuItem 日志输出ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 从本地文件采集人脸特征ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 系统维护toolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 更新人脸特征ToolStripMenuItem;
     }
 }

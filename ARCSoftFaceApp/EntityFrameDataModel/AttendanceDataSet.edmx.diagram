@@ -4,20 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="430f736be9234f459d1b20453402a622" Name="Diagram1">
-        <EntityTypeShape EntityType="attendance_sysModel.t_attend" Width="1.5" PointX="10.5" PointY="8.625" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_attenditem" Width="1.5" PointX="5.25" PointY="3.5" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_attendrule" Width="1.5" PointX="8.25" PointY="1.25" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_camera" Width="1.5" PointX="10.5" PointY="12.75" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_classes" Width="1.5" PointX="8.25" PointY="5.25" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_classroom" Width="1.5" PointX="8.25" PointY="13.125" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_course" Width="1.5" PointX="8.25" PointY="8.125" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_dept" Width="1.5" PointX="3.75" PointY="0.75" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_faceinfo" Width="1.5" PointX="5.25" PointY="11.5" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_log" Width="1.5" PointX="0.75" PointY="1.5" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_student" Width="1.5" PointX="3" PointY="7.125" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_teacher" Width="1.5" PointX="6" PointY="7.125" />
-        <EntityTypeShape EntityType="attendance_sysModel.t_user" Width="1.5" PointX="0.75" PointY="7.25" />
+      <Diagram DiagramId="430f736be9234f459d1b20453402a622" Name="Diagram1" ZoomLevel="226">
+        <EntityTypeShape EntityType="attendance_sysModel.t_attend" Width="1.5" PointX="10.5" PointY="7.5" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_attenditem" Width="1.5" PointX="5.25" PointY="2.5" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_attendrule" Width="1.5" PointX="8.25" PointY="12.125" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_camera" Width="1.5" PointX="10.5" PointY="1.25" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_classes" Width="1.5" PointX="8.25" PointY="4.625" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_classroom" Width="1.5" PointX="8.25" PointY="1.625" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_course" Width="1.5" PointX="8.25" PointY="7.5" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_dept" Width="1.5" PointX="3.75" PointY="14" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_face" Width="1.5" PointX="5.25" PointY="10.5" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_log" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_student" Width="1.5" PointX="3" PointY="6.375" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_teacher" Width="1.5" PointX="6" PointY="6.375" />
+        <EntityTypeShape EntityType="attendance_sysModel.t_user" Width="1.5" PointX="0.75" PointY="6.5" />
         <AssociationConnector Association="attendance_sysModel.attend_attendrule_id_fk" />
         <AssociationConnector Association="attendance_sysModel.fk_t_attend_t_classroom_1" />
         <AssociationConnector Association="attendance_sysModel.fk_t_attend_t_course_1" />

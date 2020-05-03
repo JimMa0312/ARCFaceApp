@@ -26,13 +26,13 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
         public string course_name { get; set; }
         public string teacher_id { get; set; }
         public Nullable<System.DateTime> course_date { get; set; }
-        public string course_start_time { get; set; }
-        public string course_end_time { get; set; }
         public string course_start_week { get; set; }
         public string course_end_week { get; set; }
         public string school_year { get; set; }
         public string semester { get; set; }
         public string grade { get; set; }
+        public string course_start_time { get; set; }
+        public string course_end_time { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<t_attend> t_attend { get; set; }

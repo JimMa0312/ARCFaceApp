@@ -184,6 +184,7 @@ namespace ARCSoftFaceApp.Entity
                     {
                         if (PictrueBoxId != null)
                             PictrueBoxId.Image = nowFrame;
+                        PictrueBoxId.Refresh();
                     }));
                 }
             }

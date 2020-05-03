@@ -12,14 +12,13 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class t_faceinfo
+    public partial class t_face
     {
         public long id { get; set; }
         public string studnet_id { get; set; }
-        public string face_id { get; set; }
-        public Nullable<long> group_id { get; set; }
         public byte[] face_feature { get; set; }
         public string image_path { get; set; }
+        public Nullable<int> face_feature_length { get; set; }
     
         public virtual t_student t_student { get; set; }
     }

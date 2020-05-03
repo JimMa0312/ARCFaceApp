@@ -28,6 +28,7 @@ namespace ARCSoftFaceApp.EntityFrameDataModel
         public Nullable<System.DateTime> user_create_time { get; set; }
         public Nullable<System.DateTime> last_login_time { get; set; }
         public string user_status { get; set; }
+        public Nullable<int> role { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<t_student> t_student { get; set; }

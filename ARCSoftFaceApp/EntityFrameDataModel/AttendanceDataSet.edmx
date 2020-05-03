@@ -14,7 +14,11 @@
           <Property Name="course_id" Type="bigint" />
           <Property Name="classroom_id" Type="varchar" MaxLength="20" />
           <Property Name="describes" Type="varchar" MaxLength="255" />
-          <Property Name="attend_status" Type="char" MaxLength="1" />
+          <Property Name="attend_status" Type="varchar" MaxLength="20" />
+          <Property Name="attend_name" Type="varchar" MaxLength="30" />
+          <Property Name="manager" Type="varchar" MaxLength="30" />
+          <Property Name="attend_create_time" Type="datetime" Precision="0" />
+          <Property Name="class_id" Type="int" />
         </EntityType>
         <EntityType Name="t_attenditem">
           <Key>
@@ -23,8 +27,11 @@
           <Property Name="attendItem_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="attend_id" Type="bigint" />
           <Property Name="student_id" Type="varchar" MaxLength="20" />
+          <Property Name="student_name" Type="varchar" MaxLength="30" />
           <Property Name="attend_time" Type="datetime" Precision="0" />
           <Property Name="attend_result" Type="varchar" MaxLength="5" />
+          <Property Name="attend_name" Type="varchar" MaxLength="255" />
+          <Property Name="check_type" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="t_attendrule">
           <Key>
@@ -79,13 +86,13 @@
           <Property Name="course_name" Type="varchar" MaxLength="255" />
           <Property Name="teacher_id" Type="varchar" MaxLength="20" />
           <Property Name="course_date" Type="date" />
-          <Property Name="course_start_time" Type="varchar" MaxLength="10" />
-          <Property Name="course_end_time" Type="varchar" MaxLength="10" />
           <Property Name="course_start_week" Type="varchar" MaxLength="10" />
           <Property Name="course_end_week" Type="varchar" MaxLength="10" />
           <Property Name="school_year" Type="varchar" MaxLength="30" />
           <Property Name="semester" Type="varchar" MaxLength="5" />
           <Property Name="grade" Type="varchar" MaxLength="10" />
+          <Property Name="course_start_time" Type="varchar" MaxLength="20" />
+          <Property Name="course_end_time" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="t_dept">
           <Key>
@@ -95,16 +102,15 @@
           <Property Name="college_name" Type="varchar" MaxLength="30" />
           <Property Name="dept_describes" Type="varchar" MaxLength="255" />
         </EntityType>
-        <EntityType Name="t_faceinfo">
+        <EntityType Name="t_face">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="studnet_id" Type="varchar" MaxLength="20" />
-          <Property Name="face_id" Type="varchar" MaxLength="31" />
-          <Property Name="group_id" Type="bigint" />
           <Property Name="face_feature" Type="blob" />
           <Property Name="image_path" Type="varchar" MaxLength="255" />
+          <Property Name="face_feature_length" Type="int" />
         </EntityType>
         <EntityType Name="t_log">
           <Key>
@@ -155,6 +161,7 @@
           <Property Name="user_create_time" Type="datetime" Precision="0" />
           <Property Name="last_login_time" Type="datetime" Precision="0" />
           <Property Name="user_status" Type="char" MaxLength="3" />
+          <Property Name="role" Type="int" />
         </EntityType>
         <Association Name="attend_attendrule_id_fk">
           <End Role="t_attendrule" Type="Self.t_attendrule" Multiplicity="0..1" />
@@ -254,12 +261,12 @@
         </Association>
         <Association Name="fk_t_faceinfo_t_student_1">
           <End Role="t_student" Type="Self.t_student" Multiplicity="0..1" />
-          <End Role="t_faceinfo" Type="Self.t_faceinfo" Multiplicity="*" />
+          <End Role="t_face" Type="Self.t_face" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="t_student">
               <PropertyRef Name="student_id" />
             </Principal>
-            <Dependent Role="t_faceinfo">
+            <Dependent Role="t_face">
               <PropertyRef Name="studnet_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -321,7 +328,7 @@
           <EntitySet Name="t_classroom" EntityType="Self.t_classroom" Schema="attendance_sys" store:Type="Tables" />
           <EntitySet Name="t_course" EntityType="Self.t_course" Schema="attendance_sys" store:Type="Tables" />
           <EntitySet Name="t_dept" EntityType="Self.t_dept" Schema="attendance_sys" store:Type="Tables" />
-          <EntitySet Name="t_faceinfo" EntityType="Self.t_faceinfo" Schema="attendance_sys" store:Type="Tables" />
+          <EntitySet Name="t_face" EntityType="Self.t_face" Schema="attendance_sys" store:Type="Tables" />
           <EntitySet Name="t_log" EntityType="Self.t_log" Schema="attendance_sys" store:Type="Tables" />
           <EntitySet Name="t_student" EntityType="Self.t_student" Schema="attendance_sys" store:Type="Tables" />
           <EntitySet Name="t_teacher" EntityType="Self.t_teacher" Schema="attendance_sys" store:Type="Tables" />
@@ -360,7 +367,7 @@
           </AssociationSet>
           <AssociationSet Name="fk_t_faceinfo_t_student_1" Association="Self.fk_t_faceinfo_t_student_1">
             <End Role="t_student" EntitySet="t_student" />
-            <End Role="t_faceinfo" EntitySet="t_faceinfo" />
+            <End Role="t_face" EntitySet="t_face" />
           </AssociationSet>
           <AssociationSet Name="fk_t_student_t_classes_1" Association="Self.fk_t_student_t_classes_1">
             <End Role="t_classes" EntitySet="t_classes" />
@@ -392,7 +399,7 @@
           <EntitySet Name="t_classroom" EntityType="attendance_sysModel.t_classroom" />
           <EntitySet Name="t_course" EntityType="attendance_sysModel.t_course" />
           <EntitySet Name="t_dept" EntityType="attendance_sysModel.t_dept" />
-          <EntitySet Name="t_faceinfo" EntityType="attendance_sysModel.t_faceinfo" />
+          <EntitySet Name="t_face" EntityType="attendance_sysModel.t_face" />
           <EntitySet Name="t_log" EntityType="attendance_sysModel.t_log" />
           <EntitySet Name="t_student" EntityType="attendance_sysModel.t_student" />
           <EntitySet Name="t_teacher" EntityType="attendance_sysModel.t_teacher" />
@@ -439,7 +446,7 @@
           </AssociationSet>
           <AssociationSet Name="fk_t_faceinfo_t_student_1" Association="attendance_sysModel.fk_t_faceinfo_t_student_1">
             <End Role="t_student" EntitySet="t_student" />
-            <End Role="t_faceinfo" EntitySet="t_faceinfo" />
+            <End Role="t_face" EntitySet="t_face" />
           </AssociationSet>
           <AssociationSet Name="fk_t_student_t_user_1" Association="attendance_sysModel.fk_t_student_t_user_1">
             <End Role="t_user" EntitySet="t_user" />
@@ -459,7 +466,11 @@
           <Property Name="course_id" Type="Int64" />
           <Property Name="classroom_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="describes" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="attend_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="attend_status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="attend_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="manager" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="attend_create_time" Type="DateTime" />
+          <Property Name="class_id" Type="Int32" />
           <NavigationProperty Name="t_attendrule" Relationship="attendance_sysModel.attend_attendrule_id_fk" FromRole="t_attend" ToRole="t_attendrule" />
           <NavigationProperty Name="t_classroom" Relationship="attendance_sysModel.fk_t_attend_t_classroom_1" FromRole="t_attend" ToRole="t_classroom" />
           <NavigationProperty Name="t_course" Relationship="attendance_sysModel.fk_t_attend_t_course_1" FromRole="t_attend" ToRole="t_course" />
@@ -472,8 +483,11 @@
           <Property Name="attendItem_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="attend_id" Type="Int64" />
           <Property Name="student_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="student_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="attend_time" Type="DateTime" />
           <Property Name="attend_result" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="attend_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="check_type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="t_attend" Relationship="attendance_sysModel.fk_t_attenditem_t_attend_1" FromRole="t_attenditem" ToRole="t_attend" />
           <NavigationProperty Name="t_student" Relationship="attendance_sysModel.fk_t_attenditem_t_student_1" FromRole="t_attenditem" ToRole="t_student" />
         </EntityType>
@@ -536,13 +550,13 @@
           <Property Name="course_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="teacher_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="course_date" Type="DateTime" />
-          <Property Name="course_start_time" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="course_end_time" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="course_start_week" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="course_end_week" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="school_year" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="semester" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="grade" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="course_start_time" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="course_end_time" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="t_attend" Relationship="attendance_sysModel.fk_t_attend_t_course_1" FromRole="t_course" ToRole="t_attend" />
           <NavigationProperty Name="t_teacher" Relationship="attendance_sysModel.fk_t_course_t_teacher_1" FromRole="t_course" ToRole="t_teacher" />
         </EntityType>
@@ -555,17 +569,16 @@
           <Property Name="dept_describes" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="t_teacher" Relationship="attendance_sysModel.fk_t_teacher_t_dept_1" FromRole="t_dept" ToRole="t_teacher" />
         </EntityType>
-        <EntityType Name="t_faceinfo">
+        <EntityType Name="t_face">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="studnet_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="face_id" Type="String" MaxLength="31" FixedLength="false" Unicode="false" />
-          <Property Name="group_id" Type="Int64" />
           <Property Name="face_feature" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="image_path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="t_student" Relationship="attendance_sysModel.fk_t_faceinfo_t_student_1" FromRole="t_faceinfo" ToRole="t_student" />
+          <NavigationProperty Name="t_student" Relationship="attendance_sysModel.fk_t_faceinfo_t_student_1" FromRole="t_face" ToRole="t_student" />
+          <Property Name="face_feature_length" Type="Int32" />
         </EntityType>
         <EntityType Name="t_log">
           <Key>
@@ -594,7 +607,7 @@
           <Property Name="user_id" Type="Int64" />
           <NavigationProperty Name="t_attenditem" Relationship="attendance_sysModel.fk_t_attenditem_t_student_1" FromRole="t_student" ToRole="t_attenditem" />
           <NavigationProperty Name="t_classes" Relationship="attendance_sysModel.fk_t_student_t_classes_1" FromRole="t_student" ToRole="t_classes" />
-          <NavigationProperty Name="t_faceinfo" Relationship="attendance_sysModel.fk_t_faceinfo_t_student_1" FromRole="t_student" ToRole="t_faceinfo" />
+          <NavigationProperty Name="t_face" Relationship="attendance_sysModel.fk_t_faceinfo_t_student_1" FromRole="t_student" ToRole="t_face" />
           <NavigationProperty Name="t_user" Relationship="attendance_sysModel.fk_t_student_t_user_1" FromRole="t_student" ToRole="t_user" />
         </EntityType>
         <EntityType Name="t_teacher">
@@ -624,6 +637,7 @@
           <Property Name="user_create_time" Type="DateTime" />
           <Property Name="last_login_time" Type="DateTime" />
           <Property Name="user_status" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="role" Type="Int32" />
           <NavigationProperty Name="t_student" Relationship="attendance_sysModel.fk_t_student_t_user_1" FromRole="t_user" ToRole="t_student" />
           <NavigationProperty Name="t_teacher" Relationship="attendance_sysModel.fk_t_teacher_t_user_1" FromRole="t_user" ToRole="t_teacher" />
         </EntityType>
@@ -749,12 +763,12 @@
         </Association>
         <Association Name="fk_t_faceinfo_t_student_1">
           <End Type="attendance_sysModel.t_student" Role="t_student" Multiplicity="0..1" />
-          <End Type="attendance_sysModel.t_faceinfo" Role="t_faceinfo" Multiplicity="*" />
+          <End Type="attendance_sysModel.t_face" Role="t_face" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="t_student">
               <PropertyRef Name="student_id" />
             </Principal>
-            <Dependent Role="t_faceinfo">
+            <Dependent Role="t_face">
               <PropertyRef Name="studnet_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -792,6 +806,10 @@
           <EntitySetMapping Name="t_attend">
             <EntityTypeMapping TypeName="attendance_sysModel.t_attend">
               <MappingFragment StoreEntitySet="t_attend">
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="attend_create_time" ColumnName="attend_create_time" />
+                <ScalarProperty Name="manager" ColumnName="manager" />
+                <ScalarProperty Name="attend_name" ColumnName="attend_name" />
                 <ScalarProperty Name="attend_status" ColumnName="attend_status" />
                 <ScalarProperty Name="describes" ColumnName="describes" />
                 <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
@@ -804,8 +822,11 @@
           <EntitySetMapping Name="t_attenditem">
             <EntityTypeMapping TypeName="attendance_sysModel.t_attenditem">
               <MappingFragment StoreEntitySet="t_attenditem">
+                <ScalarProperty Name="check_type" ColumnName="check_type" />
+                <ScalarProperty Name="attend_name" ColumnName="attend_name" />
                 <ScalarProperty Name="attend_result" ColumnName="attend_result" />
                 <ScalarProperty Name="attend_time" ColumnName="attend_time" />
+                <ScalarProperty Name="student_name" ColumnName="student_name" />
                 <ScalarProperty Name="student_id" ColumnName="student_id" />
                 <ScalarProperty Name="attend_id" ColumnName="attend_id" />
                 <ScalarProperty Name="attendItem_id" ColumnName="attendItem_id" />
@@ -862,13 +883,13 @@
           <EntitySetMapping Name="t_course">
             <EntityTypeMapping TypeName="attendance_sysModel.t_course">
               <MappingFragment StoreEntitySet="t_course">
+                <ScalarProperty Name="course_end_time" ColumnName="course_end_time" />
+                <ScalarProperty Name="course_start_time" ColumnName="course_start_time" />
                 <ScalarProperty Name="grade" ColumnName="grade" />
                 <ScalarProperty Name="semester" ColumnName="semester" />
                 <ScalarProperty Name="school_year" ColumnName="school_year" />
                 <ScalarProperty Name="course_end_week" ColumnName="course_end_week" />
                 <ScalarProperty Name="course_start_week" ColumnName="course_start_week" />
-                <ScalarProperty Name="course_end_time" ColumnName="course_end_time" />
-                <ScalarProperty Name="course_start_time" ColumnName="course_start_time" />
                 <ScalarProperty Name="course_date" ColumnName="course_date" />
                 <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
                 <ScalarProperty Name="course_name" ColumnName="course_name" />
@@ -887,13 +908,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="t_faceinfo">
-            <EntityTypeMapping TypeName="attendance_sysModel.t_faceinfo">
-              <MappingFragment StoreEntitySet="t_faceinfo">
+          <EntitySetMapping Name="t_face">
+            <EntityTypeMapping TypeName="attendance_sysModel.t_face">
+              <MappingFragment StoreEntitySet="t_face">
+                <ScalarProperty Name="face_feature_length" ColumnName="face_feature_length" />
                 <ScalarProperty Name="image_path" ColumnName="image_path" />
                 <ScalarProperty Name="face_feature" ColumnName="face_feature" />
-                <ScalarProperty Name="group_id" ColumnName="group_id" />
-                <ScalarProperty Name="face_id" ColumnName="face_id" />
                 <ScalarProperty Name="studnet_id" ColumnName="studnet_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
@@ -943,6 +963,7 @@
           <EntitySetMapping Name="t_user">
             <EntityTypeMapping TypeName="attendance_sysModel.t_user">
               <MappingFragment StoreEntitySet="t_user">
+                <ScalarProperty Name="role" ColumnName="role" />
                 <ScalarProperty Name="user_status" ColumnName="user_status" />
                 <ScalarProperty Name="last_login_time" ColumnName="last_login_time" />
                 <ScalarProperty Name="user_create_time" ColumnName="user_create_time" />

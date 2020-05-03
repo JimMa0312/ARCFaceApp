@@ -391,7 +391,7 @@ namespace ArcSoftFace.Utils
                     g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
                     //执行高质量图像变换
                     g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    g.DrawImage(srcBitmap, new Rectangle(0, 0, width, heigh), left, top, right, bottom, GraphicsUnit.Pixel);
+                    g.DrawImage(srcBitmap, new Rectangle(0, 0, width, heigh), left, top, width, heigh, GraphicsUnit.Pixel);
                 }
 
                 return desBitmap;
