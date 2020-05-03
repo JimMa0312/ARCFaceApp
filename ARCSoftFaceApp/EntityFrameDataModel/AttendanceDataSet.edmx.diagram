@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="430f736be9234f459d1b20453402a622" Name="Diagram1" ZoomLevel="226">
+      <Diagram DiagramId="430f736be9234f459d1b20453402a622" Name="Diagram1" ZoomLevel="100">
         <EntityTypeShape EntityType="attendance_sysModel.t_attend" Width="1.5" PointX="10.5" PointY="7.5" />
         <EntityTypeShape EntityType="attendance_sysModel.t_attenditem" Width="1.5" PointX="5.25" PointY="2.5" />
         <EntityTypeShape EntityType="attendance_sysModel.t_attendrule" Width="1.5" PointX="8.25" PointY="12.125" />

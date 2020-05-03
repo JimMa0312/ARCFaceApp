@@ -193,9 +193,11 @@ namespace ARCSoftFaceApp
         {
             using (var db = new attendance_sysEntities())
             {
-                for (int i = 0; i < t_Faces.Count; i++)
+                int i = 0;
+                while(t_Faces.Count>0)
                 {
                     t_face tempFace = t_Faces.Dequeue();
+                    //从数据库中查询是否有该stduentid的特征记录
                     var sqface = db.t_face.Where(face => face.studnet_id == tempFace.studnet_id).FirstOrDefault();
                     int records = 0;
                     //如果数据库中有该同学的人脸特征记录
@@ -232,6 +234,8 @@ namespace ARCSoftFaceApp
 
                         listViewFaceDetal.Refresh();
                     }));
+
+                    i++;
 
                 }
             }
