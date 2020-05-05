@@ -189,14 +189,12 @@ namespace ARCSoftFaceApp.Entity
                             }
                             if (faceInfo[i].isGetFeature==false)
                             {
+                                FaceInfo tempFaceInfo = faceInfo[i];
                                 ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
                                 {
-                                    if (faceInfo != null && faceInfo.Count > i)
-                                    {
                                         //提取特征值
-                                        faceVideoRecognizer.ScanFaceFeature(nowFrameBitmap, faceInfo[i]);
-                                        faceInfo[i].isGetFeature = true;
-                                    }
+                                    faceVideoRecognizer.ScanFaceFeature(nowFrameBitmap, tempFaceInfo);
+                                    tempFaceInfo.isGetFeature = true;
                                 }));
                             }
                         }
