@@ -27,7 +27,6 @@ namespace ARCSoftFaceApp
     {
         public const int RealPlayWndWidth= 642;
         public const int RealPlayWndHeigh = 360;
-        private readonly long maxSize=1024*1024*2;
         private int nowWindowxWidth;
         private int nowWindowyHeigh;
         private long iSelectedIndex;

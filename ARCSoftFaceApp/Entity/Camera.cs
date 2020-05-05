@@ -5,6 +5,7 @@ using Emgu.CV.UI;
 using LibHKCamera;
 using LibHKCamera.HKNetWork;
 using LibHKCamera.HKPlayCtrlSDK;
+using Remotion.Linq.Clauses.ExpressionVisitors;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -66,6 +67,8 @@ namespace ARCSoftFaceApp.Entity
             }
         }
 
+        private List<FaceInfo> faceInfo;
+
         private ImageCover imageCover;
 
         public HKNetSDKS.NET_DVR_USER_LOGIN_INFO struLogInfo;
@@ -112,7 +115,10 @@ namespace ARCSoftFaceApp.Entity
 
         public void StartViewPlay()
         {
-
+            if(faceInfo==null)
+            {
+                faceInfo = new List<FaceInfo>();
+            }
             if (taskStartRealPlay == null)
             {
                 taskStartRealPlay = Task.Factory.StartNew(RealPreview);
@@ -143,14 +149,58 @@ namespace ARCSoftFaceApp.Entity
                     {
                         isRGBLock = true;
 
-                        for (int i = 0; i < faceInfos.Count; i++)
+                        for(int i=0;i<faceInfos.Count;i++)
                         {
-                            ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
+                            int findindex= faceInfo.FindIndex(temp => temp.faceId == faceInfos[i].faceId);
+                            //如果当前摄像设备之前没有侦测过任何人脸，或者在设备人脸缓存中未找到匹配的Faceid
+                            if (faceInfo.Count==0 || findindex < 0)
                             {
-                                if (faceInfos != null && faceInfos.Count > i)
-                                    faceVideoRecognizer.ScanFaceFeature(nowFrameBitmap, faceInfos[i]);
-                            }));
+                                FaceInfo tempFaceInfo = new FaceInfo();
+                                faceInfos[i].getCopy(tempFaceInfo);
+                                tempFaceInfo.frameNum++;
+                                tempFaceInfo.dateTime = DateTime.Now.ToLocalTime();
+                                faceInfo.Add(tempFaceInfo);
+                            }
+                            //如果在人脸缓存中有该faceid的对象
+                            else
+                            {
+                                faceInfos[i].getCopy(faceInfo[findindex]);
+                                faceInfo[findindex].frameNum++;
+                                faceInfo[findindex].dateTime = DateTime.Now.ToLocalTime();
+                                if (faceInfo[findindex].frameNum%5 == 0)
+                                {
+                                    faceInfo[findindex].isGetFeature = false;
+                                    if(faceInfo[findindex].faceFeature.feature != IntPtr.Zero)
+                                    {
+                                        faceInfo[findindex].freeFeature();
+                                    }
+                                }
+                            }
                         }
+
+                        for (int i = 0; i < faceInfo.Count; i++)
+                        {
+                            if((DateTime.Now-faceInfo[i].dateTime).TotalSeconds> 5)//如果当前人脸未出现在视场中5秒则清除该人脸缓存信息
+                            {
+                                faceInfo[i].Dispose();
+                                faceInfo.RemoveAt(i);
+                                i--;
+                                continue;
+                            }
+                            if (faceInfo[i].isGetFeature==false)
+                            {
+                                ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
+                                {
+                                    if (faceInfo != null && faceInfo.Count > i)
+                                    {
+                                        //提取特征值
+                                        faceVideoRecognizer.ScanFaceFeature(nowFrameBitmap, faceInfo[i]);
+                                        faceInfo[i].isGetFeature = true;
+                                    }
+                                }));
+                            }
+                        }
+
                         for (int i = 0; i < faceInfos.Count; i++)
                         {
                             int x = faceInfos[i].singleFaceInfo.faceRect.left;

@@ -204,16 +204,32 @@ namespace ARCSoftFaceApp.Entity
         public int faceId;
         public ASF_SingleFaceInfo singleFaceInfo;
         public ASF_FaceFeature faceFeature;
+        public DateTime dateTime;
+        public byte frameNum;//帧计数
+        public bool isGetFeature;
         /// <summary>
         /// 是否已经进行了人脸识别
         /// </summary>
-        public Boolean isFacePass;
+        public bool isFacePass;
+
+        public int studentId;
+
 
         public FaceInfo()
         {
             faceId = 0;
             singleFaceInfo = new ASF_SingleFaceInfo();
             isFacePass = false;
+            isGetFeature = false;
+            frameNum = 0;
+            studentId = -1;
+        }
+
+        public void freeFeature()
+        {
+            MemoryUtil.Free(faceFeature.feature);
+            faceFeature.feature = IntPtr.Zero;
+            faceFeature.featureSize = 0;
         }
 
         /// <summary>
@@ -221,11 +237,19 @@ namespace ARCSoftFaceApp.Entity
         /// </summary>
         public void Dispose()
         {
-
-            MemoryUtil.Free(faceFeature.feature);
-            faceFeature.feature = IntPtr.Zero;
-            faceFeature.featureSize = 0;
+            freeFeature();
         }
+
+        public void getCopy(FaceInfo targetObject)
+        {
+            targetObject.faceId = faceId;
+            targetObject.singleFaceInfo.faceRect.top = singleFaceInfo.faceRect.top;
+            targetObject.singleFaceInfo.faceRect.bottom = singleFaceInfo.faceRect.bottom;
+            targetObject.singleFaceInfo.faceRect.left = singleFaceInfo.faceRect.left;
+            targetObject.singleFaceInfo.faceRect.right = singleFaceInfo.faceRect.right;
+            targetObject.singleFaceInfo.faceOrient = singleFaceInfo.faceOrient;
+        }
+
     }
 
 
