@@ -303,6 +303,7 @@
       <DependentUpon>AttendanceDataSet.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\Camera.cs" />
+    <Compile Include="Entity\FaceFeatureLib.cs" />
     <Compile Include="Entity\FaceRecognizer.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>

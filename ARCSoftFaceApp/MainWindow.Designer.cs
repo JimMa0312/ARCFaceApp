@@ -33,6 +33,8 @@
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.系统设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.系统维护toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.更新人脸特征ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.测试模式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.登录IP摄像机ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,8 +47,8 @@
             this.groupBoxLogMessage = new System.Windows.Forms.GroupBox();
             this.richTextBoxLogMessage = new System.Windows.Forms.RichTextBox();
             this.flowLayoutPanelVideoReal = new System.Windows.Forms.FlowLayoutPanel();
-            this.系统维护toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.更新人脸特征ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.加载人脸特征库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.清除人脸特征库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBoxCamera.SuspendLayout();
             this.groupBoxLogMessage.SuspendLayout();
@@ -76,10 +78,27 @@
             this.系统设置ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.系统设置ToolStripMenuItem.Text = "系统设置";
             // 
+            // 系统维护toolStripMenuItem
+            // 
+            this.系统维护toolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.更新人脸特征ToolStripMenuItem});
+            this.系统维护toolStripMenuItem.Name = "系统维护toolStripMenuItem";
+            this.系统维护toolStripMenuItem.Size = new System.Drawing.Size(68, 21);
+            this.系统维护toolStripMenuItem.Text = "系统维护";
+            // 
+            // 更新人脸特征ToolStripMenuItem
+            // 
+            this.更新人脸特征ToolStripMenuItem.Name = "更新人脸特征ToolStripMenuItem";
+            this.更新人脸特征ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.更新人脸特征ToolStripMenuItem.Text = "更新人脸特征";
+            this.更新人脸特征ToolStripMenuItem.Click += new System.EventHandler(this.更新人脸特征ToolStripMenuItem_Click);
+            // 
             // 测试模式ToolStripMenuItem
             // 
             this.测试模式ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.登录IP摄像机ToolStripMenuItem});
+            this.登录IP摄像机ToolStripMenuItem,
+            this.加载人脸特征库ToolStripMenuItem,
+            this.清除人脸特征库ToolStripMenuItem});
             this.测试模式ToolStripMenuItem.Name = "测试模式ToolStripMenuItem";
             this.测试模式ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.测试模式ToolStripMenuItem.Text = "测试模式";
@@ -183,20 +202,19 @@
             this.flowLayoutPanelVideoReal.Size = new System.Drawing.Size(517, 301);
             this.flowLayoutPanelVideoReal.TabIndex = 3;
             // 
-            // 系统维护toolStripMenuItem
+            // 加载人脸特征库ToolStripMenuItem
             // 
-            this.系统维护toolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.更新人脸特征ToolStripMenuItem});
-            this.系统维护toolStripMenuItem.Name = "系统维护toolStripMenuItem";
-            this.系统维护toolStripMenuItem.Size = new System.Drawing.Size(68, 21);
-            this.系统维护toolStripMenuItem.Text = "系统维护";
+            this.加载人脸特征库ToolStripMenuItem.Name = "加载人脸特征库ToolStripMenuItem";
+            this.加载人脸特征库ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.加载人脸特征库ToolStripMenuItem.Text = "加载人脸特征库";
+            this.加载人脸特征库ToolStripMenuItem.Click += new System.EventHandler(this.加载人脸特征库ToolStripMenuItem_Click);
             // 
-            // 更新人脸特征ToolStripMenuItem
+            // 清除人脸特征库ToolStripMenuItem
             // 
-            this.更新人脸特征ToolStripMenuItem.Name = "更新人脸特征ToolStripMenuItem";
-            this.更新人脸特征ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.更新人脸特征ToolStripMenuItem.Text = "更新人脸特征";
-            this.更新人脸特征ToolStripMenuItem.Click += new System.EventHandler(this.更新人脸特征ToolStripMenuItem_Click);
+            this.清除人脸特征库ToolStripMenuItem.Name = "清除人脸特征库ToolStripMenuItem";
+            this.清除人脸特征库ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.清除人脸特征库ToolStripMenuItem.Text = "清除人脸特征库";
+            this.清除人脸特征库ToolStripMenuItem.Click += new System.EventHandler(this.清除人脸特征库ToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -240,5 +258,7 @@
         public System.Windows.Forms.RichTextBox richTextBoxLogMessage;
         private System.Windows.Forms.ToolStripMenuItem 系统维护toolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 更新人脸特征ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 加载人脸特征库ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 清除人脸特征库ToolStripMenuItem;
     }
 }

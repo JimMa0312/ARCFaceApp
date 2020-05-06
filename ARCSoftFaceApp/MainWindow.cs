@@ -151,5 +151,15 @@ namespace ARCSoftFaceApp
 
             updataFaceWinow.Show();
         }
+
+        private void 加载人脸特征库ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FaceFeatureLib.LoadFaceLibrary();
+        }
+
+        private void 清除人脸特征库ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FaceFeatureLib.ClearFaceLibrary();
+        }
     }
 }

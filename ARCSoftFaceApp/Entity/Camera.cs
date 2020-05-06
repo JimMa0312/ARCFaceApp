@@ -1,14 +1,19 @@
-﻿using ARCSoftFaceApp.Util;
+﻿using ArcSoftFace.Models;
+using ArcSoftFace.Utils;
+using ARCSoftFaceApp.Util;
 using Emgu.CV;
+using Emgu.CV.Features2D;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
 using LibHKCamera;
 using LibHKCamera.HKNetWork;
 using LibHKCamera.HKPlayCtrlSDK;
+using NLog.LayoutRenderers;
 using Remotion.Linq.Clauses.ExpressionVisitors;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -82,6 +87,11 @@ namespace ARCSoftFaceApp.Entity
 
         private FaceVideoRecognizer faceVideoRecognizer;
 
+        /// <summary>
+        /// 相似度阈值
+        /// </summary>
+        private float threshold;
+
         public Camera()
         {
             ip = "192.168.0.103";
@@ -99,6 +109,8 @@ namespace ARCSoftFaceApp.Entity
             imageCover = new ImageCover();
             faceVideoRecognizer = new FaceVideoRecognizer();
             faceVideoRecognizer.initFaceEngine();
+            AppSettingsReader appSetting = new AppSettingsReader();
+            threshold = (float)appSetting.GetValue("Threshold", typeof(float));
         }
 
         public Camera(string ip, ushort port, string user, string pwd)
@@ -167,6 +179,10 @@ namespace ARCSoftFaceApp.Entity
                                 faceInfos[i].getCopy(faceInfo[findindex]);
                                 faceInfo[findindex].frameNum++;
                                 faceInfo[findindex].dateTime = DateTime.Now.ToLocalTime();
+                                if(faceInfo[findindex].isFacePass==true)
+                                {
+                                    faceInfos[i].studentId = faceInfo[findindex].studentId;
+                                }
                                 if (faceInfo[findindex].frameNum%5 == 0)
                                 {
                                     faceInfo[findindex].isGetFeature = false;
@@ -187,7 +203,7 @@ namespace ARCSoftFaceApp.Entity
                                 i--;
                                 continue;
                             }
-                            if (faceInfo[i].isGetFeature==false)
+                            if (faceInfo[i].isGetFeature==false || faceInfo[i].isFacePass==false)
                             {
                                 FaceInfo tempFaceInfo = faceInfo[i];
                                 ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
@@ -195,6 +211,12 @@ namespace ARCSoftFaceApp.Entity
                                         //提取特征值
                                     faceVideoRecognizer.ScanFaceFeature(nowFrameBitmap, tempFaceInfo);
                                     tempFaceInfo.isGetFeature = true;
+
+                                    if(tempFaceInfo.isGetFeature==true)
+                                    {
+                                        tempFaceInfo.isFacePass = compareFeature(tempFaceInfo);
+                                        //TODO
+                                    }    
                                 }));
                             }
                         }
@@ -210,7 +232,7 @@ namespace ARCSoftFaceApp.Entity
                             Rectangle rect = new Rectangle(x, y, width, height);
 
                             CvInvoke.Rectangle(nowFrame, rect, new MCvScalar(0, 0, 255), 3);
-                            CvInvoke.PutText(nowFrame, $"FaceId: {faceInfos[i].faceId}", new Point(x, y - 15), Emgu.CV.CvEnum.FontFace.HersheySimplex,1, new MCvScalar(0, 0, 255), 3);
+                            CvInvoke.PutText(nowFrame, $"FaceId: {faceInfos[i].faceId}, StudentId: {faceInfos[i].studentId}", new Point(x, y - 15), Emgu.CV.CvEnum.FontFace.HersheySimplex,1, new MCvScalar(0, 0, 255), 3);
                         }
 
                         for (int i = 0; i < faceInfos.Count; i++)
@@ -236,6 +258,28 @@ namespace ARCSoftFaceApp.Entity
                     }));
                 }
             }
+        }
+
+        private bool compareFeature(FaceInfo faceInfo)
+        {
+            float similarity = 0;
+
+            IntPtr pFaceFeature = MemoryUtil.Malloc(MemoryUtil.SizeOf< ASF_FaceFeature > ());
+            MemoryUtil.StructureToPtr<ASF_FaceFeature>(faceInfo.faceFeature, pFaceFeature);
+
+            foreach (var item in FaceFeatureLib.faceFeatures)
+            {
+                faceVideoRecognizer.CompareFeature(pFaceFeature, item.pFaceFeature, ref similarity);
+
+                if(similarity >= threshold)
+                {
+                    faceInfo.isFacePass = true;
+                    faceInfo.studentId = item.studentId;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>

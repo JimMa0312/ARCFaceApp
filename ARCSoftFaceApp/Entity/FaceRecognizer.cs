@@ -97,6 +97,11 @@ namespace ARCSoftFaceApp.Entity
 
             return singleFaces;
         }
+
+        public void CompareFeature(IntPtr sourceFeature, IntPtr libFeature, ref float similarity)
+        {
+            ASFFunctions.ASFFaceFeatureCompare(pVideoRGBImageEngine, sourceFeature, libFeature, ref similarity);
+        }
     }
 
     /// <summary>
@@ -212,7 +217,7 @@ namespace ARCSoftFaceApp.Entity
         /// </summary>
         public bool isFacePass;
 
-        public int studentId;
+        public string studentId;
 
 
         public FaceInfo()
@@ -222,7 +227,7 @@ namespace ARCSoftFaceApp.Entity
             isFacePass = false;
             isGetFeature = false;
             frameNum = 0;
-            studentId = -1;
+            studentId = "";
         }
 
         public void freeFeature()
