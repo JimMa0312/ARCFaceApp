@@ -206,8 +206,8 @@ namespace ARCSoftFaceApp.Entity
                             if (faceInfo[i].isGetFeature==false || faceInfo[i].isFacePass==false)
                             {
                                 FaceInfo tempFaceInfo = faceInfo[i];
-                                ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
-                                {
+                                //ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
+                                //{
                                         //提取特征值
                                     faceVideoRecognizer.ScanFaceFeature(nowFrameBitmap, tempFaceInfo);
                                     tempFaceInfo.isGetFeature = true;
@@ -217,7 +217,7 @@ namespace ARCSoftFaceApp.Entity
                                         tempFaceInfo.isFacePass = compareFeature(tempFaceInfo);
                                         //TODO
                                     }    
-                                }));
+                                //}));
                             }
                         }
 
