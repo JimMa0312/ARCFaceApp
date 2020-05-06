@@ -275,10 +275,12 @@ namespace ARCSoftFaceApp.Entity
                 {
                     faceInfo.isFacePass = true;
                     faceInfo.studentId = item.studentId;
+
+                    MemoryUtil.Free(pFaceFeature);
                     return true;
                 }
             }
-
+            MemoryUtil.Free(pFaceFeature);
             return false;
         }
 
