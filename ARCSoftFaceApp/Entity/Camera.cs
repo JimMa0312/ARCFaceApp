@@ -183,12 +183,15 @@ namespace ARCSoftFaceApp.Entity
                                 {
                                     faceInfos[i].studentId = faceInfo[findindex].studentId;
                                 }
-                                if (faceInfo[findindex].frameNum%5 == 0)
+                                else
                                 {
-                                    faceInfo[findindex].isGetFeature = false;
-                                    if(faceInfo[findindex].faceFeature.feature != IntPtr.Zero)
+                                    if (faceInfo[findindex].frameNum % 10 == 0)
                                     {
-                                        faceInfo[findindex].freeFeature();
+                                        faceInfo[findindex].isGetFeature = false;
+                                        if (faceInfo[findindex].faceFeature.feature != IntPtr.Zero)
+                                        {
+                                            faceInfo[findindex].freeFeature();
+                                        }
                                     }
                                 }
                             }
