@@ -1,4 +1,5 @@
 ﻿using ARCSoftFaceApp.Entity;
+using ARCSoftFaceApp.EntityFrameDataModel;
 using ARCSoftFaceApp.Util;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,33 @@ namespace ARCSoftFaceApp.Controller
         public CameraControler()
         {
             cameras = new List<CameraItem>();
+        }
+
+        /// <summary>
+        /// 从数据库中加载摄像头信息
+        /// </summary>
+        public void LoadCameraInDB(ListView parentView)
+        {
+            using(var db=new attendance_sysEntities())
+            {
+                var dbCameras = db.t_camera;
+
+                foreach (var item in dbCameras)
+                {
+                    Camera camera = new Camera { cameraId = item.camera_id, Ip = item.camera_ip, port = (ushort)item.camera_port, user = item.camera_user, pwd = item.camera_pwd };
+
+                    RegistrerCameraDevice(camera, parentView);
+                }
+            }
+
+            if(cameras.Count>0)
+            {
+                LoggerService.logger.Info("从数据库中导入好摄像头信息");
+            }
+            else
+            {
+                LoggerService.logger.Info("无法从数据库中导入摄像头信息");
+            }
         }
 
         /// <summary>

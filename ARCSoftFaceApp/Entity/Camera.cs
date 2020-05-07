@@ -8,6 +8,9 @@ using Emgu.CV.UI;
 using LibHKCamera;
 using LibHKCamera.HKNetWork;
 using LibHKCamera.HKPlayCtrlSDK;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
+using NLog.Config;
 using NLog.LayoutRenderers;
 using Remotion.Linq.Clauses.ExpressionVisitors;
 using System;
@@ -15,6 +18,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,6 +66,8 @@ namespace ARCSoftFaceApp.Entity
         public ImageBox PictrueBoxId { get; set; }
 
         public IntPtr m_ptrReadHandle { get; set; }
+
+        public int cameraId;
 
         private CameraStatue statue;
         public CameraStatue Statue
@@ -108,7 +116,6 @@ namespace ARCSoftFaceApp.Entity
 
             imageCover = new ImageCover();
             faceVideoRecognizer = new FaceVideoRecognizer();
-            faceVideoRecognizer.initFaceEngine();
             AppSettingsReader appSetting = new AppSettingsReader();
             threshold = (float)appSetting.GetValue("Threshold", typeof(float));
         }
@@ -127,7 +134,12 @@ namespace ARCSoftFaceApp.Entity
 
         public void StartViewPlay()
         {
-            if(faceInfo==null)
+            if(faceVideoRecognizer== null)
+            {
+                faceVideoRecognizer = new FaceVideoRecognizer();
+            }    
+            faceVideoRecognizer.initFaceEngine();
+            if (faceInfo==null)
             {
                 faceInfo = new List<FaceInfo>();
             }
@@ -135,7 +147,6 @@ namespace ARCSoftFaceApp.Entity
             {
                 taskStartRealPlay = Task.Factory.StartNew(RealPreview);
             }
-
         }
 
         public void StopViewPlay()
@@ -143,6 +154,8 @@ namespace ARCSoftFaceApp.Entity
             StopRealPreview();
 
             SignOutCamera();
+
+            faceVideoRecognizer.Dispose();
         }
 
         private bool isRGBLock = false;
@@ -218,8 +231,12 @@ namespace ARCSoftFaceApp.Entity
                                 if (tempFaceInfo.isGetFeature==true)
                                     {
                                         tempFaceInfo.isFacePass = compareFeature(tempFaceInfo);
-                                        //TODO
-                                    }    
+                                        //通过Http post方式 发送json数据
+                                        if(tempFaceInfo.isFacePass==true)
+                                        {
+                                            sendCheckIn(tempFaceInfo);
+                                        }
+                                    }
                                 }));
                             }
                         }
@@ -236,6 +253,7 @@ namespace ARCSoftFaceApp.Entity
 
                             CvInvoke.Rectangle(nowFrame, rect, new MCvScalar(0, 0, 255), 3);
                             CvInvoke.PutText(nowFrame, $"FaceId: {faceInfos[i].faceId}, StudentId: {faceInfos[i].studentId}", new Point(x, y - 15), Emgu.CV.CvEnum.FontFace.HersheySimplex,1, new MCvScalar(0, 0, 255), 3);
+
                         }
 
                         for (int i = 0; i < faceInfos.Count; i++)
@@ -261,6 +279,31 @@ namespace ARCSoftFaceApp.Entity
                     }));
                 }
             }
+        }
+
+        private void sendCheckIn(FaceInfo tempFaceInfo)
+        {
+            var CheckInInfo = new JObject();
+            CheckInInfo["studentId"] = tempFaceInfo.studentId;
+            CheckInInfo["cameraId"] = this.cameraId;
+            CheckInInfo["checkTime"] = DateTime.Now.ToString("dddd MMM dd HH:mm:ss CST yyyy", CultureInfo.CreateSpecificCulture("en-us"));
+
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(@"http://localhost:8080/api/receiveAttendItem");
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+            using (var streamWrite = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                streamWrite.Write(CheckInInfo.ToString());
+                streamWrite.Flush();
+                streamWrite.Close();
+            }
+
+            var httpResponse = httpWebRequest.GetResponseAsync().Result;
+
+            httpResponse.Close();
+            httpWebRequest.Abort();
+
+            LoggerService.logger.Info($"学号：{tempFaceInfo.studentId} 在 摄像机 {this.cameraId}下打卡!");
         }
 
         private bool compareFeature(FaceInfo faceInfo)

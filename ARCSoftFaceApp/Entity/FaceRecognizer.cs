@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ARCSoftFaceApp.Entity
 {
-    public class FaceVideoRecognizer : IFaceRecognizer
+    public class FaceVideoRecognizer : IFaceRecognizer,IDisposable
     {
 
         /// <summary>
@@ -101,6 +101,37 @@ namespace ARCSoftFaceApp.Entity
         public void CompareFeature(IntPtr sourceFeature, IntPtr libFeature, ref float similarity)
         {
             ASFFunctions.ASFFaceFeatureCompare(pVideoRGBImageEngine, sourceFeature, libFeature, ref similarity);
+        }
+
+        public void Dispose()
+        {
+            if (pVideoEngine != IntPtr.Zero)
+            {
+                int result = ASFFunctions.ASFUninitEngine(pVideoEngine);
+
+                if (result == 0)
+                {
+                    pVideoEngine = IntPtr.Zero;
+                }
+                else
+                {
+                    LoggerService.logger.Info($"视频人脸采集引擎销毁失败，错误代码: {result}");
+                }
+            }
+
+            if(pVideoRGBImageEngine != IntPtr.Zero)
+            {
+                int result = ASFFunctions.ASFUninitEngine(pVideoRGBImageEngine);
+
+                if (result == 0)
+                {
+                    pVideoRGBImageEngine = IntPtr.Zero;
+                }
+                else
+                {
+                    LoggerService.logger.Info($"视频人脸比对引擎销毁失败，错误代码: {result}");
+                }
+            }
         }
     }
 

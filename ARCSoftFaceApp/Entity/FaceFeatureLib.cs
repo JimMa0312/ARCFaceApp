@@ -1,6 +1,7 @@
 ﻿using ArcSoftFace.Models;
 using ArcSoftFace.Utils;
 using ARCSoftFaceApp.EntityFrameDataModel;
+using ARCSoftFaceApp.Util;
 using Emgu.CV;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,8 @@ namespace ARCSoftFaceApp.Entity
                     faceFeatures.Add(tempFeature);
                 }
             }
+
+            LoggerService.logger.Info("人脸特征库加载成功！");
         }
         /// <summary>
         /// 清除所有老的数据

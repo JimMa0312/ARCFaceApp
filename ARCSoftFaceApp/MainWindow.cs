@@ -97,6 +97,9 @@ namespace ARCSoftFaceApp
             }
 
             ARCFaceEngineUtils.InitARCFaceEngine();
+            FaceFeatureLib.LoadFaceLibrary();
+            cameraControler.LoadCameraInDB(listViewVideoChannel);
+
         }
 
         private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -160,6 +163,21 @@ namespace ARCSoftFaceApp
         private void 清除人脸特征库ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FaceFeatureLib.ClearFaceLibrary();
+        }
+
+        /// <summary>
+        /// 释放所有资源
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            foreach (var item in cameraControler.cameras)
+            {
+                item.camera.StopViewPlay();
+            }
+
+            cameraControler.cameras.Clear();
         }
     }
 }
