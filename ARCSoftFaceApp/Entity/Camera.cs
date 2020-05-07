@@ -288,7 +288,7 @@ namespace ARCSoftFaceApp.Entity
             CheckInInfo["cameraId"] = this.cameraId;
             CheckInInfo["checkTime"] = DateTime.Now.ToString("dddd MMM dd HH:mm:ss CST yyyy", CultureInfo.CreateSpecificCulture("en-us"));
 
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(@"http://localhost:8080/api/receiveAttendItem");
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(@"http://localhost:8284/api/receiveAttendItem");
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
             using (var streamWrite = new StreamWriter(httpWebRequest.GetRequestStream()))
