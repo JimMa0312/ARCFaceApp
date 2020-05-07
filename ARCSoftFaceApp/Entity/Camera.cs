@@ -160,6 +160,7 @@ namespace ARCSoftFaceApp.Entity
 
         private bool isRGBLock = false;
 
+        //对每一帧的图片进行了处理，将该帧画面里检测到所有的人脸进行处理，然后进行显示
         public void DetalDisplay(Image<Bgr, byte> nowFrame)
         {
 
