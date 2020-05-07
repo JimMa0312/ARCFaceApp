@@ -286,7 +286,7 @@ namespace ARCSoftFaceApp.Entity
             var CheckInInfo = new JObject();
             CheckInInfo["studentId"] = tempFaceInfo.studentId;
             CheckInInfo["cameraId"] = this.cameraId;
-            CheckInInfo["checkTime"] = DateTime.Now.ToString("yyyy-MM-dd'T'HH:mm:ss.fff", CultureInfo.CreateSpecificCulture("en-us"));
+            CheckInInfo["checkTime"] = tempFaceInfo.dateTime.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fff", CultureInfo.CreateSpecificCulture("en-us"));
 
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(@"http://localhost:8284/api/receiveAttendItem");
             httpWebRequest.ContentType = "application/json";
