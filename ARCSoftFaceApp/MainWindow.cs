@@ -53,27 +53,23 @@ namespace ARCSoftFaceApp
         private void groupRealPlayWnd()
         {
 
-            nowWindowxWidth = this.flowLayoutPanelVideoReal.Width;
-            nowWindowyHeigh = this.flowLayoutPanelVideoReal.Height;
-
-            int playRow = nowWindowyHeigh / RealPlayWndHeigh;
-            int playColum = nowWindowxWidth / RealPlayWndWidth;
-            int playWndCount = playRow * playColum;
-
             realPlayList = new List<ImageBox>();
 
-            for (int i = 0; i < playWndCount; i++)
+            for (int row = 0; row < flowLayoutPanelVideoReal.RowCount; row++)
             {
-                ImageBox tmpPictureBox = new ImageBox();
-                tmpPictureBox.Name = $"PictureBoxRealPlayWnd{i}";
-                tmpPictureBox.Width = RealPlayWndWidth;
-                tmpPictureBox.Height = RealPlayWndHeigh;
-                tmpPictureBox.BackColor = Color.Black;
-                tmpPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                tmpPictureBox.FunctionalMode = ImageBox.FunctionalModeOption.Minimum;
-                tmpPictureBox.Image = new Image<Emgu.CV.Structure.Rgb, byte>(Properties.Resources.NoSIgnalpng);
-                realPlayList.Add(tmpPictureBox);
-                this.flowLayoutPanelVideoReal.Controls.Add(tmpPictureBox);
+                for(int column=0;column<flowLayoutPanelVideoReal.ColumnCount;column++)
+                {
+                    ImageBox tmpPictureBox = new ImageBox();
+                    tmpPictureBox.Name = $"PictureBoxRealPlayWnd{row*flowLayoutPanelVideoReal.RowCount + column}";
+                    flowLayoutPanelVideoReal.Controls.Add(tmpPictureBox, row, column);
+                    tmpPictureBox.Dock = DockStyle.Fill;
+                    tmpPictureBox.BackColor = Color.Black;
+                    tmpPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                    tmpPictureBox.FunctionalMode = ImageBox.FunctionalModeOption.Minimum;
+                    tmpPictureBox.Image = new Image<Emgu.CV.Structure.Rgb, byte>(Properties.Resources.NoSIgnalpng);
+                    realPlayList.Add(tmpPictureBox);
+                }
+
             }
         }
 

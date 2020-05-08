@@ -37,6 +37,8 @@
             this.更新人脸特征ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.测试模式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.登录IP摄像机ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.加载人脸特征库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.清除人脸特征库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxCamera = new System.Windows.Forms.GroupBox();
@@ -46,9 +48,7 @@
             this.videoStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBoxLogMessage = new System.Windows.Forms.GroupBox();
             this.richTextBoxLogMessage = new System.Windows.Forms.RichTextBox();
-            this.flowLayoutPanelVideoReal = new System.Windows.Forms.FlowLayoutPanel();
-            this.加载人脸特征库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.清除人脸特征库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flowLayoutPanelVideoReal = new System.Windows.Forms.TableLayoutPanel();
             this.menuStrip1.SuspendLayout();
             this.groupBoxCamera.SuspendLayout();
             this.groupBoxLogMessage.SuspendLayout();
@@ -106,9 +106,23 @@
             // 登录IP摄像机ToolStripMenuItem
             // 
             this.登录IP摄像机ToolStripMenuItem.Name = "登录IP摄像机ToolStripMenuItem";
-            this.登录IP摄像机ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.登录IP摄像机ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.登录IP摄像机ToolStripMenuItem.Text = "登录IP摄像机";
             this.登录IP摄像机ToolStripMenuItem.Click += new System.EventHandler(this.登录IP摄像机ToolStripMenuItem_Click);
+            // 
+            // 加载人脸特征库ToolStripMenuItem
+            // 
+            this.加载人脸特征库ToolStripMenuItem.Name = "加载人脸特征库ToolStripMenuItem";
+            this.加载人脸特征库ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.加载人脸特征库ToolStripMenuItem.Text = "加载人脸特征库";
+            this.加载人脸特征库ToolStripMenuItem.Click += new System.EventHandler(this.加载人脸特征库ToolStripMenuItem_Click);
+            // 
+            // 清除人脸特征库ToolStripMenuItem
+            // 
+            this.清除人脸特征库ToolStripMenuItem.Name = "清除人脸特征库ToolStripMenuItem";
+            this.清除人脸特征库ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.清除人脸特征库ToolStripMenuItem.Text = "清除人脸特征库";
+            this.清除人脸特征库ToolStripMenuItem.Click += new System.EventHandler(this.清除人脸特征库ToolStripMenuItem_Click);
             // 
             // 帮助ToolStripMenuItem
             // 
@@ -195,26 +209,23 @@
             // 
             // flowLayoutPanelVideoReal
             // 
-            this.flowLayoutPanelVideoReal.AutoSize = true;
+            this.flowLayoutPanelVideoReal.ColumnCount = 5;
+            this.flowLayoutPanelVideoReal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.flowLayoutPanelVideoReal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.flowLayoutPanelVideoReal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.flowLayoutPanelVideoReal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.flowLayoutPanelVideoReal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.flowLayoutPanelVideoReal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelVideoReal.Location = new System.Drawing.Point(283, 25);
             this.flowLayoutPanelVideoReal.Name = "flowLayoutPanelVideoReal";
+            this.flowLayoutPanelVideoReal.RowCount = 5;
+            this.flowLayoutPanelVideoReal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.flowLayoutPanelVideoReal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.flowLayoutPanelVideoReal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.flowLayoutPanelVideoReal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.flowLayoutPanelVideoReal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.flowLayoutPanelVideoReal.Size = new System.Drawing.Size(517, 301);
             this.flowLayoutPanelVideoReal.TabIndex = 3;
-            // 
-            // 加载人脸特征库ToolStripMenuItem
-            // 
-            this.加载人脸特征库ToolStripMenuItem.Name = "加载人脸特征库ToolStripMenuItem";
-            this.加载人脸特征库ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.加载人脸特征库ToolStripMenuItem.Text = "加载人脸特征库";
-            this.加载人脸特征库ToolStripMenuItem.Click += new System.EventHandler(this.加载人脸特征库ToolStripMenuItem_Click);
-            // 
-            // 清除人脸特征库ToolStripMenuItem
-            // 
-            this.清除人脸特征库ToolStripMenuItem.Name = "清除人脸特征库ToolStripMenuItem";
-            this.清除人脸特征库ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.清除人脸特征库ToolStripMenuItem.Text = "清除人脸特征库";
-            this.清除人脸特征库ToolStripMenuItem.Click += new System.EventHandler(this.清除人脸特征库ToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -254,12 +265,12 @@
         private System.Windows.Forms.ColumnHeader videoName;
         private System.Windows.Forms.ColumnHeader videoStatus;
         private System.Windows.Forms.GroupBox groupBoxLogMessage;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelVideoReal;
         private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
         public System.Windows.Forms.RichTextBox richTextBoxLogMessage;
         private System.Windows.Forms.ToolStripMenuItem 系统维护toolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 更新人脸特征ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 加载人脸特征库ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 清除人脸特征库ToolStripMenuItem;
+        private System.Windows.Forms.TableLayoutPanel flowLayoutPanelVideoReal;
     }
 }
