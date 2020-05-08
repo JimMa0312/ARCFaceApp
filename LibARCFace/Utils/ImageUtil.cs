@@ -95,44 +95,44 @@ namespace ArcSoftFace.Utils
         /// </summary>
         /// <param name="bitmap"></param>
         /// <returns></returns>
-        public static ImageInfo ReadBMP_IR(Bitmap bitmap)
-        {
-            ImageInfo imageInfo = new ImageInfo();
-            Image<Bgr, byte> my_Image = null;
-            Image<Gray, byte> gray_image = null;
+        //public static ImageInfo ReadBMP_IR(Bitmap bitmap)
+        //{
+        //    ImageInfo imageInfo = new ImageInfo();
+        //    Image<Bgr, byte> my_Image = null;
+        //    Image<Gray, byte> gray_image = null;
 
-            try
-            {
-                //根据位图对象创建 Emgu对象，利用Opencv接口进行格式转换 
-                my_Image = new Image<Bgr, byte>(bitmap);
-                //将RGB图像转换为灰度图像
-                gray_image = my_Image.Convert<Gray, byte>();
-                imageInfo.format = ASF_ImagePixelFormat.ASVL_PAF_GARY;
-                imageInfo.width = gray_image.Width;
-                imageInfo.height = gray_image.Height;
-                imageInfo.imgData = MemoryUtil.Malloc(gray_image.Bytes.Length);
-                MemoryUtil.Copy(gray_image.Bytes, 0, imageInfo.imgData, gray_image.Bytes.Length);
+        //    try
+        //    {
+        //        //根据位图对象创建 Emgu对象，利用Opencv接口进行格式转换 
+        //        my_Image = new Image<Bgr, byte>(bitmap);
+        //        //将RGB图像转换为灰度图像
+        //        gray_image = my_Image.Convert<Gray, byte>();
+        //        imageInfo.format = ASF_ImagePixelFormat.ASVL_PAF_GARY;
+        //        imageInfo.width = gray_image.Width;
+        //        imageInfo.height = gray_image.Height;
+        //        imageInfo.imgData = MemoryUtil.Malloc(gray_image.Bytes.Length);
+        //        MemoryUtil.Copy(gray_image.Bytes, 0, imageInfo.imgData, gray_image.Bytes.Length);
 
-                return imageInfo;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                if (my_Image != null)
-                {
-                    my_Image.Dispose();
-                }
-                if (gray_image != null)
-                {
-                    gray_image.Dispose();
-                }
-            }
+        //        return imageInfo;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        if (my_Image != null)
+        //        {
+        //            my_Image.Dispose();
+        //        }
+        //        if (gray_image != null)
+        //        {
+        //            gray_image.Dispose();
+        //        }
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
         /// <summary>
         /// 用矩形框标记图片指定区域
