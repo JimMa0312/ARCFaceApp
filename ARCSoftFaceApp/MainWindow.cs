@@ -23,12 +23,11 @@ using Emgu.CV;
 
 namespace ARCSoftFaceApp
 {
+    /// <summary>
+    /// 主界面控制类
+    /// </summary>
     public partial class MainWindow : Form
     {
-        public const int RealPlayWndWidth= 642;
-        public const int RealPlayWndHeigh = 360;
-        private int nowWindowxWidth;
-        private int nowWindowyHeigh;
         private long iSelectedIndex;
 
         private List<ImageBox> realPlayList;
@@ -69,7 +68,6 @@ namespace ARCSoftFaceApp
                     tmpPictureBox.Image = new Image<Emgu.CV.Structure.Rgb, byte>(Properties.Resources.NoSIgnalpng);
                     realPlayList.Add(tmpPictureBox);
                 }
-
             }
         }
 

@@ -209,7 +209,7 @@
             // 
             // flowLayoutPanelVideoReal
             // 
-            this.flowLayoutPanelVideoReal.ColumnCount = 5;
+            this.flowLayoutPanelVideoReal.ColumnCount = 2;
             this.flowLayoutPanelVideoReal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.flowLayoutPanelVideoReal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.flowLayoutPanelVideoReal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
@@ -218,7 +218,7 @@
             this.flowLayoutPanelVideoReal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelVideoReal.Location = new System.Drawing.Point(283, 25);
             this.flowLayoutPanelVideoReal.Name = "flowLayoutPanelVideoReal";
-            this.flowLayoutPanelVideoReal.RowCount = 5;
+            this.flowLayoutPanelVideoReal.RowCount = 2;
             this.flowLayoutPanelVideoReal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.flowLayoutPanelVideoReal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.flowLayoutPanelVideoReal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
