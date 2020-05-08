@@ -8,8 +8,10 @@ using Emgu.CV.UI;
 using LibHKCamera;
 using LibHKCamera.HKNetWork;
 using LibHKCamera.HKPlayCtrlSDK;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
+using NLog;
 using NLog.Config;
 using NLog.LayoutRenderers;
 using Remotion.Linq.Clauses.ExpressionVisitors;
@@ -288,23 +290,31 @@ namespace ARCSoftFaceApp.Entity
             CheckInInfo["studentId"] = tempFaceInfo.studentId;
             CheckInInfo["cameraId"] = this.cameraId;
             CheckInInfo["checkTime"] = tempFaceInfo.dateTime.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fff", CultureInfo.CreateSpecificCulture("en-us"));
-
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(@"http://localhost:8284/api/receiveAttendItem");
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "POST";
-            using (var streamWrite = new StreamWriter(httpWebRequest.GetRequestStream()))
+            try
             {
-                streamWrite.Write(CheckInInfo.ToString());
-                streamWrite.Flush();
-                streamWrite.Close();
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+                using (var streamWrite = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    streamWrite.Write(CheckInInfo.ToString());
+                    streamWrite.Flush();
+                    streamWrite.Close();
+                }
+
+                var httpResponse = httpWebRequest.GetResponseAsync().Result;
+                LoggerService.logger.Info($"学号：{tempFaceInfo.studentId} 在 摄像机 {this.cameraId}下打卡!");
+                httpResponse.Close();
             }
+            catch (WebException e)
+            {
+                LoggerService.logger.Error(e.Message);
+            }
+            finally
+            {
+                httpWebRequest.Abort();
 
-            var httpResponse = httpWebRequest.GetResponseAsync().Result;
-
-            httpResponse.Close();
-            httpWebRequest.Abort();
-
-            LoggerService.logger.Info($"学号：{tempFaceInfo.studentId} 在 摄像机 {this.cameraId}下打卡!");
+            }
         }
 
         private bool compareFeature(FaceInfo faceInfo)
