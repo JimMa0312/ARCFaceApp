@@ -173,5 +173,12 @@ namespace ARCSoftFaceApp
 
             cameraControler.cameras.Clear();
         }
+
+        private void richTextBoxLogMessage_TextChanged(object sender, EventArgs e)
+        {
+            richTextBoxLogMessage.SelectionStart = richTextBoxLogMessage.Text.Length - 1;
+
+            richTextBoxLogMessage.ScrollToCaret();
+        }
     }
 }

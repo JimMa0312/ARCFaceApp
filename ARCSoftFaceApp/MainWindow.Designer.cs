@@ -206,6 +206,7 @@
             this.richTextBoxLogMessage.Size = new System.Drawing.Size(511, 104);
             this.richTextBoxLogMessage.TabIndex = 0;
             this.richTextBoxLogMessage.Text = "";
+            this.richTextBoxLogMessage.TextChanged += new System.EventHandler(this.richTextBoxLogMessage_TextChanged);
             // 
             // flowLayoutPanelVideoReal
             // 
