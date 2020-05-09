@@ -487,6 +487,8 @@ namespace ARCSoftFaceApp.Entity
                 LoggerService.logger.Error($"摄像头{ip}，播放器无法停止预览。错误代码：{HKNetSDKS.NET_DVR_GetLastError()}");
             }
 
+            this.PictrueBoxId = null;
+
             if (m_lPort >= 0)
             {
                 if (!HKPlayCtrlSDK.PlayM4_Stop(m_lPort))
