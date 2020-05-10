@@ -238,11 +238,11 @@ namespace ARCSoftFaceApp.Entity
     public class FaceInfo:IDisposable
     {
         public int faceId;
-        public ASF_SingleFaceInfo singleFaceInfo;
-        public ASF_FaceFeature faceFeature;
-        public DateTime dateTime;
-        public byte frameNum;//帧计数
-        public bool isGetFeature;
+        public ASF_SingleFaceInfo singleFaceInfo; //人脸的位置
+        public ASF_FaceFeature faceFeature; //特征
+        public DateTime dateTime; //最新的一次获取到人脸的时间
+        public byte frameNum;//帧计数，人脸被检测到多少次  
+        public bool isGetFeature; //是否提取过特征
         /// <summary>
         /// 是否已经进行了人脸识别
         /// </summary>

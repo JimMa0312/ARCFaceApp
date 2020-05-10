@@ -136,6 +136,8 @@ namespace ARCSoftFaceApp.Entity
 
         public void StartViewPlay()
         {
+
+            //创建视频模式的人脸识别引擎
             if(faceVideoRecognizer== null)
             {
                 faceVideoRecognizer = new FaceVideoRecognizer();
@@ -147,6 +149,8 @@ namespace ARCSoftFaceApp.Entity
             }
             if (taskStartRealPlay == null)
             {
+
+                //创建一个任务进行视频预览，多线程任务
                 taskStartRealPlay = Task.Factory.StartNew(RealPreview);
             }
         }
@@ -171,6 +175,7 @@ namespace ARCSoftFaceApp.Entity
             {
                 using (Bitmap nowFrameBitmap = nowFrame.ToBitmap())
                 {
+                    //将每帧图片中的人脸信息位置获取出来给faceInfos集合，视频模式会多一个faceId来唯一标识人脸
                     List<FaceInfo> faceInfos = faceVideoRecognizer.ScanFaces(nowFrameBitmap);
 
                     if (isRGBLock == false)
@@ -179,6 +184,8 @@ namespace ARCSoftFaceApp.Entity
 
                         for(int i=0;i<faceInfos.Count;i++)
                         {
+                            //faceInfo 是相机所检测到的人脸信息(带feceId)都会缓存在这个列表中，faceId不变的话，faceInfo可以找到，就把当前的脸的位置替换了，
+                            //但如果faceId变化了，就把新检测到的这张脸添加进列表
                             int findindex= faceInfo.FindIndex(temp => temp.faceId == faceInfos[i].faceId);
                             //如果当前摄像设备之前没有侦测过任何人脸，或者在设备人脸缓存中未找到匹配的Faceid
                             if (faceInfo.Count==0 || findindex < 0)
@@ -201,6 +208,7 @@ namespace ARCSoftFaceApp.Entity
                                 }
                                 else
                                 {
+                                    //如果没有比对成功，frameNum超过十次，等400ms再次提取特征值再比对，抽帧
                                     if (faceInfo[findindex].frameNum % 10 == 0)
                                     {
                                         faceInfo[findindex].isGetFeature = false;
@@ -215,13 +223,15 @@ namespace ARCSoftFaceApp.Entity
 
                         for (int i = 0; i < faceInfo.Count; i++)
                         {
-                            if((DateTime.Now-faceInfo[i].dateTime).TotalSeconds> 5)//如果当前人脸未出现在视场中5秒则清除该人脸缓存信息
+                            if((DateTime.Now-faceInfo[i].dateTime).TotalSeconds> 5)//如果当前人脸未出现在视频中5秒则清除该人脸缓存信息
                             {
                                 faceInfo[i].Dispose();
                                 faceInfo.RemoveAt(i);
                                 i--;
                                 continue;
                             }
+
+                            //camera缓冲里的照片进行遍历，没有提取过特征或者没有比对成功过
                             if (faceInfo[i].isGetFeature==false || faceInfo[i].isFacePass==false)
                             {
                                 FaceInfo tempFaceInfo = faceInfo[i];
@@ -229,6 +239,9 @@ namespace ARCSoftFaceApp.Entity
                                         //提取特征值
                                     faceVideoRecognizer.ScanFaceFeature(nowFrameBitmap, tempFaceInfo);
                                     tempFaceInfo.isGetFeature = true;
+
+                                //创建一个线程放进这个线程池（资源系统自己维护），因为人脸对比消耗时间较多
+                                //所以将每次需要人脸比对的操作都放进一个线程中
                                 ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
                                 {
                                 if (tempFaceInfo.isGetFeature==true)
@@ -298,6 +311,7 @@ namespace ARCSoftFaceApp.Entity
                 using (var streamWrite = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
                     streamWrite.Write(CheckInInfo.ToString());
+                    //发送
                     streamWrite.Flush();
                     streamWrite.Close();
                 }
@@ -317,22 +331,32 @@ namespace ARCSoftFaceApp.Entity
             }
         }
 
+        /// <summary>
+        /// 人脸比对
+        /// </summary>
+        /// <param name="faceInfo"></param>
+        /// <returns></returns>
         private bool compareFeature(FaceInfo faceInfo)
         {
             float similarity = 0;
 
+            //把提取以后的特征值结构体的指针赋给pFaceFeature
             IntPtr pFaceFeature = MemoryUtil.Malloc(MemoryUtil.SizeOf< ASF_FaceFeature > ());
+            //复制给faceInfo的faceFaceFeature中
             MemoryUtil.StructureToPtr<ASF_FaceFeature>(faceInfo.faceFeature, pFaceFeature);
 
+            //内存里缓冲的人脸特征数据库
             foreach (var item in FaceFeatureLib.faceFeatures)
             {
+                //调用api进行比对，得到相似度similarity
                 faceVideoRecognizer.CompareFeature(pFaceFeature, item.pFaceFeature, ref similarity);
 
+                //相似度比较阈值
                 if(similarity >= threshold)
                 {
                     faceInfo.isFacePass = true;
                     faceInfo.studentId = item.studentId;
-
+                
                     MemoryUtil.Free(pFaceFeature);
                     return true;
                 }
@@ -456,7 +480,10 @@ namespace ARCSoftFaceApp.Entity
 
                 IntPtr pUser = IntPtr.Zero;
 
+                //RealDataCallBack回调函数，摄像头有每一帧的信息传过来后，当前的线程都会调用该函数，告诉解码器将视频流解码
                 ReadData = new HKNetSDKS.REALDATACALLBACK(RealDataCallBack);
+
+                //把海康预览的结构体放在函数里，根据结构体的信息，比如通信方式等等，跟摄像头通信，创建成功，则返回一个专门用来预览的资源句柄，相当于一个线程
                 m_lReadHandle = HKNetSDKS.NET_DVR_RealPlay_V40(m_lUserId, ref lpPreviewInfo, ReadData, pUser);
 
                 if (m_lReadHandle < 0)
@@ -568,7 +595,7 @@ namespace ARCSoftFaceApp.Entity
                                 LoggerService.logger.Error($"摄像头{ip},设置显示属性错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
                             }
 
-                            //设置解码回调函数
+                            //deccbfun也是个解码器，将DecCallbackFUN方法传入，为了将yu12图片通过Egmu转化成bgr格式的图片
                             m_fDisplayFun = new HKPlayCtrlSDK.DECCBFUN(DecCallbackFUN);
                             if (!HKPlayCtrlSDK.PlayM4_SetDecCallBackEx(m_lPort, m_fDisplayFun, IntPtr.Zero, 0))
                             {
@@ -594,6 +621,7 @@ namespace ARCSoftFaceApp.Entity
                             while (!inData)
                             {
                                 Thread.Sleep(10);
+                                //play4是解码器，解码成为一个图片，但图片是vy12的格式图片
                                 inData = HKPlayCtrlSDK.PlayM4_InputData(m_lPort, pBuffer, dwBufSize);
                             }
                         }
@@ -602,6 +630,8 @@ namespace ARCSoftFaceApp.Entity
             }
         }
 
+
+        //将yv12图片转化成bgr，转化成功后，预览出来
         private void DecCallbackFUN(int nPort, IntPtr pBuf, int nSize, ref HKPlayCtrlSDK.FRAME_INFO pFrameInfo, int nReserved1, int nReserved2)
         {
             if (pFrameInfo.nType == GloableVar.T_YV12)
