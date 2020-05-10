@@ -74,49 +74,40 @@ namespace ARCSoftFaceApp
             Image image = ImageUtil.readFromFile(t_Face.image_path);
             bool result = false;
 
-            //压缩图片的长宽为临界大小1536
             if (image.Width > 1536 || image.Height > 1536)
             {
                 image = ImageUtil.ScaleImage(image, 1536, 1536);
             }
 
-            //裁剪，因为虹软要求图片宽度要是4的整数倍，所以要检测一下，如果不是就把宽缩小为4的倍数
             if (image.Width % 4 != 0)
             {
                 image = ImageUtil.ScaleImage(image, image.Width - (image.Width % 4), image.Height);
             }
 
-            //把image对象转化为位图的对象
             Bitmap bitmap = new Bitmap(image);
 
-            //使用人脸检测引擎去检测人脸，返回的lis列表里存了人脸的位置
             List<FaceInfo> faceInfos = faceImageRecognizer.ScanFaces(bitmap);
 
-            //判断一张照片是否就一个人脸
             if (faceInfos.Count == 1)
             {
-                //把第一个人脸的信息传入人脸识别引擎中，提取出特征的结构体指引到faceinfo中，返回是否成功
-                int num = faceImageRecognizer.ScanFaceFeature(bitmap, faceInfos[0]); 
+                int num = faceImageRecognizer.ScanFaceFeature(bitmap, faceInfos[0]);
 
                 if (num == 0)
                 {
                     ASF_SingleFaceInfo singleFaceInfo = faceInfos[0].singleFaceInfo;
-                    //t_face就是实体类映射对象
                     t_Face.face_feature_length = faceInfos[0].faceFeature.featureSize;
                     t_Face.face_feature = new byte[(int)t_Face.face_feature_length];
 
-                    //把结构体里的特征纯copy到t_face中
                     MemoryUtil.Copy(faceInfos[0].faceFeature.feature, t_Face.face_feature, 0, faceInfos[0].faceFeature.featureSize);
                     result = true;
                     LoggerService.logger.Info(string.Format("已提取人脸特征值，[left:{0},right:{1},top:{2},bottom:{3},orient:{4}]", singleFaceInfo.faceRect.left, singleFaceInfo.faceRect.right, singleFaceInfo.faceRect.top, singleFaceInfo.faceRect.bottom, singleFaceInfo.faceOrient));
                     string tempImagePath = t_Face.image_path;
                     string id = t_Face.studnet_id;
-
-                    //裁剪出头像，依次展示在界面，多线程操作，解决可能异常越界问题
                     Invoke(new Action(()=> {
                         image = ImageUtil.CutImage(image, singleFaceInfo.faceRect.left, singleFaceInfo.faceRect.top, singleFaceInfo.faceRect.right, singleFaceInfo.faceRect.bottom);
                         imageLists.Images.Add(tempImagePath, image);
                         ImageListView.Items.Add(id, tempImagePath);
+
 
                         listViewFaceDetal.Items.Add(new ListViewItem(new string[]{ "等待", id, "" }));
                         listViewFaceDetal.Refresh();
