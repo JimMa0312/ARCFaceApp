@@ -56,9 +56,10 @@ namespace ARCSoftFaceApp
 
             for (int row = 0; row < flowLayoutPanelVideoReal.RowCount; row++)
             {
+                //网格化布局，先获取行，再获取列
                 for(int column=0;column<flowLayoutPanelVideoReal.ColumnCount;column++)
                 {
-                    ImageBox tmpPictureBox = new ImageBox();
+                    ImageBox tmpPictureBox = new ImageBox(); 
                     tmpPictureBox.Name = $"PictureBoxRealPlayWnd{row*flowLayoutPanelVideoReal.RowCount + column}";
                     flowLayoutPanelVideoReal.Controls.Add(tmpPictureBox, row, column);
                     tmpPictureBox.Dock = DockStyle.Fill;
