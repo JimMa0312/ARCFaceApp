@@ -76,7 +76,7 @@ namespace ArcSoftFace.Utils
         [DllImport(Dll_PATH, CallingConvention = CallingConvention.Cdecl)]
         public static extern int ASFFaceFeatureExtract(IntPtr pEngine, int width, int height, int foramt, IntPtr imgData, IntPtr faceInfo, IntPtr faceFeature);
         /// <summary>
-        /// 人脸比对
+        /// 人脸特征比对
         /// </summary>
         /// <param name="pEngine"></param>
         /// <param name="faceFeaturel"></param>
