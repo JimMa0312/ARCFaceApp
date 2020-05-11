@@ -155,13 +155,15 @@ namespace ARCSoftFaceApp.Entity
             }
         }
 
-        public void StopViewPlay()
+        public async void StopViewPlay()
         {
-            StopRealPreview();
+            int stopresult = await StopRealPreview();
 
-            SignOutCamera();
-
-            faceVideoRecognizer.Dispose();
+            if (stopresult == 0)
+            {
+                SignOutCamera();
+                faceVideoRecognizer.Dispose();
+            }
         }
 
         private bool isRGBLock = false;
@@ -501,7 +503,7 @@ namespace ARCSoftFaceApp.Entity
             return 0;
         }
 
-        public int StopRealPreview()
+        public async Task<int> StopRealPreview()
         {
             if (m_lReadHandle < 0)
             {
