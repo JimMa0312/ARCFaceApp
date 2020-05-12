@@ -478,7 +478,7 @@ namespace ARCSoftFaceApp.Entity
                 lpPreviewInfo.dwStreamType = 0;//主码流
                 lpPreviewInfo.dwLinkMode = 0;//TCP方式
                 lpPreviewInfo.bBlocked = true;//阻塞式
-                lpPreviewInfo.dwDisplayBufNum = 15;//播放库显示缓存区最大的帧数
+                lpPreviewInfo.dwDisplayBufNum = 1;//播放库显示缓存区最大的帧数
 
                 IntPtr pUser = IntPtr.Zero;
 
@@ -515,8 +515,6 @@ namespace ARCSoftFaceApp.Entity
             {
                 LoggerService.logger.Error($"摄像头{ip}，播放器无法停止预览。错误代码：{HKNetSDKS.NET_DVR_GetLastError()}");
             }
-
-            this.PictrueBoxId = null;
 
             if (m_lPort >= 0)
             {
@@ -585,7 +583,7 @@ namespace ARCSoftFaceApp.Entity
                             }
 
                             //设置显示缓冲区个数
-                            if (!HKPlayCtrlSDK.PlayM4_SetDisplayBuf(m_lPort, 15))
+                            if (!HKPlayCtrlSDK.PlayM4_SetDisplayBuf(m_lPort, 1))
                             {
                                 LoggerService.logger.Error($"摄像头{ip},设置显示缓存区错误 代码：{HKPlayCtrlSDK.PlayM4_GetLastError(m_lPort)}");
 
