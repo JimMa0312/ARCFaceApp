@@ -157,7 +157,7 @@ namespace ARCSoftFaceApp.Entity
 
         public async void StopViewPlay()
         {
-            int stopresult = await StopRealPreview();
+            int stopresult = await Task.Run(StopRealPreview);
 
             if (stopresult == 0)
             {
